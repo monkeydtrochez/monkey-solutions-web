@@ -41,3 +41,31 @@ function SiteContent() {
     </div>
   );
 }
+
+// GROQ quuery for fetching everything
+// *[_type == 'profile' || _type == 'workExperience' || _type == 'education'] {
+//   _type,
+//     title,
+
+//     _type == 'profile' => {
+//     profilePicture,
+//       description,
+//       mobile,
+//       email,
+//       location,
+//       personalitySkills,
+//       professionalSkills
+//     },
+
+//       _type == 'education' => {
+//     school,
+//       start,
+//       end
+//     },
+
+//       _type == 'workExperience' => {
+//       start,
+//       end,
+//       description
+//     }
+// }
