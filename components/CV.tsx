@@ -50,9 +50,9 @@ const CV = () => {
                 <Button variant="outline" size="icon">
                   <Linkedin className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon">
+                {/* <Button variant="outline" size="icon">
                   <Github className="h-4 w-4" />
-                </Button>
+                </Button> */}
               </div>
               <Skills />
               <Education />
