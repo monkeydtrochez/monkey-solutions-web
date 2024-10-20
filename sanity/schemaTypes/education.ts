@@ -16,8 +16,8 @@ export const education = defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'education',
-      title: 'Education',
+      name: 'title',
+      title: 'Title',
       type: 'string',
     }),
     defineField({
