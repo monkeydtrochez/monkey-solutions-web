@@ -11,16 +11,12 @@ const BusinessCard = () => {
 
   if (!globalContext) {
     return "Global context is null";
-  } // Ensure context is available
+  }
 
-  const { siteContent, animateCard, handleViewCV } = globalContext;
+  const { profile, animateCard, handleViewCV } = globalContext;
 
   return (
     <>
-      {
-        /* Business Card Section */
-        console.log("TEST data från context: ", siteContent)
-      }
       <Card
         className={`mb-8 transition-all duration-1000 ease-in-out ${
           animateCard
@@ -47,7 +43,7 @@ const BusinessCard = () => {
               </Button>
             </div>
             <p className="text-sm text-gray-500 mb-4">
-              daniel@monkeysolutions.se | +4676 032 07 26
+              {profile?.email} | {profile?.mobile}
             </p>
             <Button onClick={handleViewCV}>Curriculum Vitae</Button>
           </div>

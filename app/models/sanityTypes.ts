@@ -5,7 +5,7 @@ interface BaseType {
 }
 
 // Type for `profile`
-interface Profile extends BaseType {
+export interface Profile extends BaseType {
   _type: "profile";
   location: string;
   professionalSkills: string[];
@@ -26,7 +26,7 @@ interface ImageReference {
 }
 
 // Type for `education`
-interface Education extends BaseType {
+export interface Education extends BaseType {
   _type: "education";
   school: string;
   start: string;
@@ -34,7 +34,7 @@ interface Education extends BaseType {
 }
 
 // Type for `workExperience`
-interface WorkExperience extends BaseType {
+export interface WorkExperience extends BaseType {
   _type: "workExperience";
   start: string;
   end: string;
@@ -46,7 +46,7 @@ interface WorkDescriptionBlock {
   _type: "block";
   style: string;
   _key: string;
-  markDefs: any[];
+  markDefs: never[];
   children: WorkDescriptionSpan[];
   listItem?: string;
   level?: number;
@@ -57,7 +57,7 @@ interface WorkDescriptionSpan {
   _type: "span";
   text: string;
   _key: string;
-  marks: any[];
+  marks: never[];
 }
 
 // Union type to represent all possible entries

@@ -6,6 +6,7 @@ import Skills from "./Skills";
 import Education from "./Education";
 import Profile from "./Profile";
 import WorkExperience from "./WorkExperience";
+import { buildImageUrlFor } from "@/app/utilities/imageUrlBuilder";
 
 const CV = () => {
   const globalContext = useContext(GlobalContext);
@@ -14,7 +15,10 @@ const CV = () => {
     return "Global context is null";
   }
 
-  const { showCV, handleBackButton } = globalContext;
+  const { showCV, profile, handleBackButton } = globalContext;
+  const profileImageUrl = buildImageUrlFor(
+    profile?.profilePicture.asset._ref as string
+  );
 
   return (
     <>
@@ -41,7 +45,7 @@ const CV = () => {
             <div className="md:w-1/3">
               <div className="bg-gray-100 rounded-t-full overflow-hidden mb-6">
                 <img
-                  src="/placeholder.svg?height=300&width=200"
+                  src={profileImageUrl}
                   alt="Daniel Trochez"
                   className="w-full h-auto object-cover"
                 />

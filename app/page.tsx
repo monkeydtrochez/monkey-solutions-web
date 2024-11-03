@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useEffect } from "react";
 import GlobalContext, { GlobalContextProvider } from "./context/GlobalContext";
-import { useSanityDataLoader } from "@/app/sanityDataLoader";
+import { useSanityDataLoader } from "@/app/hooks/sanityDataLoader";
 import BusinessCard from "@/components/BusinessCard";
 import CV from "@/components/CV";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

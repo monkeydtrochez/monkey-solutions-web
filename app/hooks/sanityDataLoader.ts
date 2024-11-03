@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { SanityApiResponse } from "./models/sanityTypes";
+import { SanityApiResponse } from "../models/sanityTypes";
 import axios from "axios";
 
 export const useSanityDataLoader = () => {
