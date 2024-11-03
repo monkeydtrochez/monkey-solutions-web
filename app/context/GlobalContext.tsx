@@ -1,9 +1,12 @@
 import { createContext, useState, ReactNode } from "react";
+import { SanityApiResponse } from "../models/sanityTypes";
 
 // Define the shape of your context data
 interface ContextType {
+  siteContent: SanityApiResponse[] | null;
   showCV: boolean;
   animateCard: boolean;
+  setSiteContentToContext: (data: SanityApiResponse[]) => void;
   handleViewCV: () => void;
   handleBackButton: () => void;
   toggleCardAnimation: (shouldAnimate: boolean) => void;
@@ -18,11 +21,21 @@ export const GlobalContextProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  // Create state for showCV and animateCard
+  // Create state for siteContent, showCV and animateCard
+  const [siteContent, setSiteContent] = useState<SanityApiResponse[] | null>(
+    null
+  );
   const [showCV, setShowCV] = useState(false);
   const [animateCard, setAnimateCard] = useState(false);
 
   // Define functions for updating states from other components
+
+  const setSiteContentToContext = (data: SanityApiResponse[]) => {
+    // todo ta datan och bryt ut i respektive type. Mappa datan till Profile, Eductaion & WorkExpecience
+    // och exponera state för dessa tre olika för att enklare plocka ur från context.
+    setSiteContent(data);
+  };
+
   const handleViewCV = () => {
     setShowCV(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -41,8 +54,10 @@ export const GlobalContextProvider = ({
   return (
     <GlobalContext.Provider
       value={{
+        siteContent,
         showCV,
         animateCard,
+        setSiteContentToContext,
         handleViewCV,
         handleBackButton,
         toggleCardAnimation,

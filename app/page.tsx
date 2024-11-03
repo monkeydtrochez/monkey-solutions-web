@@ -1,26 +1,44 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import GlobalContext, { GlobalContextProvider } from "./context/GlobalContext";
-import { useEffect } from "react";
+import { useSanityDataLoader } from "@/app/sanityDataLoader";
 import BusinessCard from "@/components/BusinessCard";
 import CV from "@/components/CV";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SanityApiResponse } from "./models/sanityTypes";
+
+const queryClient = new QueryClient();
 
 export default function Home() {
   return (
-    <GlobalContextProvider>
-      <SiteContent />
-    </GlobalContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <GlobalContextProvider>
+        <SiteContent />
+      </GlobalContextProvider>
+    </QueryClientProvider>
   );
 }
 
 function SiteContent() {
   const globalContext = useContext(GlobalContext);
+  const { data, error } = useSanityDataLoader();
 
   if (!globalContext) {
     return "Global context is null";
   }
 
-  const { showCV, toggleCardAnimation } = globalContext;
+  const { showCV, toggleCardAnimation, setSiteContentToContext } =
+    globalContext;
+
+  useEffect(() => {
+    if (error !== null) {
+      throw new Error(
+        `Unexpected error when loading data from Sanity. Error: ${error?.message}, Stack: ${error?.stack}`
+      );
+    } else {
+      setSiteContentToContext(data as SanityApiResponse[]);
+    }
+  }, [data, error, setSiteContentToContext]);
 
   useEffect(() => {
     if (showCV) {
@@ -41,31 +59,3 @@ function SiteContent() {
     </div>
   );
 }
-
-// GROQ quuery for fetching everything
-// *[_type == 'profile' || _type == 'workExperience' || _type == 'education'] {
-//   _type,
-//     title,
-
-//     _type == 'profile' => {
-//     profilePicture,
-//       description,
-//       mobile,
-//       email,
-//       location,
-//       personalitySkills,
-//       professionalSkills
-//     },
-
-//       _type == 'education' => {
-//     school,
-//       start,
-//       end
-//     },
-
-//       _type == 'workExperience' => {
-//       start,
-//       end,
-//       description
-//     }
-// }
