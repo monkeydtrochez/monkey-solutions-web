@@ -1,10 +1,21 @@
 import { createClient } from "@sanity/client";
 
-const sanityClient = createClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: process.env.SANITY_DATASET,
-  apiVersion: process.env.SANITY_API_VERSION,
-  useCdn: process.env.SANITY_USE_CDN === "true",
-});
+export interface SanityClientConfig {
+  projectId: string;
+  dataset: string;
+  apiVersion: string;
+  useCdn: boolean;
+}
 
-export default sanityClient;
+export function createClientFromParam(config: SanityClientConfig) {
+  if (config) {
+    return createClient({
+      projectId: config.projectId,
+      dataset: config.dataset,
+      apiVersion: config.apiVersion,
+      useCdn: config.useCdn,
+    });
+  } else {
+    return null;
+  }
+}

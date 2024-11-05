@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { SanityApiResponse } from "@/app/models/sanityTypes";
-import sanityClient from "@/app/sanityClient";
+import { createClientFromParam, SanityClientConfig } from "@/app/sanityClient";
 
 const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'education'] {
   _type,
@@ -33,6 +33,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<SanityApiResponse[]>
 ) {
-  const response = await sanityClient.fetch(query);
+  const config: SanityClientConfig = {
+    projectId: process.env.SANITY_PROJECT_ID || "",
+    dataset: process.env.SANITY_DATASET || "",
+    apiVersion: process.env.SANITY_API_VERSION || "",
+    useCdn: process.env.SANITY_USE_CDN === "true",
+  };
+  console.log("CONFIG from getSanityData.ts: ", config);
+  const sanityClient = createClientFromParam(config);
+  const response = await sanityClient?.fetch(query);
   res.status(200).json(response);
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { ArrowLeft, Github, Linkedin } from "lucide-react";
 import GlobalContext from "@/app/context/GlobalContext";
@@ -7,6 +7,8 @@ import Education from "./Education";
 import Profile from "./Profile";
 import WorkExperience from "./WorkExperience";
 import { buildImageUrlFor } from "@/app/utilities/imageUrlBuilder";
+import { useSanityConfigLoader } from "@/app/hooks/sanityConfigLoader";
+import { SanityClientConfig } from "@/app/sanityClient";
 
 const CV = () => {
   const globalContext = useContext(GlobalContext);
@@ -15,10 +17,22 @@ const CV = () => {
     return "Global context is null";
   }
 
+  const { config } = useSanityConfigLoader();
+
   const { showCV, profile, handleBackButton } = globalContext;
-  const profileImageUrl = buildImageUrlFor(
-    profile?.profilePicture.asset._ref as string
-  );
+
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (profile?.profilePicture.asset._ref) {
+      setImageUrl(
+        buildImageUrlFor(
+          config as SanityClientConfig,
+          profile?.profilePicture.asset._ref
+        )
+      );
+    }
+  }, [config, profile?.profilePicture.asset._ref]);
 
   return (
     <>
@@ -45,7 +59,7 @@ const CV = () => {
             <div className="md:w-1/3">
               <div className="bg-gray-100 rounded-t-full overflow-hidden mb-6">
                 <img
-                  src={profileImageUrl}
+                  src={imageUrl}
                   alt="Daniel Trochez"
                   className="w-full h-auto object-cover"
                 />

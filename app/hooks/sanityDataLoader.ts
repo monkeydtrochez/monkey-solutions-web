@@ -6,7 +6,7 @@ export const useSanityDataLoader = () => {
   const { data, error } = useQuery<SanityApiResponse[]>({
     queryKey: ["sanityData"],
     queryFn: async () => {
-      const result = await axios.get("/api/sanity-data");
+      const result = await axios.get("/api/getSanityData");
       return result.data;
     },
   });
