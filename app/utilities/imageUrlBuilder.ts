@@ -11,11 +11,15 @@ export function buildImageUrlFor(
   }
   try {
     const sanityClient = createClientFromParam(sanityClientConfig);
-    const builder = imageUrlBuilder(sanityClient);
+    if (sanityClient !== null) {
+      const builder = imageUrlBuilder(sanityClient);
 
-    const imageUrl = builder.image(imageRef);
+      const imageUrl = builder.image(imageRef);
 
-    return imageUrl ? imageUrl.toString() : "";
+      return imageUrl ? imageUrl.toString() : ""; // todo add placeholder image
+    }
+
+    return ""; // todo add placeholder image
   } catch (error) {
     console.error("Error building image URL:", error);
     return ""; // todo add placeholder image
