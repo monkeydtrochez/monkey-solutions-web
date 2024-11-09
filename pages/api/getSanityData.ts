@@ -23,8 +23,7 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
     },
 
       _type == 'workExperience' => {
-      start,
-      end,
+      duration,
       description
     }
 }`;
@@ -39,7 +38,7 @@ export default async function handler(
     apiVersion: process.env.SANITY_API_VERSION || "",
     useCdn: process.env.SANITY_USE_CDN === "true",
   };
-  console.log("CONFIG from getSanityData.ts: ", config);
+
   const sanityClient = createClientFromParam(config);
   const response = await sanityClient?.fetch(query);
   res.status(200).json(response);

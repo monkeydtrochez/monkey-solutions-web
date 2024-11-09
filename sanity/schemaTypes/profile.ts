@@ -38,6 +38,16 @@ export const profile = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'languages',
+      title: 'Languages',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
       name: 'personalitySkills',
       title: 'Personality skills',
       type: 'array',

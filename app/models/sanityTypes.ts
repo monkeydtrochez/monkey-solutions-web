@@ -8,6 +8,7 @@ interface BaseType {
 export interface Profile extends BaseType {
   _type: "profile";
   location: string;
+  languages: string[];
   professionalSkills: string[];
   personalitySkills: string[];
   profilePicture: ImageReference;
@@ -36,9 +37,14 @@ export interface Education extends BaseType {
 // Type for `workExperience`
 export interface WorkExperience extends BaseType {
   _type: "workExperience";
-  start: string;
-  end: string;
+  duration: Duration;
   description: WorkDescriptionBlock[];
+}
+
+interface Duration {
+  _type: "duration";
+  startYear: string;
+  endYear: string;
 }
 
 // Type for the `description` array in `workExperience`

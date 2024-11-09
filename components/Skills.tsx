@@ -29,6 +29,12 @@ const Skills = () => {
             <li key={index}>{item}</li>
           ))}
         </ul>
+        <h4 className="text-sm font-semibold mt-5">LANGUAGES</h4>
+        <ul className="list-disc list-inside text-sm space-y-1">
+          <li>Swedish</li>
+          <li>English</li>
+          <li>Spanish</li>
+        </ul>
       </div>
     </>
   );

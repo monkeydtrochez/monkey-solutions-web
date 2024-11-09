@@ -1,15 +1,5 @@
 import {defineField, defineType} from 'sanity'
 
-const lastFiftyYears = () => {
-  let years = []
-  const currentYear = new Date().getFullYear()
-  for (let index = 0; index < 50; index++) {
-    years.push((currentYear - index).toString())
-  }
-
-  return years
-}
-
 export const workExperience = defineType({
   name: 'workExperience',
   title: 'Work Experience',
@@ -21,20 +11,9 @@ export const workExperience = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'start',
-      title: 'Start',
-      type: 'string',
-      options: {
-        list: lastFiftyYears(),
-      },
-    }),
-    defineField({
-      name: 'end',
-      title: 'End',
-      type: 'string',
-      options: {
-        list: lastFiftyYears(),
-      },
+      name: 'duration',
+      title: 'Duration',
+      type: 'duration',
     }),
     defineField({
       name: 'description',

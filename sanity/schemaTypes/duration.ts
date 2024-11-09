@@ -1,20 +1,35 @@
-import { defineType, defineField } from 'sanity'
+import {defineType, defineField} from 'sanity'
+
+const lastFiftyYears = () => {
+  let years = []
+  const currentYear = new Date().getFullYear()
+  for (let index = 0; index < 50; index++) {
+    years.push((currentYear - index).toString())
+  }
+
+  return years
+}
 
 export const duration = defineType({
-  type: "object",
-  name: "duration",
-  title: "Duration",
+  type: 'object',
+  name: 'duration',
+  title: 'Duration',
   fields: [
     defineField({
-      type: "datetime",
-      name: "start",
-      title: "Start",
+      type: 'string',
+      name: 'startYear',
+      title: 'Start year',
+      options: {
+        list: lastFiftyYears(),
+      },
     }),
     defineField({
-      type: "datetime",
-      name: "end",
-      title: "End",
+      type: 'string',
+      name: 'endYear',
+      title: 'End year',
+      options: {
+        list: lastFiftyYears(),
+      },
     }),
   ],
-});
-
+})

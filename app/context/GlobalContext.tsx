@@ -10,7 +10,7 @@ import {
 interface ContextType {
   profile: Profile | null;
   education: Education | null;
-  workExperience: WorkExperience | null;
+  workExperience: WorkExperience[] | null;
   showCV: boolean;
   animateCard: boolean;
   setSiteContentToContext: (data: SanityApiResponse[]) => void;
@@ -31,8 +31,9 @@ export const GlobalContextProvider = ({
   // Create state for siteContent, showCV and animateCard
   const [profile, setProfileData] = useState<Profile | null>(null);
   const [education, setEducationData] = useState<Education | null>(null);
-  const [workExperience, setWorkExperienceData] =
-    useState<WorkExperience | null>(null);
+  const [workExperience, setWorkExperienceData] = useState<
+    WorkExperience[] | null
+  >(null);
 
   const [showCV, setShowCV] = useState(false);
   const [animateCard, setAnimateCard] = useState(false);
@@ -50,11 +51,14 @@ export const GlobalContextProvider = ({
       setEducationData(educationData);
     }
 
-    const workExperienceData = data?.find(
-      (item) => item._type === "workExperience"
-    );
-    if (workExperienceData) {
-      setWorkExperienceData(workExperienceData);
+    if (!workExperience) {
+      const workExperienceArray = data?.filter(
+        (data) => data._type === "workExperience"
+      );
+
+      if (workExperienceArray) {
+        setWorkExperienceData(workExperienceArray);
+      }
     }
   };
 

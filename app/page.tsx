@@ -6,6 +6,7 @@ import BusinessCard from "@/components/BusinessCard";
 import CV from "@/components/CV";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SanityApiResponse } from "./models/sanityTypes";
+import Projects from "@/components/Projects";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ function SiteContent() {
       <div className="max-w-4xl mx-auto">
         <BusinessCard />
         <CV />
+        <Projects />
       </div>
     </div>
   );
