@@ -28,7 +28,7 @@ function SiteContent() {
     return "Global context is null";
   }
 
-  const { showCV, toggleCardAnimation, setSiteContentToContext } =
+  const { showCV, showProjects, toggleCardAnimation, setSiteContentToContext } =
     globalContext;
 
   useEffect(() => {
@@ -42,14 +42,14 @@ function SiteContent() {
   }, [data, error, setSiteContentToContext]);
 
   useEffect(() => {
-    if (showCV) {
+    if (showCV || showProjects) {
       toggleCardAnimation(true);
       document.body.style.overflow = "hidden";
     } else {
       setTimeout(() => toggleCardAnimation(false), 300);
       document.body.style.overflow = "auto";
     }
-  }, [showCV]);
+  }, [showCV, showProjects]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">

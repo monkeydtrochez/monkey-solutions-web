@@ -17,15 +17,6 @@ export interface Profile extends BaseType {
   email: string;
 }
 
-// Type for the `profilePicture` field
-interface ImageReference {
-  _type: "image";
-  asset: {
-    _ref: string;
-    _type: "reference";
-  };
-}
-
 // Type for `education`
 export interface Education extends BaseType {
   _type: "education";
@@ -39,6 +30,25 @@ export interface WorkExperience extends BaseType {
   _type: "workExperience";
   duration: Duration;
   description: WorkDescriptionBlock[];
+}
+
+export interface Project {
+  _type: "project";
+  coverImage: ImageReference;
+  title: string;
+  client: string;
+  site: string;
+  tags: string[];
+  body: string;
+}
+
+// Type for the `profilePicture` field
+interface ImageReference {
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
 }
 
 interface Duration {
@@ -67,4 +77,4 @@ interface WorkDescriptionSpan {
 }
 
 // Union type to represent all possible entries
-export type SanityApiResponse = Profile | Education | WorkExperience;
+export type SanityApiResponse = Profile | Education | WorkExperience | Project;

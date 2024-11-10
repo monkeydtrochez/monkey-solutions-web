@@ -13,7 +13,8 @@ const BusinessCard = () => {
     return "Global context is null";
   }
 
-  const { profile, animateCard, handleViewCV } = globalContext;
+  const { profile, animateCard, handleViewCV, handleViewProjects } =
+    globalContext;
 
   return (
     <>
@@ -45,7 +46,10 @@ const BusinessCard = () => {
             <p className="text-sm text-gray-500 mb-4">
               {profile?.email} | {profile?.mobile}
             </p>
-            <Button onClick={handleViewCV}>Curriculum Vitae</Button>
+            <div className="flex justify-center space-x-4">
+              <Button onClick={handleViewProjects}>Projects</Button>
+              <Button onClick={handleViewCV}>Resume</Button>
+            </div>
           </div>
         </CardContent>
       </Card>

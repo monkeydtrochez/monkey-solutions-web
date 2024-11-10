@@ -4,6 +4,7 @@ import {
   Profile,
   Education,
   WorkExperience,
+  Project,
 } from "../models/sanityTypes";
 
 // Define the shape of your context data
@@ -11,10 +12,13 @@ interface ContextType {
   profile: Profile | null;
   education: Education | null;
   workExperience: WorkExperience[] | null;
+  projects: Project[] | null;
   showCV: boolean;
+  showProjects: boolean;
   animateCard: boolean;
   setSiteContentToContext: (data: SanityApiResponse[]) => void;
   handleViewCV: () => void;
+  handleViewProjects: () => void;
   handleBackButton: () => void;
   toggleCardAnimation: (shouldAnimate: boolean) => void;
 }
@@ -34,8 +38,10 @@ export const GlobalContextProvider = ({
   const [workExperience, setWorkExperienceData] = useState<
     WorkExperience[] | null
   >(null);
+  const [projects, setProjects] = useState<Project[] | null>(null);
 
   const [showCV, setShowCV] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
   const [animateCard, setAnimateCard] = useState(false);
 
   // Define functions for updating states from other components
@@ -60,16 +66,26 @@ export const GlobalContextProvider = ({
         setWorkExperienceData(workExperienceArray);
       }
     }
+
+    const projectsData = data?.filter((data) => data._type === "project");
+    if (projectsData && !projects) {
+      setProjects(projectsData);
+    }
+  };
+
+  const handleViewProjects = () => {
+    setShowProjects(true);
+    setShowCV(false);
   };
 
   const handleViewCV = () => {
     setShowCV(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setShowProjects(false);
   };
 
   const handleBackButton = () => {
     setShowCV(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setShowProjects(false);
   };
 
   const toggleCardAnimation = (shouldAnimate: boolean) => {
@@ -83,10 +99,13 @@ export const GlobalContextProvider = ({
         profile,
         education,
         workExperience,
+        projects,
         showCV,
+        showProjects,
         animateCard,
         setSiteContentToContext,
         handleViewCV,
+        handleViewProjects,
         handleBackButton,
         toggleCardAnimation,
       }}

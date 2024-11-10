@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { SanityApiResponse } from "@/app/models/sanityTypes";
 import { createClientFromParam, SanityClientConfig } from "@/app/sanityClient";
 
-const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'education'] {
+const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'education' || _type == 'project'] {
   _type,
     title,
 
@@ -25,6 +25,16 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       _type == 'workExperience' => {
       duration,
       description
+    },
+
+      _type == 'project' => {
+      title,
+      coverImage,
+      duration,
+        client,
+        site,
+        tags,
+        body
     }
 }`;
 
