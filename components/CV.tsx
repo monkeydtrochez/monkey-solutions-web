@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { ArrowLeft, Github, Linkedin } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import GlobalContext from "@/app/context/GlobalContext";
 import Skills from "./Skills";
 import Education from "./Education";
@@ -9,6 +9,8 @@ import WorkExperience from "./WorkExperience";
 import { buildImageUrlFor } from "@/app/utilities/imageUrlBuilder";
 import { useSanityConfigLoader } from "@/app/hooks/sanityConfigLoader";
 import { SanityClientConfig } from "@/app/sanityClient";
+import SocialMediaButtons from "./ui/SocialMediaButtons";
+import Image from "next/image";
 
 const CV = () => {
   const globalContext = useContext(GlobalContext);
@@ -58,20 +60,18 @@ const CV = () => {
             </div>
             <div className="md:w-1/3">
               <div className="bg-gray-100 rounded-t-full overflow-hidden mb-6">
-                <img
-                  src={imageUrl}
-                  alt="Daniel Trochez"
-                  className="w-full h-auto object-cover"
-                />
+                <div className="w-full h-auto object-cover">
+                  {imageUrl && (
+                    <Image
+                      src={imageUrl}
+                      alt="Daniel Trochez"
+                      width={800}
+                      height={600}
+                    />
+                  )}
+                </div>
               </div>
-              <div className="flex justify-center space-x-4 mb-8">
-                <Button variant="outline" size="icon">
-                  <Linkedin className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon">
-                  <Github className="h-4 w-4" />
-                </Button>
-              </div>
+              <SocialMediaButtons />
               <Skills />
               <Education />
             </div>

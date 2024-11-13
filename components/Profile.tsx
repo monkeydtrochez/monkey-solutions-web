@@ -20,16 +20,18 @@ const Profile = () => {
       <h2 className="text-xl text-gray-600 mb-6">SOFTWARE DEVELOPER</h2>
       <div className="border-l-2 border-orange-500 pl-4 mb-8">
         <h3 className="text-lg font-semibold mb-2">About Me</h3>
-        <PortableText
-          value={profile?.description}
-          components={{
-            block: {
-              normal: ({ children }) => (
-                <p className="text-sm text-gray-600 mb-2">{children}</p>
-              ),
-            },
-          }}
-        />
+        {profile && (
+          <PortableText
+            value={profile.description}
+            components={{
+              block: {
+                normal: ({ children }) => (
+                  <p className="text-sm text-gray-600 mb-2">{children}</p>
+                ),
+              },
+            }}
+          />
+        )}
         <h3 className="text-lg font-semibold mb-2">CONTACT</h3>
         <p className="text-sm text-gray-600">{profile?.mobile}</p>
         <p className="text-sm text-gray-600">{profile?.email}</p>

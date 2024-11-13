@@ -1,5 +1,6 @@
 // Base interface for common properties
 interface BaseType {
+  _id: string;
   _type: string;
   title: string;
 }
@@ -12,7 +13,7 @@ export interface Profile extends BaseType {
   professionalSkills: string[];
   personalitySkills: string[];
   profilePicture: ImageReference;
-  description: string | null;
+  description: WorkDescriptionBlock[];
   mobile: string;
   email: string;
 }
@@ -32,14 +33,14 @@ export interface WorkExperience extends BaseType {
   description: WorkDescriptionBlock[];
 }
 
-export interface Project {
+export interface Project extends BaseType {
   _type: "project";
   coverImage: ImageReference;
   title: string;
   client: string;
   site: string;
   tags: string[];
-  body: string;
+  body: WorkDescriptionBlock[];
 }
 
 // Type for the `profilePicture` field

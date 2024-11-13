@@ -3,7 +3,8 @@ import { SanityApiResponse } from "@/app/models/sanityTypes";
 import { createClientFromParam, SanityClientConfig } from "@/app/sanityClient";
 
 const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'education' || _type == 'project'] {
-  _type,
+    _id,
+    _type,
     title,
 
     _type == 'profile' => {

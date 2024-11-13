@@ -26,6 +26,7 @@ const WorkExperience = () => {
     },
   };
 
+  // todo bryt ut workExperienceItem i egen component
   return (
     <>
       <div className="mb-8">
