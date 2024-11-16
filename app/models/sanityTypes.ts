@@ -16,6 +16,8 @@ export interface Profile extends BaseType {
   description: WorkDescriptionBlock[];
   mobile: string;
   email: string;
+  linkedInUrl: string;
+  githubUrl: string;
 }
 
 // Type for `education`

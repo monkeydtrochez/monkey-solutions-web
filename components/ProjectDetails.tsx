@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
+import { Badge } from "./ui/badge";
 import { ExternalLink, Link } from "lucide-react";
-import { Button } from "./ui/button";
 import { Project } from "@/app/models/sanityTypes";
 import Image from "next/image";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
@@ -11,10 +11,9 @@ import { useSanityConfigLoader } from "@/app/hooks/sanityConfigLoader";
 
 interface ProjectDetailsProps {
   project: Project;
-  index: number;
 }
 
-const ProjectDetails = ({ project, index }: ProjectDetailsProps) => {
+const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   const tags = project.tags;
   const contentComponents: PortableTextComponents = {
     block: {
@@ -68,24 +67,18 @@ const ProjectDetails = ({ project, index }: ProjectDetailsProps) => {
                 value={project.body}
                 components={contentComponents}
               />
-              <h4 className="font-semibold mb-2">Technologies used:</h4>
-              <ul className="list-disc list-inside mb-4">
-                {tags && // todo fix render tags with badge component
+              <h4 className="font-semibold mb-2">Technologies:</h4>
+              <div className="flex flex-wrap gap-1 mb-4">
+                {tags &&
                   tags.map((tag, index) => (
-                    <li key={index} className="text-sm text-gray-600">
+                    <Badge key={index} className="text-xs text-gray-700">
                       {tag}
-                    </li>
+                    </Badge>
                   ))}
-              </ul>
-              <Link
-                href={project.site}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="outline" size="sm">
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
+              </div>
+              <a href={project.site} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
             </div>
           </div>
         </CardContent>

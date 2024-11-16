@@ -36,7 +36,12 @@ const BusinessCard = () => {
               className="mx-auto mb-2 w-auto h-auto"
             />
             <p className="text-gray-600 mb-4">Software Development</p>
-            <SocialMediaButtons />
+            {profile && (
+              <SocialMediaButtons
+                githubUrl={profile.githubUrl}
+                linkedInUrl={profile.linkedInUrl}
+              />
+            )}
             {profile && (
               <p className="text-sm text-gray-500 mb-4">
                 {profile?.email} | {profile?.mobile}

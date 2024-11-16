@@ -37,7 +37,7 @@ const Projects = () => {
           <div className="grid gap-8">
             {projects &&
               projects.map((project: Project, index: number) => (
-                <ProjectDetails key={index} project={project} index={index} />
+                <ProjectDetails key={index} project={project} />
               ))}
           </div>
         </div>

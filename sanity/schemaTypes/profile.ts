@@ -18,6 +18,16 @@ export const profile = defineType({
       type: 'image',
     }),
     defineField({
+      name: 'linkedInUrl',
+      title: 'LinkedIn Url',
+      type: 'string',
+    }),
+    defineField({
+      name: 'githubUrl',
+      title: 'GitHub Url',
+      type: 'string',
+    }),
+    defineField({
       name: 'description',
       title: 'Profile Description',
       type: 'blockContent',

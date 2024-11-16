@@ -71,7 +71,12 @@ const CV = () => {
                   )}
                 </div>
               </div>
-              <SocialMediaButtons />
+              {profile && (
+                <SocialMediaButtons
+                  githubUrl={profile.githubUrl}
+                  linkedInUrl={profile.linkedInUrl}
+                />
+              )}
               <Skills />
               <Education />
             </div>
