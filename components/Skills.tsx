@@ -29,6 +29,7 @@ const Skills = () => {
             <li key={index}>{item}</li>
           ))}
         </ul>
+        {/* TODO fetch languages from sanity */}
         <h4 className="text-sm font-semibold mt-5">LANGUAGES</h4>
         <ul className="list-disc list-inside text-sm space-y-1">
           <li>Swedish</li>

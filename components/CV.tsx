@@ -1,3 +1,4 @@
+"use client";
 import React, { useContext, useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { ArrowLeft } from "lucide-react";

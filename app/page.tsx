@@ -1,63 +1,31 @@
 "use client";
-import { useContext, useEffect } from "react";
-import GlobalContext, { GlobalContextProvider } from "./context/GlobalContext";
 import { useSanityDataLoader } from "@/app/hooks/sanityDataLoader";
 import BusinessCard from "@/components/BusinessCard";
 import CV from "@/components/CV";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SanityApiResponse } from "./models/sanityTypes";
 import Projects from "@/components/Projects";
+import SiteWrapper from "@/components/SiteWrapper";
 
 const queryClient = new QueryClient();
 
 export default function Home() {
   return (
+    // TODO testa flytta QueryClientProvider till en egen wrapper och använd use client där
     <QueryClientProvider client={queryClient}>
-      <GlobalContextProvider>
-        <SiteContent />
-      </GlobalContextProvider>
+      <SiteContent />
     </QueryClientProvider>
   );
 }
 
 function SiteContent() {
-  const globalContext = useContext(GlobalContext);
-  const { data, error } = useSanityDataLoader();
-
-  if (!globalContext) {
-    return "Global context is null";
-  }
-
-  const { showCV, showProjects, toggleCardAnimation, setSiteContentToContext } =
-    globalContext;
-
-  useEffect(() => {
-    if (error !== null) {
-      throw new Error(
-        `Unexpected error when loading data from Sanity. Error: ${error?.message}, Stack: ${error?.stack}`
-      );
-    } else {
-      setSiteContentToContext(data as SanityApiResponse[]);
-    }
-  }, [data, error, setSiteContentToContext]);
-
-  useEffect(() => {
-    if (showCV || showProjects) {
-      toggleCardAnimation(true);
-      document.body.style.overflow = "hidden";
-    } else {
-      setTimeout(() => toggleCardAnimation(false), 300);
-      document.body.style.overflow = "auto";
-    }
-  }, [showCV, showProjects]);
+  const { data } = useSanityDataLoader();
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="max-w-4xl mx-auto">
-        <BusinessCard />
-        <CV />
-        <Projects />
-      </div>
-    </div>
+    <SiteWrapper data={data as SanityApiResponse[]}>
+      <BusinessCard />
+      <CV />
+      <Projects />
+    </SiteWrapper>
   );
 }
