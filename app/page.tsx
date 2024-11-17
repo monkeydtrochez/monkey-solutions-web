@@ -1,31 +1,29 @@
-"use client";
-import { useSanityDataLoader } from "@/app/hooks/sanityDataLoader";
+import {
+  loadSanityData,
+  getSanityDataFromCache,
+} from "@/app/hooks/sanityDataLoader";
 import BusinessCard from "@/components/BusinessCard";
 import CV from "@/components/CV";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SanityApiResponse } from "./models/sanityTypes";
 import Projects from "@/components/Projects";
-import SiteWrapper from "@/components/SiteWrapper";
-
-const queryClient = new QueryClient();
+import SiteWrapper from "@/components/wrappers/SiteWrapper";
+import QueryClientWrapper from "@/components/wrappers/QueryClientWrapper";
 
 export default function Home() {
-  return (
-    // TODO testa flytta QueryClientProvider till en egen wrapper och använd use client där
-    <QueryClientProvider client={queryClient}>
-      <SiteContent />
-    </QueryClientProvider>
-  );
+  return <SiteContent />;
 }
 
-function SiteContent() {
-  const { data } = useSanityDataLoader();
+async function SiteContent() {
+  await loadSanityData();
+  const data = getSanityDataFromCache();
 
   return (
-    <SiteWrapper data={data as SanityApiResponse[]}>
-      <BusinessCard />
-      <CV />
-      <Projects />
-    </SiteWrapper>
+    <QueryClientWrapper>
+      <SiteWrapper data={data as SanityApiResponse[]}>
+        <BusinessCard />
+        <CV />
+        <Projects />
+      </SiteWrapper>
+    </QueryClientWrapper>
   );
 }
