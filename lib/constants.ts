@@ -1,0 +1,1 @@
+export const CACHE_REVALIDATION_INTERVAL = 10 * 1000;

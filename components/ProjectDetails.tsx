@@ -8,7 +8,7 @@ import Image from "next/image";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { buildImageUrlFor } from "@/app/utilities/imageUrlBuilder";
 import { SanityClientConfig } from "@/app/sanityClient";
-import { useSanityConfigLoader } from "@/app/hooks/sanityConfigLoader";
+import { useSanityConfigLoader } from "@/lib/hooks/sanityConfigLoader";
 
 interface ProjectDetailsProps {
   project: Project;

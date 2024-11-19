@@ -8,7 +8,7 @@ import Education from "./Education";
 import Profile from "./Profile";
 import WorkExperience from "./WorkExperience";
 import { buildImageUrlFor } from "@/app/utilities/imageUrlBuilder";
-import { useSanityConfigLoader } from "@/app/hooks/sanityConfigLoader";
+import { useSanityConfigLoader } from "@/lib/hooks/sanityConfigLoader";
 import { SanityClientConfig } from "@/app/sanityClient";
 import SocialMediaButtons from "./ui/SocialMediaButtons";
 import Image from "next/image";
