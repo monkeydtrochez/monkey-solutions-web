@@ -10,8 +10,8 @@ const Skills = () => {
 
   const { profile } = globalContext;
   const personalitySkills = profile?.personalitySkills;
-
   const professionalSkills = profile?.professionalSkills;
+  const languages = profile?.languages;
 
   return (
     <>
@@ -29,12 +29,11 @@ const Skills = () => {
             <li key={index}>{item}</li>
           ))}
         </ul>
-        {/* TODO fetch languages from sanity */}
         <h4 className="text-sm font-semibold mt-5">LANGUAGES</h4>
         <ul className="list-disc list-inside text-sm space-y-1">
-          <li>Swedish</li>
-          <li>English</li>
-          <li>Spanish</li>
+          {languages?.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
       </div>
     </>

@@ -10,6 +10,7 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
     _type == 'profile' => {
     profilePicture,
       description,
+      languages,
       mobile,
       email,
       location,
