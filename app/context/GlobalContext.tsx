@@ -64,13 +64,17 @@ export const GlobalContextProvider = ({
       );
 
       if (workExperienceArray) {
-        setWorkExperienceData(workExperienceArray);
+        const sortedList = workExperienceArray.sort(
+          (a, b) => a.sortIndex - b.sortIndex
+        );
+        setWorkExperienceData(sortedList);
       }
     }
 
     const projectsData = data?.filter((data) => data._type === "project");
     if (projectsData && !projects) {
-      setProjects(projectsData);
+      const sortedList = projectsData.sort((a, b) => a.sortIndex - b.sortIndex);
+      setProjects(sortedList);
     }
   };
 

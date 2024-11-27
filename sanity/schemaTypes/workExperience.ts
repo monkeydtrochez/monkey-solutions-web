@@ -6,6 +6,12 @@ export const workExperience = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'sortIndex',
+      title: 'Sort Index',
+      type: 'number',
+      validation: (Rule) => Rule.required().error('A sort index is required.'),
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',

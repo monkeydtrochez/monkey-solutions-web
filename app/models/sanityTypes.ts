@@ -31,6 +31,7 @@ export interface Education extends BaseType {
 // Type for `workExperience`
 export interface WorkExperience extends BaseType {
   _type: "workExperience";
+  sortIndex: number;
   duration: Duration;
   description: WorkDescriptionBlock[];
 }
@@ -38,6 +39,7 @@ export interface WorkExperience extends BaseType {
 export interface Project extends BaseType {
   _type: "project";
   coverImage: ImageReference;
+  sortIndex: number;
   title: string;
   client: string;
   site: string;

@@ -29,7 +29,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <GlobalContextProvider>{children}</GlobalContextProvider>
+        <GlobalContextProvider>
+          {children}
+          <footer className="py-4 text-center text-sm text-gray-500">
+            © {new Date().getFullYear()} Monkey Solutions. All rights reserved.
+          </footer>
+        </GlobalContextProvider>
       </body>
     </html>
   );

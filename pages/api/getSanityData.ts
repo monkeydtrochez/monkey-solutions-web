@@ -27,11 +27,13 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
     },
 
       _type == 'workExperience' => {
+      sortIndex,
       duration,
       description
     },
 
       _type == 'project' => {
+      sortIndex,
       title,
       coverImage,
       duration,
