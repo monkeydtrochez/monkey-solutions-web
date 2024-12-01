@@ -3,15 +3,13 @@ import React, { useContext, useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { ArrowLeft } from "lucide-react";
 import GlobalContext from "@/app/context/GlobalContext";
-import Skills from "./Skills";
 import Education from "./Education";
 import Profile from "./Profile";
 import WorkExperience from "./WorkExperience";
 import { buildImageUrlFor } from "@/app/utilities/imageUrlBuilder";
 import { useSanityConfigLoader } from "@/lib/hooks/sanityConfigLoader";
 import { SanityClientConfig } from "@/app/sanityClient";
-import SocialMediaButtons from "./ui/SocialMediaButtons";
-import Image from "next/image";
+import ProfileIntro from "./ProfileIntro";
 
 const CV = () => {
   const globalContext = useContext(GlobalContext);
@@ -21,9 +19,7 @@ const CV = () => {
   }
 
   const { config } = useSanityConfigLoader();
-
   const { showCV, profile, handleBackButton } = globalContext;
-
   const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
@@ -54,32 +50,39 @@ const CV = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
+          <div className="mb-8">
+            <h1 className="text-5xl font-light mb-2">
+              Daniel <span className="text-orange-500 font-normal">T</span>
+              rochez
+            </h1>
+            <h2 className="text-xl text-gray-600 mb-6">SOFTWARE DEVELOPER</h2>
+          </div>
           <div className="flex flex-col md:flex-row">
+            <div className="md:hidden mb-8">
+              {profile && (
+                <ProfileIntro profile={profile} imageUrl={imageUrl} />
+              )}
+            </div>
             <div className="md:w-2/3 pr-8">
               <Profile />
               <WorkExperience />
             </div>
             <div className="md:w-1/3">
-              <div className="bg-gray-100 rounded-t-full overflow-hidden mb-6">
-                <div className="w-full h-auto object-cover">
-                  {imageUrl && (
-                    <Image
-                      src={imageUrl}
-                      alt="Daniel Trochez"
-                      width={800}
-                      height={600}
-                    />
-                  )}
-                </div>
+              <div className="hidden sm:block">
+                {profile && (
+                  <ProfileIntro profile={profile} imageUrl={imageUrl} />
+                )}
               </div>
-              {profile && (
-                <SocialMediaButtons
-                  githubUrl={profile.githubUrl}
-                  linkedInUrl={profile.linkedInUrl}
-                />
-              )}
-              <Skills />
               <Education />
+              <div>
+                <h3 className="text-lg font-semibold mb-2">OTHER</h3>
+                <h4 className="text-sm font-semibold">
+                  Active board member for a .NET program
+                </h4>
+                <p className="text-sm text-gray-600">
+                  Handelsakademin Göteborg
+                </p>
+              </div>
             </div>
           </div>
         </div>

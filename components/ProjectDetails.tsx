@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { ExternalLink, Link } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Project } from "@/app/models/sanityTypes";
 import Image from "next/image";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
