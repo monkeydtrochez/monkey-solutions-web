@@ -1,5 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { SanityApiResponse } from "@/app/models/sanityTypes";
+import { NextResponse } from "next/server";
 import { createClientFromParam, SanityClientConfig } from "@/app/sanityClient";
 
 const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'education' || _type == 'project'] {
@@ -44,10 +43,7 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
     }
 }`;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<SanityApiResponse[]>
-) {
+export async function GET() {
   const config: SanityClientConfig = {
     projectId: process.env.SANITY_PROJECT_ID || "",
     dataset: process.env.SANITY_DATASET || "",
@@ -57,5 +53,6 @@ export default async function handler(
 
   const sanityClient = createClientFromParam(config);
   const response = await sanityClient?.fetch(query);
-  res.status(200).json(response);
+
+  return NextResponse.json(response, { status: 200 });
 }

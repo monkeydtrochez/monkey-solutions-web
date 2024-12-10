@@ -6,7 +6,7 @@ export const useSanityConfigLoader = () => {
   const { data, error } = useQuery<SanityClientConfig>({
     queryKey: ["sanityConfig"],
     queryFn: async () => {
-      const result = await axios.get("/api/getSanityConfig");
+      const result = await axios.get("/api/sanity-config");
       return result.data;
     },
   });
@@ -15,9 +15,7 @@ export const useSanityConfigLoader = () => {
 
 export const fetchSanityConfig = async (): Promise<SanityClientConfig> => {
   try {
-    const response = await axios.get<SanityClientConfig>(
-      "/api/getSanityConfig"
-    );
+    const response = await axios.get<SanityClientConfig>("/api/sanity-config");
 
     if (response.status !== 200) {
       throw new Error(
