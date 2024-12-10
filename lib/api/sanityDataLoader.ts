@@ -14,7 +14,7 @@ export const loadSanityData = async (): Promise<void> => {
 
   if (!cachedData || now - cachedData.timestamp > CACHE_REVALIDATION_INTERVAL) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await axios.get(`${baseUrl}/api/getSanityData`);
+    const response = await axios.get(`${baseUrl}/api/sanity-data`);
 
     if (response.status !== 200) {
       throw new Error(
@@ -26,10 +26,14 @@ export const loadSanityData = async (): Promise<void> => {
   }
 };
 
-export const getSanityDataFromCache = cache((): SanityApiResponse[] => {
-  const cachedData = sanityDataCache.get("sanityData");
-  if (!cachedData) {
-    throw new Error("Sanity data is not available in the cache.");
+export const getSanityDataFromCache = cache(
+  async (): Promise<SanityApiResponse[]> => {
+    const cachedData = sanityDataCache.get("sanityData");
+    if (!cachedData) {
+      await loadSanityData();
+      const newCachedData = sanityDataCache.get("sanityData");
+      return newCachedData?.data || [];
+    }
+    return cachedData.data;
   }
-  return cachedData.data;
-});
+);
