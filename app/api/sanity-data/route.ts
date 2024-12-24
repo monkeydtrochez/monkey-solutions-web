@@ -52,7 +52,8 @@ export async function GET() {
   };
 
   const sanityClient = createClientFromParam(config);
-  const response = await sanityClient?.fetch(query, { cache: "no-store" });
+  console.log("Querying data from sanity: ");
+  const response = await sanityClient?.fetch(query);
 
   return NextResponse.json(response, { status: 200 });
 }
