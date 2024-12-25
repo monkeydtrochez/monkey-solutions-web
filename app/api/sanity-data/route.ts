@@ -52,7 +52,6 @@ export async function GET() {
   };
 
   const sanityClient = createClientFromParam(config);
-  console.log("Fetching fresh data from sanity: ");
   const response = await sanityClient?.fetch(query, { time: Date.now() });
 
   return NextResponse.json(response, {
