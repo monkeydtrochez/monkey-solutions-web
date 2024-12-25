@@ -21,6 +21,7 @@ export const revalidateCache = async (): Promise<void> => {
   if (redis !== null) {
     const cachedData = await redis.get(cacheKey);
     console.info("Revalidate Init: ", cachedData !== null);
+
     if (cachedData !== null) {
       console.info("Found cached data");
       await redis.getdel(cacheKey);
