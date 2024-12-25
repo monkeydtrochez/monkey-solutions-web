@@ -11,7 +11,6 @@ export const dynamic = "force-dynamic";
 export const revalidate = 1;
 
 async function getSanityData() {
-  console.log("Get Sanity data");
   return getSanityDataFromCache();
 }
 
