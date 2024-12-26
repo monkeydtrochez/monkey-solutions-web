@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUp } from "lucide-react";
 import GlobalContext from "@/app/context/GlobalContext";
 import Education from "./Education";
 import Profile from "./Profile";
@@ -85,6 +85,17 @@ const CV = () => {
               </div>
             </div>
           </div>
+          {/* {showBackToTop && ( TODO IMPLEMENT
+              <Button
+                variant="outline"
+                size="icon"
+                className="fixed bottom-8 right-8 rounded-full shadow-md"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                <ArrowUp className="h-4 w-4" />
+                <span className="sr-only">Back to top</span>
+              </Button>
+            )} */}
         </div>
       </div>
     </>

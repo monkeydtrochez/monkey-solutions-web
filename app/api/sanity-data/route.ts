@@ -52,7 +52,13 @@ export async function GET() {
   };
 
   const sanityClient = createClientFromParam(config);
-  const response = await sanityClient?.fetch(query);
+  const response = await sanityClient?.fetch(query, { time: Date.now() });
 
-  return NextResponse.json(response, { status: 200 });
+  return NextResponse.json(response, {
+    status: 200,
+    headers: new Headers({
+      "Cache-Control": "no-store",
+      "Content-Type": "application/json",
+    }),
+  });
 }

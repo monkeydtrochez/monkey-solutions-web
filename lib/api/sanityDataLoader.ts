@@ -1,39 +1,65 @@
 import { SanityApiResponse } from "@/app/models/sanityTypes";
-import { CACHE_REVALIDATION_INTERVAL } from "@/lib/constants";
-import { cache } from "react";
+import redis from "@/lib/redis";
 import axios from "axios";
 
-const sanityDataCache = new Map<
-  string,
-  { data: SanityApiResponse[]; timestamp: number }
->();
+const cacheKey = "sanityData";
 
-export const loadSanityData = async (): Promise<void> => {
-  const cachedData = sanityDataCache.get("sanityData");
-  const now = Date.now();
+const loadSanityData = async (): Promise<SanityApiResponse[]> => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const response = await axios.get<SanityApiResponse[]>(
+    `${baseUrl}/api/sanity-data`
+  );
 
-  if (!cachedData || now - cachedData.timestamp > CACHE_REVALIDATION_INTERVAL) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await axios.get(`${baseUrl}/api/sanity-data`);
+  if (response.status !== 200) {
+    throw new Error(`Failed to fetch Sanity data. Status: ${response.status}`);
+  }
 
-    if (response.status !== 200) {
-      throw new Error(
-        `Failed to fetch Sanity data. Status: ${response.status}`
-      );
+  return response.data;
+};
+
+export const revalidateCache = async (): Promise<void> => {
+  if (redis !== null) {
+    const cachedData = await redis.get(cacheKey);
+    console.info("Revalidate Init: ", cachedData !== null);
+
+    if (cachedData !== null) {
+      console.info("Found cached data");
+      await redis.getdel(cacheKey);
+      console.info("Deleted cached data");
+
+      const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+      const response = await axios.get(`${baseUrl}/api/sanity-data`);
+
+      if (response.status !== 200) {
+        throw new Error(
+          `Failed to fetch Sanity data. Status: ${response.status}`
+        );
+      }
+      console.info("Fetched new data to cache: ");
+      await redis.set(cacheKey, JSON.stringify(response.data));
     }
-
-    sanityDataCache.set("sanityData", { data: response.data, timestamp: now });
   }
 };
 
-export const getSanityDataFromCache = cache(
-  async (): Promise<SanityApiResponse[]> => {
-    const cachedData = sanityDataCache.get("sanityData");
-    if (!cachedData) {
-      await loadSanityData();
-      const newCachedData = sanityDataCache.get("sanityData");
-      return newCachedData?.data || [];
+export const getSanityDataFromCache = async (): Promise<
+  SanityApiResponse[]
+> => {
+  if (redis !== null) {
+    const cachedData = await redis.get(cacheKey);
+    if (cachedData === null) {
+      console.info("No data found in cache, fetching new from sanity");
+      const data = await loadSanityData();
+      await redis.set(cacheKey, JSON.stringify(data));
+
+      return data;
     }
-    return cachedData.data;
+
+    console.info("Found cached data.");
+    return cachedData ? (JSON.parse(cachedData) as SanityApiResponse[]) : [];
+  } else {
+    console.info("Redis client is null, fetch for fresh data.");
+    const data = await loadSanityData();
+    return data as SanityApiResponse[];
   }
-);
+};

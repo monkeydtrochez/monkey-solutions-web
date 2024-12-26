@@ -14,6 +14,7 @@ export function createClientFromParam(config: SanityClientConfig) {
       dataset: config.dataset,
       apiVersion: config.apiVersion,
       useCdn: config.useCdn,
+      perspective: "published",
     });
   } else {
     return null;

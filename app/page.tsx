@@ -8,6 +8,7 @@ import QueryClientWrapper from "@/components/wrappers/QueryClientWrapper";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
+export const revalidate = 1;
 
 async function getSanityData() {
   return getSanityDataFromCache();
