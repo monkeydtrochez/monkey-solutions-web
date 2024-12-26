@@ -54,7 +54,6 @@ export async function GET() {
   const sanityClient = createClientFromParam(config);
   const response = await sanityClient?.fetch(query, { time: Date.now() });
 
-  console.info(`Fetched fresh sanity data: ${JSON.stringify(response)}`);
   return NextResponse.json(response, {
     status: 200,
     headers: new Headers({
