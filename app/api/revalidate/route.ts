@@ -7,6 +7,7 @@ export async function POST(request: NextRequest) {
     return new Response("Unauthorized!", { status: 401 });
   }
 
+  // todo  trigger cache purge too
   try {
     await revalidateCache();
     return NextResponse.json("Successful reloading of sanity data!", {
