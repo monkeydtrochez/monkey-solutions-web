@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { revalidateCache } from "@/lib/api/sanityDataLoader";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,6 +10,7 @@ export async function POST(request: NextRequest) {
 
   try {
     await revalidateCache();
+    revalidatePath("/");
     return NextResponse.json("Successful reloading of sanity data!", {
       status: 200,
     });
