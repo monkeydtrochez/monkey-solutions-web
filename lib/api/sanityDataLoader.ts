@@ -29,14 +29,20 @@ export const revalidateCache = async (): Promise<void> => {
 
       const baseUrl =
         process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-      const response = await axios.get(`${baseUrl}/api/sanity-data`);
+      const response = await axios.get(`${baseUrl}/api/sanity-data`, {
+        params: {
+          _t: Date.now(),
+        },
+      });
 
       if (response.status !== 200) {
         throw new Error(
           `Failed to fetch Sanity data. Status: ${response.status}`
         );
       }
-
+      console.info(
+        `Fetched fresh sanity data: ${JSON.stringify(response.data)}`
+      );
       await redis.set(cacheKey, JSON.stringify(response.data));
     }
   }
