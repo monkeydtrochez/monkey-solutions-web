@@ -9,6 +9,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    revalidatePath("/");
     await revalidateCache();
     revalidatePath("/");
     return NextResponse.json("Successful reloading of sanity data!", {
