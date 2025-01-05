@@ -48,7 +48,7 @@ export async function GET() {
     projectId: process.env.SANITY_PROJECT_ID || "",
     dataset: process.env.SANITY_DATASET || "",
     apiVersion: process.env.SANITY_API_VERSION || "",
-    useCdn: process.env.SANITY_USE_CDN === "true",
+    useCdn: false,
   };
 
   const sanityClient = createClientFromParam(config);
@@ -57,7 +57,7 @@ export async function GET() {
   return NextResponse.json(response, {
     status: 200,
     headers: new Headers({
-      "Cache-Control": "no-store",
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "Content-Type": "application/json",
     }),
   });

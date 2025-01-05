@@ -34,7 +34,8 @@ export const revalidateCache = async (): Promise<void> => {
           _t: Date.now(),
         },
         headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
         },
       });
 
