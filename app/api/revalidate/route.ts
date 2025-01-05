@@ -21,7 +21,8 @@ export async function POST(request: NextRequest) {
       projectsDataBeforeRevalidation?.title
     );
 
-    // revalidatePath("/api/sanity-data");
+    revalidatePath("/api/sanity-data");
+    revalidatePath("/");
     await revalidateCache();
     // revalidatePath("/api/sanity-data");
 
