@@ -40,9 +40,7 @@ export const revalidateCache = async (): Promise<void> => {
           `Failed to fetch Sanity data. Status: ${response.status}`
         );
       }
-      console.info(
-        `Fetched fresh sanity data: ${JSON.stringify(response.data)}`
-      );
+      console.log("Fetched fresh sanity data");
       await redis.set(cacheKey, JSON.stringify(response.data));
     }
   }
