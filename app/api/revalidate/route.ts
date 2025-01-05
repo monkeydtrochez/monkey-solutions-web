@@ -36,11 +36,11 @@ export async function POST(request: NextRequest) {
         "Title AFTER revalidation: ",
         projectsDataAfterRevalidation?.title
       );
+    }, 60000);
 
-      return NextResponse.json("Successful reloading of sanity data!", {
-        status: 200,
-      });
-    }, 60000); // for 1 minute to test
+    return NextResponse.json("Successful reloading of sanity data!", {
+      status: 200,
+    });
   } catch (error) {
     return NextResponse.json(`Failed reloading data: ${error}`, {
       status: 500,
