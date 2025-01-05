@@ -35,12 +35,23 @@ export async function POST(request: NextRequest) {
       projectsDataAfterRevalidation?.title
     );
 
-    return NextResponse.json("Successful reloading of sanity data!", {
+    const response = NextResponse.json("Successful reloading of sanity data!", {
       status: 200,
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
     });
+
+    return response;
   } catch (error) {
-    return NextResponse.json(`Failed reloading data: ${error}`, {
+    const errorResponse = NextResponse.json(`Failed reloading data: ${error}`, {
       status: 500,
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
     });
+    return errorResponse;
   }
 }
