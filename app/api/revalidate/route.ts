@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // todo testa med att revalidatea /sanity-data om inte det funkar testa sen med att revalidatea med tag
+    // todo testa med att revalidatea /sanity-data om inte det funkar testa sen med att  revalidatea med tag
 
     const dataBeforeRevalidated = await getSanityDataFromCache();
     const projectsDataBeforeRevalidation = dataBeforeRevalidated?.find(
