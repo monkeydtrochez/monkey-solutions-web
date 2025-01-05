@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     const dataAfterRevalidated = await getSanityDataFromCache();
     const projectsDataAfterRevalidation = dataAfterRevalidated?.find(
-      (data) => data._type === "project" && data.client === "Monkey Solution"
+      (data) => data._type === "project" && data.client === "Monkey Solutions"
     );
     console.log(
       "Title AFTER revalidation: ",
