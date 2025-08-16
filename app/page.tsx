@@ -1,4 +1,4 @@
-import { getSanityDataFromCache } from "@/lib/api/sanityDataLoader";
+import { loadSanityData } from "@/lib/api/sanityDataLoader";
 import BusinessCard from "@/components/BusinessCard";
 import CV from "@/components/CV";
 import { SanityApiResponse } from "./models/sanityTypes";
@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 1;
 
 async function getSanityData() {
-  return getSanityDataFromCache();
+  return loadSanityData();
 }
 
 export default async function Home() {
