@@ -4,7 +4,7 @@ import axios from "axios";
 
 const cacheKey = "sanityData";
 
-const loadSanityData = async (): Promise<SanityApiResponse[]> => {
+export const loadSanityData = async (): Promise<SanityApiResponse[]> => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
   const response = await axios.get<SanityApiResponse[]>(
     `${baseUrl}/api/sanity-data`
