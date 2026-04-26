@@ -28,8 +28,9 @@ export default function SiteWrapper({
       toggleCardAnimation(true);
       document.body.style.overflow = "hidden";
     } else {
-      setTimeout(() => toggleCardAnimation(false), 300);
+      const timerId = setTimeout(() => toggleCardAnimation(false), 300);
       document.body.style.overflow = "auto";
+      return () => clearTimeout(timerId);
     }
   }, [showCV, showProjects]);
 

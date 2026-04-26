@@ -1,3 +1,4 @@
+"use client";
 import GlobalContext from "@/app/context/GlobalContext";
 import React, { useContext } from "react";
 import { PortableText } from "@portabletext/react";

@@ -36,7 +36,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
-    if (project.coverImage.asset._ref) {
+    if (project.coverImage?.asset?._ref) {
       setImageUrl(
         buildImageUrlFor(
           config as SanityClientConfig,
@@ -44,7 +44,7 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
         )
       );
     }
-  }, [config, project.coverImage.asset._ref]);
+  }, [config, project.coverImage?.asset?._ref]);
 
   return (
     <>

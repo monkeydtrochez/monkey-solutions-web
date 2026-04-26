@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, useCallback, ReactNode } from "react";
 import {
   SanityApiResponse,
   Profile,
@@ -47,7 +47,7 @@ export const GlobalContextProvider = ({
 
   // Define functions for updating states from other components
 
-  const setSiteContentToContext = (data: SanityApiResponse[] | null) => {
+  const setSiteContentToContext = useCallback((data: SanityApiResponse[] | null) => {
     const profileData = data?.find((item) => item._type === "profile");
     if (profileData) {
       setProfileData(profileData);
@@ -58,25 +58,24 @@ export const GlobalContextProvider = ({
       setEducationData(educationData);
     }
 
-    if (!workExperience) {
-      const workExperienceArray = data?.filter(
-        (data) => data._type === "workExperience"
+    const workExperienceArray = data?.filter(
+      (item) => item._type === "workExperience"
+    );
+    if (workExperienceArray != null) {
+      const sortedList = [...workExperienceArray].sort(
+        (a, b) => a.sortIndex - b.sortIndex
       );
-
-      if (workExperienceArray) {
-        const sortedList = workExperienceArray.sort(
-          (a, b) => a.sortIndex - b.sortIndex
-        );
-        setWorkExperienceData(sortedList);
-      }
+      setWorkExperienceData(sortedList);
     }
 
-    const projectsData = data?.filter((data) => data._type === "project");
-    if (projectsData && !projects) {
-      const sortedList = projectsData.sort((a, b) => a.sortIndex - b.sortIndex);
+    const projectsData = data?.filter((item) => item._type === "project");
+    if (projectsData != null) {
+      const sortedList = [...projectsData].sort(
+        (a, b) => a.sortIndex - b.sortIndex
+      );
       setProjects(sortedList);
     }
-  };
+  }, []);
 
   const handleViewProjects = () => {
     setShowProjects(true);

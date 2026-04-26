@@ -1,3 +1,4 @@
+"use client";
 import React, { useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
 import { Badge } from "./ui/badge";

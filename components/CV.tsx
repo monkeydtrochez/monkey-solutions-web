@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { ArrowLeft, ArrowUp } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import GlobalContext from "@/app/context/GlobalContext";
 import Education from "./Education";
 import Profile from "./Profile";
