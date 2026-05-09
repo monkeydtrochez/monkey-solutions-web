@@ -12,7 +12,7 @@ A complete visual and structural overhaul of the Monkey Solutions portfolio site
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation + Tech Debt** - Design tokens, theme toggle, fonts, and all five tech debt fixes
+- [x] **Phase 1: Foundation + Tech Debt** - Design tokens, theme toggle, fonts, and all five tech debt fixes
 - [ ] **Phase 2: Header + Hero** - Sticky header with nav/CTA and full hero section with trust strip
 - [ ] **Phase 3: About + Work** - Two-column About section and expandable project accordion with filter
 - [ ] **Phase 4: Experience, Skills + Services** - Timeline, education, skills bars, and service card grid
@@ -113,7 +113,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation + Tech Debt | 0/3 | Not started | - |
+| 1. Foundation + Tech Debt | 3/3 | Complete | 2026-05-09 |
 | 2. Header + Hero | 0/TBD | Not started | - |
 | 3. About + Work | 0/TBD | Not started | - |
 | 4. Experience, Skills + Services | 0/TBD | Not started | - |
