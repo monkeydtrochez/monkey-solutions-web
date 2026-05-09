@@ -31,7 +31,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Inter, JetBrains Mono, and Fraunces render as self-hosted fonts with no requests to fonts.googleapis.com
   4. The `/api/revalidate` endpoint correctly accepts a `Bearer` token and rejects bare secrets
   5. The Sanity data loader fetches directly via the Sanity client — no server-to-itself HTTP round-trip occurs
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 01-01-PLAN.md — Tech debt fixes (TD-02: replace self-referential HTTP with direct Sanity client; confirm TD-01, TD-03, TD-04, TD-05 already done)
+- [ ] 01-02-PLAN.md — CSS design tokens (globals.css full token layer: dark/light themes, shared tokens, @custom-variant dark; tailwind.config.ts fontFamily + border/input fix)
+- [ ] 01-03-PLAN.md — Fonts, layout, ThemeToggle (app/fonts.ts, layout.tsx with no-FOUC script, ThemeToggle component, temp page.tsx placement)
 **UI hint**: yes
 
 ### Phase 2: Header + Hero
@@ -106,7 +110,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation + Tech Debt | 0/TBD | Not started | - |
+| 1. Foundation + Tech Debt | 0/3 | Not started | - |
 | 2. Header + Hero | 0/TBD | Not started | - |
 | 3. About + Work | 0/TBD | Not started | - |
 | 4. Experience, Skills + Services | 0/TBD | Not started | - |
