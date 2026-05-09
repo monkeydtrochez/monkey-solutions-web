@@ -16,7 +16,8 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       personalitySkills,
       professionalSkills,
       linkedInUrl,
-      githubUrl
+      githubUrl,
+      heroBio
     },
 
       _type == 'education' => {
