@@ -56,6 +56,10 @@ Sanity Studio needs its own `.env.local` inside `/sanity/` with `SANITY_STUDIO_P
 
 Tailwind with dark mode (`class` strategy). Custom theme colors are defined as HSL CSS variables in `app/globals.css` and referenced through `tailwind.config.ts` — add new colors there, not as arbitrary values.
 
+## Commit Messages
+
+- Never include `Co-authored-by: Claude` or any AI attribution tags
+
 ## Key Constraints
 
 - Next.js image optimization is configured to allow only `cdn.sanity.io/images/**` as a remote pattern — update `next.config.mjs` if other external image hosts are needed.
