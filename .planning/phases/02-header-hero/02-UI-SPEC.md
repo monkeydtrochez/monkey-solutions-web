@@ -1,7 +1,7 @@
 ---
 phase: 2
 slug: header-hero
-status: draft
+status: approved
 shadcn_initialized: true
 preset: "default / radix / lucide / v4"
 created: 2026-05-09
@@ -65,7 +65,7 @@ uses these tokens by name. Do not add new spacing values — use only what is de
 Exceptions:
 - Theme toggle inner pill: `padding: 2px` — hardcoded; not a spacing token. Acceptable at this scale.
 - Logo block `M` letter: 28×28px. Not a spacing token — fixed icon dimension. Use `w-7 h-7` (Tailwind = 28px).
-- Primary/secondary CTA padding: `14px 22px` — not a spacing token. Hardcoded per handoff spec for button proportions at this size. Acceptable exception; document in component.
+- Primary/secondary CTA padding: `16px 24px` — maps to `--space-3` (16px) / `--space-4` (24px). Both values are in the standard set.
 
 ---
 
@@ -277,8 +277,8 @@ Lede paragraph:
 
 CTA row:
   margin-top: 32px (--space-5), display: flex, gap: 32px (--space-5), flex-wrap: wrap
-  Primary: <a href="#contact"> — orange bg, #120a05/#fff, mono 12/700 (--text-mono), padding 14px 22px, radius 8 (--radius-lg)
-  Secondary: <a href="#work"> — borderStrong border, mono 12/700 (--text-mono), color fg, padding 14px 22px, radius 8
+  Primary: <a href="#contact"> — orange bg, #120a05/#fff, mono 12/700 (--text-mono), padding 16px 24px (--space-3/--space-4), radius 8 (--radius-lg)
+  Secondary: <a href="#work"> — borderStrong border, mono 12/700 (--text-mono), color fg, padding 16px 24px (--space-3/--space-4), radius 8
     "↓" suffix — color: orangeText
 ```
 
@@ -534,11 +534,11 @@ tokens, Tailwind utilities, and custom components per the handoff spec.
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved (2026-05-09)
