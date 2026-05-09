@@ -54,7 +54,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 **Wave 1**
-- [ ] 02-01-PLAN.md — Data layer foundation: extend Sanity schema with heroBio, slim GlobalContext, create DataHydrator + UI stubs, rewrite app/page.tsx, delete legacy components
+- [x] 02-01-PLAN.md — Data layer foundation: extend Sanity schema with heroBio, slim GlobalContext, create DataHydrator + UI stubs, rewrite app/page.tsx, delete legacy components
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 02-02-PLAN.md — SiteHeader + ThemeToggle pill refactor + StatusDot + theme-aware CSS classes (NAV-01, NAV-02, NAV-03)
