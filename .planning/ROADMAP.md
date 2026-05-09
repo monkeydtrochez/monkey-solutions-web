@@ -57,8 +57,8 @@ Plans:
 - [x] 02-01-PLAN.md — Data layer foundation: extend Sanity schema with heroBio, slim GlobalContext, create DataHydrator + UI stubs, rewrite app/page.tsx, delete legacy components
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 02-02-PLAN.md — SiteHeader + ThemeToggle pill refactor + StatusDot + theme-aware CSS classes (NAV-01, NAV-02, NAV-03)
-- [ ] 02-03-PLAN.md — HeroSection + TerminalCard with H1, lede, CTAs, terminal card, trust strip (HERO-01, HERO-02, HERO-03, HERO-04)
+- [x] 02-02-PLAN.md — SiteHeader + ThemeToggle pill refactor + StatusDot + theme-aware CSS classes (NAV-01, NAV-02, NAV-03)
+- [x] 02-03-PLAN.md — HeroSection + TerminalCard with H1, lede, CTAs, terminal card, trust strip (HERO-01, HERO-02, HERO-03, HERO-04)
 **UI hint**: yes
 
 ### Phase 3: About + Work
