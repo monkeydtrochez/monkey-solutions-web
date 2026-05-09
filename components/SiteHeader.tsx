@@ -89,6 +89,8 @@ export default function SiteHeader() {
             display: "flex",
             alignItems: "center",
             gap: 32,
+            flexWrap: "wrap",
+            overflow: "hidden",
           }}
         >
           {[
