@@ -8,6 +8,7 @@ const __dirname = dirname(__filename);
 const compat = new FlatCompat({ baseDirectory: __dirname });
 
 const eslintConfig = [
+  { ignores: ["dist/**", ".sanity/**", "node_modules/**"] },
   ...compat.extends("@sanity/eslint-config-studio"),
 ];
 

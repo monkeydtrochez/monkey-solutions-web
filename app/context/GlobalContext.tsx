@@ -92,9 +92,9 @@ export const GlobalContextProvider = ({
     setShowProjects(false);
   };
 
-  const toggleCardAnimation = (shouldAnimate: boolean) => {
+  const toggleCardAnimation = useCallback((shouldAnimate: boolean) => {
     setAnimateCard(shouldAnimate);
-  };
+  }, []);
 
   // Return provider and expose the public fields and methods
   return (

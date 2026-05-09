@@ -1,6 +1,5 @@
 import { WorkExperience } from "@/app/models/sanityTypes";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
-import React from "react";
 
 interface WorkExperienceItemProps {
   workExperience: WorkExperience;

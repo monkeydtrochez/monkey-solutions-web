@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ExternalLink } from "lucide-react";

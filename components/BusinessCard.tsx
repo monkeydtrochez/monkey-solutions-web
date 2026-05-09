@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import logo from "@/app/monkeylogo.png";

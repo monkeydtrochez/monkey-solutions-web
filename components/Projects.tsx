@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Button } from "./ui/button";
 import { ArrowLeft } from "lucide-react";
 import GlobalContext from "@/app/context/GlobalContext";

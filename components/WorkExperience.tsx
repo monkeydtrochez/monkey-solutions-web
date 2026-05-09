@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
 import WorkExperienceItem from "./WorkExperienceItem";
 
