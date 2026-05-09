@@ -34,8 +34,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 Plans:
 **Wave 1**
-- [ ] 01-01-PLAN.md — Tech debt fixes (TD-02: replace self-referential HTTP with direct Sanity client; confirm TD-01, TD-03, TD-04, TD-05 already done)
-- [ ] 01-02-PLAN.md — CSS design tokens (globals.css full token layer: dark/light themes, shared tokens, @custom-variant dark; tailwind.config.ts fontFamily + border/input fix)
+- [x] 01-01-PLAN.md — Tech debt fixes (TD-02: replace self-referential HTTP with direct Sanity client; confirm TD-01, TD-03, TD-04, TD-05 already done)
+- [x] 01-02-PLAN.md — CSS design tokens (globals.css full token layer: dark/light themes, shared tokens, @custom-variant dark; tailwind.config.ts fontFamily + border/input fix)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-03-PLAN.md — Fonts, layout, ThemeToggle (app/fonts.ts, layout.tsx with no-FOUC script, ThemeToggle component, temp page.tsx placement)
