@@ -51,7 +51,14 @@ Plans:
   3. The hero headline renders with mixed font weights and a Fraunces italic accent
   4. The terminal status card shows whoami, role, availability, and stack chips with a blinking cursor
   5. The trust strip below the hero displays 4 stats with orange accent characters
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+**Wave 1**
+- [ ] 02-01-PLAN.md — Data layer foundation: extend Sanity schema with heroBio, slim GlobalContext, create DataHydrator + UI stubs, rewrite app/page.tsx, delete legacy components
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 02-02-PLAN.md — SiteHeader + ThemeToggle pill refactor + StatusDot + theme-aware CSS classes (NAV-01, NAV-02, NAV-03)
+- [ ] 02-03-PLAN.md — HeroSection + TerminalCard with H1, lede, CTAs, terminal card, trust strip (HERO-01, HERO-02, HERO-03, HERO-04)
 **UI hint**: yes
 
 ### Phase 3: About + Work
@@ -114,7 +121,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation + Tech Debt | 3/3 | Complete | 2026-05-09 |
-| 2. Header + Hero | 0/TBD | Not started | - |
+| 2. Header + Hero | 0/3 | Not started | - |
 | 3. About + Work | 0/TBD | Not started | - |
 | 4. Experience, Skills + Services | 0/TBD | Not started | - |
 | 5. Contact + Footer | 0/TBD | Not started | - |
