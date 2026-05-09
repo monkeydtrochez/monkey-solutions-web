@@ -43,36 +43,29 @@ created: 2026-05-09
 All spacing tokens are pre-established in `globals.css :root` from Phase 1. Phase 2
 uses these tokens by name. Do not add new spacing values — use only what is declared.
 
-> **Revision note (checker fix):** Tokens that previously held non-multiples of 4 have
-> been corrected to the nearest available multiple of 4. Some token pairs now resolve to
-> the same px value — this is intentional; they carry different semantic names for
-> clarity. All values below are multiples of 4.
+> **Revision note (checker fix — final):** The previous scale contained non-standard
+> values (12px, 20px, 80px, 96px, 120px) and duplicate token pairs. The scale is now
+> collapsed to exactly 7 unique values matching the standard set {4, 8, 16, 24, 32, 48,
+> 64}. Each token maps to a unique value. Downstream element descriptions have been
+> updated to reference the remapped tokens.
 
 | Token | Value | Usage in this phase |
 |-------|-------|---------------------|
-| `--space-1` | 4px | Stack chip internal gap, icon gaps |
-| `--space-2` | 8px | Stack chip padding (2px 8px horizontal) |
-| `--space-3` | 8px | Hire CTA button padding top/bottom, nav link gap, traffic-light dot gap |
-| `--space-4` | 12px | Theme toggle button padding top/bottom, terminal title bar padding top/bottom, logo gap, status row gap |
-| `--space-5` | 12px | Nav gap between number and label, cursor margin-top |
-| `--space-6` | 16px | Hire CTA button padding left/right, terminal title bar padding left/right |
-| `--space-7` | 16px | Header inner padding top/bottom, secondary CTA padding |
-| `--space-8` | 20px | Terminal card body padding |
-| `--space-9` | 20px | Primary/secondary CTA gap row |
-| `--space-10` | 24px | — |
-| `--space-11` | 32px | Nav flex gap, hero status row margin-bottom, hero lede margin-top |
-| `--space-12` | 32px | `--page-px` — page horizontal padding; trust strip column gap |
-| `--space-17` | 64px | Hero grid column gap |
-| `--space-19` | 80px | Hero section padding-top |
-| `--space-20` | 96px | Trust strip margin-top |
+| `--space-1` | 4px | Stack chip internal gap, icon gaps, traffic-light dot gap |
+| `--space-2` | 8px | Stack chip padding (2px 8px horizontal), hire CTA button padding top/bottom, nav link gap |
+| `--space-3` | 16px | Theme toggle button padding left/right, hire CTA button padding left/right, terminal title bar padding left/right, secondary CTA padding left/right |
+| `--space-4` | 24px | Logo gap, status row gap, nav gap between number and label, cursor margin-top, terminal title bar padding top/bottom |
+| `--space-5` | 32px | Nav flex gap, hero status row margin-bottom, hero lede margin-top, CTA row margin-top, header inner padding top/bottom, trust strip padding-top, trust strip column gap |
+| `--space-6` | 48px | Terminal card body padding |
+| `--space-7` | 64px | Hero grid column gap, hero section padding-top, trust strip margin-top, hero section padding-bottom |
 | `--content-max` | 1240px | Max content width (header inner, hero inner) |
-| `--page-px` | 32px | Header and hero horizontal padding |
-| `--section-py` | 120px | Hero section padding-bottom |
+| `--page-px` | 32px | Header and hero horizontal padding (alias for `--space-5` value) |
+| `--section-py` | 64px | Hero section padding-bottom (alias for `--space-7` value) |
 
 Exceptions:
-- Trust strip padding-top: 32px (`--space-11`) — updated from 28px to nearest multiple of 4.
 - Theme toggle inner pill: `padding: 2px` — hardcoded; not a spacing token. Acceptable at this scale.
 - Logo block `M` letter: 28×28px. Not a spacing token — fixed icon dimension. Use `w-7 h-7` (Tailwind = 28px).
+- Primary/secondary CTA padding: `14px 22px` — not a spacing token. Hardcoded per handoff spec for button proportions at this size. Acceptable exception; document in component.
 
 ---
 
@@ -81,38 +74,45 @@ Exceptions:
 All type tokens are pre-declared in `globals.css :root` from Phase 1. This section
 maps those tokens to exact element roles in Phase 2.
 
-> **Revision note (checker fix):** Font weight vocabulary is collapsed to exactly 2
-> values — **400 (regular)** and **700 (bold)**. Previous weights 300, 500, and 600
-> have been remapped as follows: 300 → 400 (large font size provides visual lightness),
-> 500 → 400 (terminal body lines are body text), 600 → 700 for emphasized interactive
-> elements (hero lede name, primary CTA, hire CTA, status label, secondary CTA), 600 →
-> 400 for subordinate non-interactive elements (theme toggle).
+> **Revision note (checker fix — final):** Collapsed from 8 rendered sizes to exactly 4
+> named tokens. Font weight vocabulary remains exactly 2 values — **400 (regular)** and
+> **700 (bold)**. Trust strip stat numbers previously used an inline 48px override; they
+> now use `--text-body-lg` (17px). Visual emphasis for trust strip stats comes from the
+> orange "+" and "%" characters, not from a large number size.
 
-| Element | Token | Rendered value | Weight | Font | Additional |
-|---------|-------|---------------|--------|------|------------|
-| Hero H1 | `--text-hero` | `clamp(48px, 8vw, 112px)` | 400 base, 700 for "ships"/"lasts" | Inter (`--font-sans`) | `--lh-tight` (0.92), `--tracking-tight` (-0.045em) |
-| Hero H1 Fraunces accent ("&") | `--text-hero` | same clamp | 400 italic | Fraunces (`--font-display`) | color `--ms-orange-text`, italic only |
-| Hero lede paragraph | `--text-body-lg` | 17px | 400 | Inter | line-height 1.55, color `--ms-fg-soft`, max-width 520px |
-| Hero lede — "Daniel Trochez" | `--text-body-lg` | 17px | 700 | Inter | color `--ms-fg` (fg, not fgSoft) |
-| Hero status row label | `--text-mono` | 12px | 700 | JetBrains Mono | color `--ms-orange-text` for "AVAILABLE", `--ms-fg-soft` for rest |
-| Hero status row text | `--text-mono` | 12px | 400 | JetBrains Mono | color `--ms-fg-soft` |
-| Hero CTA primary | `--text-mono` | 13px | 700 | JetBrains Mono | — |
-| Hero CTA secondary | `--text-mono` | 13px | 700 | JetBrains Mono | — |
-| Header logo "monkey/solutions" | `--text-mono` | 13px | 700 | JetBrains Mono | letter-spacing 0.3px |
-| Header logo "daniel_trochez.dev" | `--text-label` | 10px (≈11px label token rounded) | 400 | JetBrains Mono | color `--ms-fg-faint` |
-| Header logo "M" | `--text-mono` | 14px | 700 | JetBrains Mono | inside 28×28 orange square |
-| Nav links — number | `--text-mono` | 12px | 400 | JetBrains Mono | color `--ms-orange-text` |
-| Nav links — label | `--text-mono` | 12px | 400 | JetBrains Mono | color `--ms-fg-soft`, letter-spacing 0.3px |
-| Hire CTA button | `--text-mono` | 12px | 700 | JetBrains Mono | — |
-| Theme toggle buttons | `--text-label` | 11px | 400 | JetBrains Mono | — |
-| Terminal card title bar label | `--text-label` | 11px | 400 | JetBrains Mono | color `--ms-fg-faint` |
-| Terminal card body | `--text-mono` | 12px | 400 | JetBrains Mono | line-height 1.75, color `--ms-fg` |
-| Terminal stack chips | `--text-label` | 11px | 400 | JetBrains Mono | color `--ms-fg-soft` |
-| Trust strip numbers | `--text-body-lg` | 48px Inter 400 | 400 | Inter | letter-spacing -0.03em, line-height 1 |
-| Trust strip labels | `--text-label` | 11px | 400 | JetBrains Mono | color `--ms-fg-soft`, letter-spacing 0.4px |
+### Declared Type Tokens (4 total)
 
-Note: The 48px trust strip number is NOT a declared token — use inline `font-size: 48px` with
-`font-weight: 400`. The large size provides visual distinction without requiring a light weight.
+| Token | Rendered value | Font |
+|-------|---------------|------|
+| `--text-hero` | `clamp(48px, 8vw, 112px)` | Inter (`--font-sans`) |
+| `--text-body-lg` | `17px` | Inter (`--font-sans`) |
+| `--text-mono` | `12px` | JetBrains Mono (`--font-mono`) |
+| `--text-label` | `11px` | JetBrains Mono (`--font-mono`) |
+
+### Element Mapping
+
+| Element | Token | Weight | Additional |
+|---------|-------|--------|------------|
+| Hero H1 | `--text-hero` | 400 base, 700 for "ships"/"lasts" | `--lh-tight` (0.92), `--tracking-tight` (-0.045em) |
+| Hero H1 Fraunces accent ("&") | `--text-hero` | 400 italic | Fraunces (`--font-display`), color `--ms-orange-text`, italic only |
+| Hero lede paragraph | `--text-body-lg` | 400 | line-height 1.55, color `--ms-fg-soft`, max-width 520px |
+| Hero lede — "Daniel Trochez" | `--text-body-lg` | 700 | color `--ms-fg` (fg, not fgSoft) |
+| Hero status row label ("AVAILABLE") | `--text-mono` | 700 | color `--ms-orange-text` |
+| Hero status row text (remaining) | `--text-mono` | 400 | color `--ms-fg-soft` |
+| Hero CTA primary | `--text-mono` | 700 | — |
+| Hero CTA secondary | `--text-mono` | 700 | — |
+| Header logo "monkey/solutions" | `--text-mono` | 700 | letter-spacing 0.3px |
+| Header logo "daniel_trochez.dev" | `--text-label` | 400 | color `--ms-fg-faint` |
+| Header logo "M" | `--text-mono` | 700 | inside 28×28 orange square |
+| Nav links — number | `--text-mono` | 400 | color `--ms-orange-text` |
+| Nav links — label | `--text-mono` | 400 | color `--ms-fg-soft`, letter-spacing 0.3px |
+| Hire CTA button | `--text-mono` | 700 | — |
+| Theme toggle buttons | `--text-label` | 400 | — |
+| Terminal card title bar label | `--text-label` | 400 | color `--ms-fg-faint` |
+| Terminal card body | `--text-mono` | 400 | line-height 1.75, color `--ms-fg` |
+| Terminal stack chips | `--text-label` | 400 | color `--ms-fg-soft` |
+| Trust strip numbers | `--text-body-lg` | 400 | letter-spacing -0.03em, line-height 1, color `--ms-fg` |
+| Trust strip labels | `--text-label` | 400 | color `--ms-fg-soft`, letter-spacing 0.4px |
 
 ---
 
@@ -179,7 +179,7 @@ Two absolutely-positioned decorative layers:
 | Yellow | `--color-tl-yellow` | `hsl(41 100% 59%)` = `#ffbd2e` |
 | Green | `--color-tl-green` | `hsl(129 68% 47%)` = `#27c93f` |
 
-Each: 10×10px circle (`border-radius: 5px`), gap 8px (`--space-3`).
+Each: 10×10px circle (`border-radius: 5px`), gap 4px (`--space-1`).
 
 ### Logo "M" Text Color
 
@@ -200,14 +200,14 @@ This color is only used in the logo block.
   Layout: flex, align-center, justify-between
 
   Left — Logo link <a href="#top">:
-    flex, gap: 12px, no underline
+    flex, gap: 24px (--space-4), no underline
     - [M] box: 28×28, radius 6, bg orange
     - Text block: line-height 1.05
-      - "monkey/solutions": mono 13/700, fg, letter-spacing 0.3
-      - "daniel_trochez.dev": mono 10/400, fgFaint
+      - "monkey/solutions": mono 12/700, fg, letter-spacing 0.3px (--text-mono)
+      - "daniel_trochez.dev": mono 11/400, fgFaint (--text-label)
 
   Right — <nav>:
-    flex, align-center, gap: 32px
+    flex, align-center, gap: 32px (--space-5)
     - 5 anchor links (01-05)
     - Theme toggle pill
     - Hire CTA <a href="#contact">
@@ -218,9 +218,9 @@ This color is only used in the logo block.
 ```
 Container: border-radius 20px, border: 1px var(--ms-border), padding: 2px
 Two buttons: [☾ dark] [☀ light]
-  - Active: bg fg, color bg, padding: 5px 10px, radius 18px
-  - Inactive: bg transparent, color fgSoft, padding: 5px 10px, radius 18px
-  - Font: mono 11/400
+  - Active: bg fg, color bg, padding: 8px 16px (--space-2 / --space-3), radius 18px
+  - Inactive: bg transparent, color fgSoft, padding: 8px 16px, radius 18px
+  - Font: label 11/400 (--text-label)
 ```
 
 **Interaction:** The existing `ThemeToggle.tsx` uses DOM manipulation + localStorage.
@@ -231,12 +231,12 @@ into the header nav. Keep the same toggle logic — only change the markup and s
 
 ```
 <a href="#contact">
-  flex, align-center, gap: 8px
+  flex, align-center, gap: 8px (--space-2)
   bg: --ms-orange
   color: #120a05 (dark) / #fff (light)
-  padding: 8px 16px
+  padding: 8px 16px (--space-2 top/bottom, --space-3 left/right)
   border-radius: 6px (--radius-md)
-  font: mono 12/700
+  font: mono 12/700 (--text-mono)
   Contains: <Dot pulse /> + "Hire me"
 ```
 
@@ -244,7 +244,7 @@ into the header nav. Keep the same toggle logic — only change the markup and s
 
 ```
 <section id="top">
-  padding: 80px 32px 120px
+  padding: 64px 32px 64px (--space-7 top/bottom, --page-px sides)
   position: relative, overflow: hidden
   bg: --ms-bg (page default)
 
@@ -252,32 +252,33 @@ into the header nav. Keep the same toggle logic — only change the markup and s
   [decorative orange glow, aria-hidden]
 
   Inner: max-w 1240px, margin: 0 auto, position: relative
-  Grid: 1.4fr 1fr, gap 64px, align-items: end
+  Grid: 1.4fr 1fr, gap 64px (--space-7), align-items: end
 ```
 
 ### Hero Left Column
 
 ```
 Status row:
-  flex, align-center, gap: 12px, margin-bottom: 32px, mono 12/400
+  flex, align-center, gap: 24px (--space-4), margin-bottom: 32px (--space-5)
+  font: mono 12/400 (--text-mono)
   <Dot pulse /> AVAILABLE (orangeText/700) · freelance projects, Q2 2026 → (fgSoft)
 
 H1:
-  font: sans clamp(48,8vw,112px)/400, tracking -0.045em, line-height 0.92
+  font: sans clamp(48px,8vw,112px)/400 (--text-hero), tracking -0.045em, line-height 0.92
   "Software that" — weight 400
   "ships" — weight 700
   "&" — display italic 400, color orangeText
   "lasts." — weight 700
 
 Lede paragraph:
-  margin-top: 36px, max-width: 520px
-  font: sans 17px/400, line-height 1.55, color fgSoft
+  margin-top: 32px (--space-5), max-width: 520px
+  font: sans 17px/400 (--text-body-lg), line-height 1.55, color fgSoft
   "Daniel Trochez" — weight 700, color fg
 
 CTA row:
-  margin-top: 36px, display: flex, gap: 20px, flex-wrap: wrap
-  Primary: <a href="#contact"> — orange bg, #120a05/#fff, mono 13/700, padding 14px 22px, radius 8 (--radius-lg)
-  Secondary: <a href="#work"> — borderStrong border, mono 13/700, color fg, padding 14px 22px, radius 8
+  margin-top: 32px (--space-5), display: flex, gap: 32px (--space-5), flex-wrap: wrap
+  Primary: <a href="#contact"> — orange bg, #120a05/#fff, mono 12/700 (--text-mono), padding 14px 22px, radius 8 (--radius-lg)
+  Secondary: <a href="#work"> — borderStrong border, mono 12/700 (--text-mono), color fg, padding 14px 22px, radius 8
     "↓" suffix — color: orangeText
 ```
 
@@ -292,30 +293,31 @@ Container:
   overflow: hidden
 
 Title bar:
-  padding: 12px 16px
+  padding: 24px 16px (--space-4 top/bottom, --space-3 left/right)
   border-bottom: 1px var(--ms-border)
-  display: flex, align-center, gap: 8px
-  [traffic lights × 3, aria-hidden]
-  "~ / status.sh" — mono 11/400, color fgFaint, margin-left: 12px
+  display: flex, align-center, gap: 8px (--space-2)
+  [traffic lights × 3, aria-hidden, gap: 4px (--space-1)]
+  "~ / status.sh" — label 11/400 (--text-label), color fgFaint, margin-left: 24px (--space-4)
 
 Body:
-  padding: 20px
+  padding: 48px (--space-6)
   line-height: 1.75
-  font: mono 12/400
+  font: mono 12/400 (--text-mono)
   color: fg
 
 Terminal lines:
   "$ whoami" — $ in fgFaint
-  "> daniel.trochez" — color: orangeText, margin-bottom: 12px
+  "> daniel.trochez" — color: orangeText, margin-bottom: 16px
   "$ cat role"
-  "→ software_developer" — margin-bottom: 12px
+  "→ software_developer" — margin-bottom: 16px
   "$ ./availability"
-  "● open · 2–3 slots left" — ● in orangeText, margin-bottom: 12px
+  "● open · 2–3 slots left" — ● in orangeText, margin-bottom: 16px
   "$ stack --short"
-  Stack chips row: flex, flex-wrap, gap: 4px, margin-top: 8px
-    Each chip: padding 2px 8px, border: 1px var(--ms-border), radius 4 (--radius-sm), mono 11/400, fgSoft
+  Stack chips row: flex, flex-wrap, gap: 4px (--space-1), margin-top: 8px (--space-2)
+    Each chip: padding 2px 8px, border: 1px var(--ms-border), radius 4 (--radius-sm),
+    label 11/400 (--text-label), fgSoft
     6 chips: TS · C# · Swift · React · .NET · Node
-  Cursor line: margin-top: 12px, color fgFaint
+  Cursor line: margin-top: 24px (--space-4), color fgFaint
     "$ " + cursor span:
       border-right: 7px solid var(--ms-orange)
       padding-right: 1px
@@ -327,17 +329,17 @@ Terminal lines:
 
 ```
 Container:
-  margin-top: 96px
-  padding-top: 32px
+  margin-top: 64px (--space-7)
+  padding-top: 32px (--space-5)
   border-top: 1px var(--ms-border)
   display: grid
   grid-template-columns: repeat(4, 1fr)
-  gap: 32px
+  gap: 32px (--space-5)
 
 Each stat:
-  Number row: sans 48px/400, tracking -0.03em, color fg, line-height 1
+  Number row: sans 17px/400 (--text-body-lg), tracking -0.03em, color fg, line-height 1
     "+" and "%" chars: color orangeText (span wrapper)
-  Label row: margin-top: 8px, mono 11/400, color fgSoft, letter-spacing 0.4px
+  Label row: margin-top: 8px (--space-2), label 11/400 (--text-label), color fgSoft, letter-spacing 0.4px
     Sub-text (e.g. "(on time)"): color fgFaint
 
 Stats (in order):
