@@ -1,31 +1,21 @@
 import { loadSanityData } from "@/lib/api/sanityDataLoader";
-import BusinessCard from "@/components/BusinessCard";
-import CV from "@/components/CV";
-import { SanityApiResponse } from "./models/sanityTypes";
-import Projects from "@/components/Projects";
-import SiteWrapper from "@/components/wrappers/SiteWrapper";
+import { SanityApiResponse } from "@/app/models/sanityTypes";
+import DataHydrator from "@/components/wrappers/DataHydrator";
 import QueryClientWrapper from "@/components/wrappers/QueryClientWrapper";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import SiteHeader from "@/components/SiteHeader";
+import HeroSection from "@/components/HeroSection";
 
 export const dynamic = "force-dynamic";
 
-async function getSanityData() {
-  return loadSanityData();
-}
-
 export default async function Home() {
-  const data = await getSanityData();
-
+  const data = (await loadSanityData()) as SanityApiResponse[];
   return (
-    <>
-      <ThemeToggle />
-      <QueryClientWrapper>
-        <SiteWrapper data={data as SanityApiResponse[]}>
-          <BusinessCard />
-          <CV />
-          <Projects />
-        </SiteWrapper>
-      </QueryClientWrapper>
-    </>
+    <QueryClientWrapper>
+      <DataHydrator data={data} />
+      <SiteHeader />
+      <main>
+        <HeroSection />
+      </main>
+    </QueryClientWrapper>
   );
 }
