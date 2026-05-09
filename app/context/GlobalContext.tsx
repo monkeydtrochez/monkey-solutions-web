@@ -13,7 +13,7 @@ interface ContextType {
   education: Education | null;
   workExperience: WorkExperience[] | null;
   projects: Project[] | null;
-  setSiteContentToContext: (data: SanityApiResponse[]) => void;
+  setSiteContentToContext: (data: SanityApiResponse[] | null) => void;
 }
 
 const GlobalContext = createContext<ContextType | null>(null);
