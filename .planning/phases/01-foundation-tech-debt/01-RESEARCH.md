@@ -867,14 +867,14 @@ body {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **TD-04 scope: what does "done" look like?**
+1. **TD-04 scope: what does "done" look like?** [RESOLVED]
    - What we know: The CONCERNS.md described guards checking `if (!workExperience)` (existing state) — those are gone. The current code has `if (workExperienceArray != null)` (incoming data nullability checks).
    - What's unclear: Does D-14 require removing these null-guards too?
    - Recommendation: Treat TD-04 as satisfied. The stale-data bug (context ignoring fresh server data) is fixed. The current null-guards are defensive coding on fresh data, not stale-data guards. Document in plan as "already resolved."
 
-2. **`--border` and `--input` rgba tokens in Tailwind `hsl(var())` pattern**
+2. **`--border` and `--input` rgba tokens in Tailwind `hsl(var())` pattern** [RESOLVED]
    - What we know: `tailwind.config.ts` wraps these as `"hsl(var(--border))"`. rgba values cannot be passed to `hsl()`.
    - What's unclear: Whether shadcn components that use `border-border` will visually break.
    - Recommendation: Define `--border` as the raw rgba value for the design system tokens. Add a fallback HSL value (closest approximation: `0 0% 100% / 0.08` for dark, `0 0% 8% / 0.10` for light using CSS `color-mix`-aware syntax) or update the Tailwind config to use `var(--border)` directly rather than `hsl(var(--border))`. The planner should address this explicitly.
