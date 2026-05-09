@@ -5,6 +5,7 @@ import { SanityApiResponse } from "./models/sanityTypes";
 import Projects from "@/components/Projects";
 import SiteWrapper from "@/components/wrappers/SiteWrapper";
 import QueryClientWrapper from "@/components/wrappers/QueryClientWrapper";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const dynamic = "force-dynamic";
 
@@ -16,12 +17,15 @@ export default async function Home() {
   const data = await getSanityData();
 
   return (
-    <QueryClientWrapper>
-      <SiteWrapper data={data as SanityApiResponse[]}>
-        <BusinessCard />
-        <CV />
-        <Projects />
-      </SiteWrapper>
-    </QueryClientWrapper>
+    <>
+      <ThemeToggle />
+      <QueryClientWrapper>
+        <SiteWrapper data={data as SanityApiResponse[]}>
+          <BusinessCard />
+          <CV />
+          <Projects />
+        </SiteWrapper>
+      </QueryClientWrapper>
+    </>
   );
 }
