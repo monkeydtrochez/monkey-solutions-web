@@ -1,4 +1,4 @@
-const STACK_CHIPS = ["TS", "C#", "Swift", "React", ".NET", "Node"];
+const STACK_CHIPS = ["C#", ".NET", "Architecture", "TS", "JavaScript", "React", "AI"];
 
 export default function TerminalCard() {
   return (
@@ -94,14 +94,9 @@ export default function TerminalCard() {
           ./availability
         </div>
         <div style={{ marginBottom: 16 }}>
-          <span style={{ color: "var(--ms-orange-text)" }}>●</span> open ·
-          2–3 slots left
+          <span style={{ color: "var(--ms-orange-text)" }}>●</span> open
         </div>
 
-        <div>
-          <span style={{ color: "var(--ms-fg-faint)" }}>$</span> stack
-          --short
-        </div>
         <div
           style={{
             display: "flex",
