@@ -161,6 +161,13 @@
   .animate-pulse, [class*="ms-cursor"] { animation: none; }
 }
 
+/* Phase 2: theme-switchable backgrounds and text colors that don't fit the --ms-* token scheme */
+[data-theme="dark"]  .header-bg { background: rgba(13,11,9,0.78); }
+[data-theme="light"] .header-bg { background: rgba(247,244,238,0.82); }
+
+[data-theme="dark"]  .logo-m-text { color: #120a05; }
+[data-theme="light"] .logo-m-text { color: #ffffff; }
+
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
