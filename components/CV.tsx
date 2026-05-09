@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useMemo } from "react";
 import { Button } from "./ui/button";
 import { ArrowLeft } from "lucide-react";
 import GlobalContext from "@/app/context/GlobalContext";
@@ -13,25 +13,21 @@ import ProfileIntro from "./ProfileIntro";
 
 const CV = () => {
   const globalContext = useContext(GlobalContext);
+  const { config } = useSanityConfigLoader();
+
+  const { showCV, profile, handleBackButton } = globalContext ?? {};
+
+  const profilePictureRef = profile?.profilePicture.asset._ref;
+  const imageUrl = useMemo(() => {
+    if (config && profilePictureRef) {
+      return buildImageUrlFor(config as SanityClientConfig, profilePictureRef);
+    }
+    return "";
+  }, [config, profilePictureRef]);
 
   if (!globalContext) {
     return "Global context is null";
   }
-
-  const { config } = useSanityConfigLoader();
-  const { showCV, profile, handleBackButton } = globalContext;
-  const [imageUrl, setImageUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (profile?.profilePicture.asset._ref) {
-      setImageUrl(
-        buildImageUrlFor(
-          config as SanityClientConfig,
-          profile?.profilePicture.asset._ref
-        )
-      );
-    }
-  }, [config, profile?.profilePicture.asset._ref]);
 
   return (
     <>

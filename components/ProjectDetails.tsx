@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ExternalLink } from "lucide-react";
@@ -33,18 +33,13 @@ const ProjectDetails = ({ project }: ProjectDetailsProps) => {
 
   const { config } = useSanityConfigLoader();
 
-  const [imageUrl, setImageUrl] = useState<string>("");
-
-  useEffect(() => {
-    if (project.coverImage?.asset?._ref) {
-      setImageUrl(
-        buildImageUrlFor(
-          config as SanityClientConfig,
-          project.coverImage.asset._ref
-        )
-      );
+  const coverImageRef = project.coverImage?.asset?._ref;
+  const imageUrl = useMemo(() => {
+    if (config && coverImageRef) {
+      return buildImageUrlFor(config as SanityClientConfig, coverImageRef);
     }
-  }, [config, project.coverImage?.asset?._ref]);
+    return "";
+  }, [config, coverImageRef]);
 
   return (
     <>

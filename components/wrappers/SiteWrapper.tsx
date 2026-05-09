@@ -12,18 +12,17 @@ export default function SiteWrapper({
 }) {
   const globalContext = useContext(GlobalContext);
 
-  if (!globalContext) {
-    return "Global context is null";
-  }
-
   const { showCV, showProjects, toggleCardAnimation, setSiteContentToContext } =
-    globalContext;
+    globalContext ?? {};
 
   useEffect(() => {
-    setSiteContentToContext(data as SanityApiResponse[]);
+    if (setSiteContentToContext) {
+      setSiteContentToContext(data as SanityApiResponse[]);
+    }
   }, [data, setSiteContentToContext]);
 
   useEffect(() => {
+    if (!toggleCardAnimation) return;
     if (showCV || showProjects) {
       toggleCardAnimation(true);
       document.body.style.overflow = "hidden";
@@ -32,7 +31,11 @@ export default function SiteWrapper({
       document.body.style.overflow = "auto";
       return () => clearTimeout(timerId);
     }
-  }, [showCV, showProjects]);
+  }, [showCV, showProjects, toggleCardAnimation]);
+
+  if (!globalContext) {
+    return "Global context is null";
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
