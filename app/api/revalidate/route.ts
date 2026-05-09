@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    revalidatePath("/api/sanity-data");
     revalidatePath("/");
 
     const response = NextResponse.json("Successful reloading of sanity data!", {
