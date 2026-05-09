@@ -1,13 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof document === "undefined") return "dark";
-    return (document.documentElement.dataset.theme as Theme) || "dark";
-  });
+  // Initialize with "dark" so server and first client render match.
+  // After mount, reconcile with localStorage so the user's saved preference applies.
+  const [theme, setTheme] = useState<Theme>("dark");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("ms_theme") as Theme | null;
+      if (saved === "light" || saved === "dark") {
+        document.documentElement.dataset.theme = saved;
+        setTheme(saved);
+      }
+    } catch {}
+  }, []);
 
   function applyTheme(next: Theme) {
     document.documentElement.dataset.theme = next;
