@@ -73,9 +73,8 @@ export default function HeroSection() {
         }}
       >
         <div
+          className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr]"
           style={{
-            display: "grid",
-            gridTemplateColumns: "1.4fr 1fr",
             gap: 64,
             alignItems: "end",
           }}
@@ -204,12 +203,11 @@ export default function HeroSection() {
 
         {/* Trust strip */}
         <div
+          className="grid grid-cols-2 md:grid-cols-4"
           style={{
             marginTop: 64,
             paddingTop: 32,
             borderTop: "1px solid var(--ms-border)",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
             gap: 32,
           }}
         >
