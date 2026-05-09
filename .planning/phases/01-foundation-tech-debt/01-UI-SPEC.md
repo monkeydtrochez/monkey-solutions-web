@@ -1,7 +1,8 @@
 ---
 phase: 1
 slug: foundation-tech-debt
-status: draft
+status: approved
+reviewed_at: 2026-05-09T00:00:00Z
 shadcn_initialized: true
 preset: "default / radix / lucide / v4"
 created: 2026-05-09
