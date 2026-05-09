@@ -18,6 +18,7 @@ export interface Profile extends BaseType {
   email: string;
   linkedInUrl: string;
   githubUrl: string;
+  heroBio?: string;
 }
 
 // Type for `education`

@@ -77,5 +77,11 @@ export const profile = defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'heroBio',
+      title: 'Hero Bio',
+      type: 'string',
+      description: 'Short lede paragraph displayed in the hero section.',
+    }),
   ],
 })

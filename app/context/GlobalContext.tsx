@@ -8,32 +8,21 @@ import {
   Project,
 } from "../models/sanityTypes";
 
-// Define the shape of your context data
 interface ContextType {
   profile: Profile | null;
   education: Education | null;
   workExperience: WorkExperience[] | null;
   projects: Project[] | null;
-  showCV: boolean;
-  showProjects: boolean;
-  animateCard: boolean;
   setSiteContentToContext: (data: SanityApiResponse[]) => void;
-  handleViewCV: () => void;
-  handleViewProjects: () => void;
-  handleBackButton: () => void;
-  toggleCardAnimation: (shouldAnimate: boolean) => void;
 }
 
-// Create the context
 const GlobalContext = createContext<ContextType | null>(null);
 
-// Define the provider component
 export const GlobalContextProvider = ({
   children,
 }: {
   children: ReactNode;
 }) => {
-  // Create state for siteContent, showCV and animateCard
   const [profile, setProfileData] = useState<Profile | null>(null);
   const [education, setEducationData] = useState<Education | null>(null);
   const [workExperience, setWorkExperienceData] = useState<
@@ -41,62 +30,39 @@ export const GlobalContextProvider = ({
   >(null);
   const [projects, setProjects] = useState<Project[] | null>(null);
 
-  const [showCV, setShowCV] = useState(false);
-  const [showProjects, setShowProjects] = useState(false);
-  const [animateCard, setAnimateCard] = useState(false);
+  const setSiteContentToContext = useCallback(
+    (data: SanityApiResponse[] | null) => {
+      const profileData = data?.find((item) => item._type === "profile");
+      if (profileData) {
+        setProfileData(profileData);
+      }
 
-  // Define functions for updating states from other components
+      const educationData = data?.find((item) => item._type === "education");
+      if (educationData) {
+        setEducationData(educationData);
+      }
 
-  const setSiteContentToContext = useCallback((data: SanityApiResponse[] | null) => {
-    const profileData = data?.find((item) => item._type === "profile");
-    if (profileData) {
-      setProfileData(profileData);
-    }
-
-    const educationData = data?.find((item) => item._type === "education");
-    if (educationData) {
-      setEducationData(educationData);
-    }
-
-    const workExperienceArray = data?.filter(
-      (item) => item._type === "workExperience"
-    );
-    if (workExperienceArray != null) {
-      const sortedList = [...workExperienceArray].sort(
-        (a, b) => a.sortIndex - b.sortIndex
+      const workExperienceArray = data?.filter(
+        (item) => item._type === "workExperience"
       );
-      setWorkExperienceData(sortedList);
-    }
+      if (workExperienceArray != null) {
+        const sortedList = [...workExperienceArray].sort(
+          (a, b) => a.sortIndex - b.sortIndex
+        );
+        setWorkExperienceData(sortedList);
+      }
 
-    const projectsData = data?.filter((item) => item._type === "project");
-    if (projectsData != null) {
-      const sortedList = [...projectsData].sort(
-        (a, b) => a.sortIndex - b.sortIndex
-      );
-      setProjects(sortedList);
-    }
-  }, []);
+      const projectsData = data?.filter((item) => item._type === "project");
+      if (projectsData != null) {
+        const sortedList = [...projectsData].sort(
+          (a, b) => a.sortIndex - b.sortIndex
+        );
+        setProjects(sortedList);
+      }
+    },
+    []
+  );
 
-  const handleViewProjects = () => {
-    setShowProjects(true);
-    setShowCV(false);
-  };
-
-  const handleViewCV = () => {
-    setShowCV(true);
-    setShowProjects(false);
-  };
-
-  const handleBackButton = () => {
-    setShowCV(false);
-    setShowProjects(false);
-  };
-
-  const toggleCardAnimation = useCallback((shouldAnimate: boolean) => {
-    setAnimateCard(shouldAnimate);
-  }, []);
-
-  // Return provider and expose the public fields and methods
   return (
     <GlobalContext.Provider
       value={{
@@ -104,14 +70,7 @@ export const GlobalContextProvider = ({
         education,
         workExperience,
         projects,
-        showCV,
-        showProjects,
-        animateCard,
         setSiteContentToContext,
-        handleViewCV,
-        handleViewProjects,
-        handleBackButton,
-        toggleCardAnimation,
       }}
     >
       {children}
