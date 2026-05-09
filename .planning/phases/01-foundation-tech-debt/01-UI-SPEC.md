@@ -75,9 +75,14 @@ standard 8-point doubles) as dictated by the design handoff.
 | `--section-py` | 120px | Standard section vertical padding |
 | `--section-py-contact` | 140px | Contact section vertical padding |
 
-Exceptions: None for Phase 1. Phase 1 only renders the ThemeToggle button on
-`app/page.tsx` as a temporary placement. Touch target size is not a concern —
-the button is for dev verification only.
+Exceptions: This scale is sourced directly from `design_handoff_monkey_solutions/README.md`
+spacing tables per CONTEXT.md D-04/D-05. The design handoff uses a fine-grained typographic
+scale with 2px increments for optical balance at small sizes (6px `--space-2`, 10px `--space-4`,
+14px `--space-6`, 18px `--space-8`). Rounding to the nearest multiple of 4 would break the
+visual rhythm specified in the handoff. All values serve named layout purposes as documented
+in the Usage column. Values outside the standard set (12, 20, 28, 36, 40, 56, 72, 80, 96, 120)
+are multiples of 2 and sourced from the same design handoff — they represent intentional
+mid-points in the layout system.
 
 ---
 
@@ -103,6 +108,12 @@ full scale is available for phases 2–5.
 | `--lh-body` | `1.6` | Body paragraphs |
 | `--tracking-tight` | `-0.045em` | Large headlines |
 
+Exception: Full type scale pre-declared per CONTEXT.md D-04 — Phase 1 activates only
+`--text-body` (16px), `--text-small` (14px), `--text-mono` (12px), and `--text-label`
+(11px) for the ThemeToggle button; remaining sizes (`--text-hero`, `--text-h2`,
+`--text-h3`, `--text-body-lg`) are token-layer-only definitions for phases 2–5, not
+rendered in Phase 1.
+
 Font weights used across the full design:
 
 | Family | Weights | CSS variable |
@@ -110,6 +121,12 @@ Font weights used across the full design:
 | Inter | 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold), 800 (extrabold) | `--font-sans` |
 | JetBrains Mono | 400, 500, 600, 700 | `--font-mono` |
 | Fraunces | 300, 400, 500 — italic only | `--font-display` |
+
+Exception: Font weights are declared as variable font ranges, not fixed weight installs.
+Inter, JetBrains Mono, and Fraunces all use `weight: 'variable'` in `next/font/google`
+per RESEARCH.md — the full weight range is a single variable font file. Phase 1 actively
+renders only Inter 400 (body text) and Inter 700 (ThemeToggle label) — the full range is
+pre-declared for phases 2–5.
 
 Phase 1 declaration requirements:
 
@@ -162,6 +179,9 @@ Accent (`orange`) is reserved for:
 - Ring / focus-visible outline
 - Hover border on service cards (Phase 4)
 - Orange text accents (`orangeText`) inside headings and terminal output
+
+`--ms-accent2` (dark: `#d4a574`, light: `#a0704a`): warm tan used for decorative text
+accents in About/Contact sections (Phase 3) — not part of the primary orange accent role.
 
 ### Shadcn Variable Mapping
 
