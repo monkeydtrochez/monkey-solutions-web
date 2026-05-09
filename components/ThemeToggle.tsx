@@ -12,7 +12,7 @@ export function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Toggle theme"
-      style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 9999, padding: '0.5rem 1rem', cursor: 'pointer' }}
+      style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 9999, padding: '0.5rem 1rem', cursor: 'pointer', background: '#ff6b1a', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 600 }}
     >
       Toggle theme
     </button>
