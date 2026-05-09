@@ -116,49 +116,47 @@ Deferred — not in v1.0 scope.
 
 ## Traceability
 
-Filled in after roadmap creation.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | — | Pending |
-| FOUND-02 | — | Pending |
-| FOUND-03 | — | Pending |
-| FOUND-04 | — | Pending |
-| NAV-01 | — | Pending |
-| NAV-02 | — | Pending |
-| NAV-03 | — | Pending |
-| HERO-01 | — | Pending |
-| HERO-02 | — | Pending |
-| HERO-03 | — | Pending |
-| HERO-04 | — | Pending |
-| ABOUT-01 | — | Pending |
-| ABOUT-02 | — | Pending |
-| ABOUT-03 | — | Pending |
-| WORK-01 | — | Pending |
-| WORK-02 | — | Pending |
-| WORK-03 | — | Pending |
-| EXP-01 | — | Pending |
-| EXP-02 | — | Pending |
-| EXP-03 | — | Pending |
-| SKILLS-01 | — | Pending |
-| SVC-01 | — | Pending |
-| SVC-02 | — | Pending |
-| CONTACT-01 | — | Pending |
-| CONTACT-02 | — | Pending |
-| CONTACT-03 | — | Pending |
-| CONTACT-04 | — | Pending |
-| FOOTER-01 | — | Pending |
-| FOOTER-02 | — | Pending |
-| FOOTER-03 | — | Pending |
-| RESP-01 | — | Pending |
-| RESP-02 | — | Pending |
-| RESP-03 | — | Pending |
-| A11Y-01 | — | Pending |
-| A11Y-02 | — | Pending |
-| A11Y-03 | — | Pending |
-| A11Y-04 | — | Pending |
-| TD-01 | — | Pending |
-| TD-02 | — | Pending |
-| TD-03 | — | Pending |
-| TD-04 | — | Pending |
-| TD-05 | — | Pending |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| TD-01 | Phase 1 | Pending |
+| TD-02 | Phase 1 | Pending |
+| TD-03 | Phase 1 | Pending |
+| TD-04 | Phase 1 | Pending |
+| TD-05 | Phase 1 | Pending |
+| NAV-01 | Phase 2 | Pending |
+| NAV-02 | Phase 2 | Pending |
+| NAV-03 | Phase 2 | Pending |
+| HERO-01 | Phase 2 | Pending |
+| HERO-02 | Phase 2 | Pending |
+| HERO-03 | Phase 2 | Pending |
+| HERO-04 | Phase 2 | Pending |
+| ABOUT-01 | Phase 3 | Pending |
+| ABOUT-02 | Phase 3 | Pending |
+| ABOUT-03 | Phase 3 | Pending |
+| WORK-01 | Phase 3 | Pending |
+| WORK-02 | Phase 3 | Pending |
+| WORK-03 | Phase 3 | Pending |
+| EXP-01 | Phase 4 | Pending |
+| EXP-02 | Phase 4 | Pending |
+| EXP-03 | Phase 4 | Pending |
+| SKILLS-01 | Phase 4 | Pending |
+| SVC-01 | Phase 4 | Pending |
+| SVC-02 | Phase 4 | Pending |
+| CONTACT-01 | Phase 5 | Pending |
+| CONTACT-02 | Phase 5 | Pending |
+| CONTACT-03 | Phase 5 | Pending |
+| CONTACT-04 | Phase 5 | Pending |
+| FOOTER-01 | Phase 5 | Pending |
+| FOOTER-02 | Phase 5 | Pending |
+| FOOTER-03 | Phase 5 | Pending |
+| RESP-01 | Phase 6 | Pending |
+| RESP-02 | Phase 6 | Pending |
+| RESP-03 | Phase 6 | Pending |
+| A11Y-01 | Phase 6 | Pending |
+| A11Y-02 | Phase 6 | Pending |
+| A11Y-03 | Phase 6 | Pending |
+| A11Y-04 | Phase 6 | Pending |
