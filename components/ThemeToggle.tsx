@@ -13,15 +13,17 @@ function getInitialTheme(): Theme {
 }
 
 export function ThemeToggle() {
-  // Lazy initializer reads localStorage on first render (client-only).
-  // Server render gets "dark" (typeof window === "undefined" guard above).
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  // Always start with "dark" so SSR and initial client render match.
+  // The real saved preference is applied after mount to avoid hydration mismatch.
+  const [theme, setTheme] = useState<Theme>("dark");
+  const [mounted, setMounted] = useState(false);
 
-  // Sync the data-theme attribute on the <html> element after mount so that
-  // the DOM attribute reflects the current theme. No setState call here.
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
+    const saved = getInitialTheme();
+    setMounted(true);
+    setTheme(saved);
+    document.documentElement.dataset.theme = saved;
+  }, []);
 
   function applyTheme(next: Theme) {
     document.documentElement.dataset.theme = next;
@@ -53,6 +55,11 @@ export function ThemeToggle() {
       background: isActive ? "var(--ms-fg)" : "transparent",
       color: isActive ? "var(--ms-bg)" : "var(--ms-fg-soft)",
     };
+  }
+
+  // Render a size-identical placeholder until mounted to prevent hydration mismatch.
+  if (!mounted) {
+    return <div style={{ width: 120, height: 40 }} aria-hidden />;
   }
 
   return (
