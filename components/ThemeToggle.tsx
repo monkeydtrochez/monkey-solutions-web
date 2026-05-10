@@ -3,20 +3,25 @@ import { useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
 
-export function ThemeToggle() {
-  // Initialize with "dark" so server and first client render match.
-  // After mount, reconcile with localStorage so the user's saved preference applies.
-  const [theme, setTheme] = useState<Theme>("dark");
+function getInitialTheme(): Theme {
+  if (typeof window === "undefined") return "dark";
+  try {
+    const saved = localStorage.getItem("ms_theme") as Theme | null;
+    if (saved === "light" || saved === "dark") return saved;
+  } catch {}
+  return "dark";
+}
 
+export function ThemeToggle() {
+  // Lazy initializer reads localStorage on first render (client-only).
+  // Server render gets "dark" (typeof window === "undefined" guard above).
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  // Sync the data-theme attribute on the <html> element after mount so that
+  // the DOM attribute reflects the current theme. No setState call here.
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("ms_theme") as Theme | null;
-      if (saved === "light" || saved === "dark") {
-        document.documentElement.dataset.theme = saved;
-        setTheme(saved);
-      }
-    } catch {}
-  }, []);
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   function applyTheme(next: Theme) {
     document.documentElement.dataset.theme = next;
