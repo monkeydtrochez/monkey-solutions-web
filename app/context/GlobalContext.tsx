@@ -42,23 +42,17 @@ export const GlobalContextProvider = ({
         setEducationData(educationData);
       }
 
-      const workExperienceArray = data?.filter(
-        (item) => item._type === "workExperience"
-      );
-      if (workExperienceArray != null) {
-        const sortedList = [...workExperienceArray].sort(
-          (a, b) => a.sortIndex - b.sortIndex
-        );
-        setWorkExperienceData(sortedList);
-      }
+      const isWorkExperience = (item: SanityApiResponse): item is WorkExperience =>
+        item._type === "workExperience";
+      const workExperienceArray = data?.filter(isWorkExperience) ?? [];
+      const sortedWE = [...workExperienceArray].sort((a, b) => a.sortIndex - b.sortIndex);
+      setWorkExperienceData(sortedWE);
 
-      const projectsData = data?.filter((item) => item._type === "project");
-      if (projectsData != null) {
-        const sortedList = [...projectsData].sort(
-          (a, b) => a.sortIndex - b.sortIndex
-        );
-        setProjects(sortedList);
-      }
+      const isProject = (item: SanityApiResponse): item is Project =>
+        item._type === "project";
+      const projectsData = data?.filter(isProject) ?? [];
+      const sortedP = [...projectsData].sort((a, b) => a.sortIndex - b.sortIndex);
+      setProjects(sortedP);
     },
     []
   );
