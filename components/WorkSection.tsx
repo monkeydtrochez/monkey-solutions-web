@@ -20,8 +20,11 @@ export default function WorkSection() {
   const projects = useMemo(() => ctx?.projects ?? [], [ctx?.projects]);
 
   const [filter, setFilter] = useState<Filter>("all");
-  // openId tracks user-explicit selection; null means "use default (first shown)".
-  const [openId, setOpenId] = useState<string | null>(null);
+  // openId tracks user-explicit selection:
+  //   null     = no explicit pick yet (auto-open first shown row)
+  //   "closed" = user explicitly collapsed (no row open)
+  //   string   = user explicitly opened this row id
+  const [openId, setOpenId] = useState<string | "closed" | null>(null);
 
   const shown = useMemo(
     () => projects.filter((p) => matchesFilter(p.kind, filter)),
@@ -29,13 +32,12 @@ export default function WorkSection() {
   );
 
   // Resolve the effective open row:
-  // - If openId is explicitly set and exists in the shown list, keep it open.
+  // - If openId is "closed", nothing is open (user explicitly collapsed).
+  // - If openId is a string id, keep it open only if it still exists in shown.
   // - If openId is null (no explicit pick yet), default to the first shown project.
-  // - If openId was set but the row is no longer shown (filter changed), collapse.
   const effectiveOpenId = useMemo(() => {
-    if (openId !== null) {
-      return shown.some((p) => p._id === openId) ? openId : null;
-    }
+    if (openId === "closed") return null;
+    if (openId !== null) return shown.some((p) => p._id === openId) ? openId : null;
     return shown.length > 0 ? shown[0]._id : null;
   }, [openId, shown]);
 
@@ -52,7 +54,7 @@ export default function WorkSection() {
   }, [shown]);
 
   const handleToggle = (id: string) => {
-    setOpenId((prev) => (prev === id ? null : id));
+    setOpenId((prev) => (prev === id ? "closed" : id));
   };
 
   return (
