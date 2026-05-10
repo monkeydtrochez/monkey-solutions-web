@@ -575,22 +575,17 @@ _type == 'profile' => {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **`tags` vs `stack` field for stack pills**
+1. **`tags` vs `stack` field for stack pills** — RESOLVED: Treat `tags: string[]` as the stack field. No new `stack` field is needed. Plans use `p.tags` for Badge pills in the expanded row. Studio field title updated to "Tech Stack" for clarity. Confirmed in PATTERNS.md Key Decisions.
    - What we know: The existing `project` schema has `tags: string[]`. The hifi-part2.jsx PROJECTS array has a `stack: string[]` field used for the pills in the expanded row.
-   - What's unclear: Are `tags` and `stack` meant to be the same field? Is `tags` already the stack data, just under a different name? Or does the phase need to add a separate `stack` field?
-   - Recommendation: Treat `tags` as the stack field (rename display label in Studio if desired, but no new schema field needed). The planner should confirm this with the decisions: use `p.tags` for stack pills in the expanded row, and update the Studio field title to "Tech Stack" if needed.
+   - Resolution: `tags` is the stack data under a different name; no new schema field required.
 
-2. **`aboutBody` content delivery before phase completion**
-   - What we know: `aboutBody` is a new text field Daniel must populate in Sanity Studio. The component renders placeholder text if it's empty (or the hifi copy can be hardcoded as a fallback).
-   - What's unclear: Should the component show hardcoded copy from the UI-SPEC if `profile.aboutBody` is null/empty, or render nothing?
-   - Recommendation: Hardcode the hifi copy as the fallback (render it when `profile.aboutBody` is falsy). This matches Phase 2 precedent for `heroBio`.
+2. **`aboutBody` content delivery before phase completion** — RESOLVED: Hardcode hifi copy as fallback when `profile.aboutBody` is falsy. Matches Phase 2 precedent for `heroBio`. Confirmed in PATTERNS.md Key Decisions.
+   - What we know: `aboutBody` is a new text field Daniel must populate in Sanity Studio.
+   - Resolution: Component renders hardcoded hifi paragraphs when `profile.aboutBody` is null/empty.
 
-3. **`SanityClientConfig` for `imageUrlBuilder` in client component**
-   - What we know: Portrait photo display is deferred — `profile.profilePicture` is not populated yet.
-   - What's unclear: When Daniel uploads his photo, how will the client component obtain the Sanity config to build the image URL?
-   - Recommendation: Defer the Image implementation entirely. The placeholder renders unconditionally for now. A TODO comment in the component is sufficient.
+3. **`SanityClientConfig` for `imageUrlBuilder` in client component** — RESOLVED: Defer image implementation per D-14. Portrait renders as CSS placeholder unconditionally for this phase. A TODO comment marks the location for future `<Image>` integration when Daniel uploads the photo. Confirmed in PATTERNS.md Key Decisions.
 
 ---
 
