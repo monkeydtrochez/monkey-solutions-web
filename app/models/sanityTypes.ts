@@ -19,6 +19,7 @@ export interface Profile extends BaseType {
   linkedInUrl: string;
   githubUrl: string;
   heroBio?: string;
+  aboutBody?: string;
 }
 
 // Type for `education`
@@ -37,6 +38,13 @@ export interface WorkExperience extends BaseType {
   description: WorkDescriptionBlock[];
 }
 
+// Type for project metric cell shown in expanded accordion row
+export interface ProjectMetric {
+  label: string;
+  value: string;
+  suffix: string;
+}
+
 export interface Project extends BaseType {
   _type: "project";
   coverImage: ImageReference;
@@ -45,7 +53,10 @@ export interface Project extends BaseType {
   client: string;
   site: string;
   tags: string[];
-  body: WorkDescriptionBlock[];
+  overview?: string;
+  kind?: string;
+  metrics?: ProjectMetric[];
+  duration?: Duration;
 }
 
 // Type for the `profilePicture` field

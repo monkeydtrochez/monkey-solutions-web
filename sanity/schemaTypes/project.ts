@@ -50,9 +50,32 @@ export const project = defineType({
       ],
     }),
     defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'blockContent',
+      name: 'overview',
+      title: 'Overview',
+      type: 'text',
+      description: 'Single summary paragraph shown in the expanded accordion row.',
+    }),
+    defineField({
+      name: 'kind',
+      title: 'Kind',
+      type: 'string',
+      description: 'Display label, e.g. "E-commerce · Headless", "iOS · Education", "SaaS · Product".',
+    }),
+    defineField({
+      name: 'metrics',
+      title: 'Metrics',
+      type: 'array',
+      validation: (Rule) => Rule.max(3),
+      of: [
+        defineArrayMember({
+          type: 'object',
+          fields: [
+            defineField({ name: 'label', title: 'Label', type: 'string' }),
+            defineField({ name: 'value', title: 'Value', type: 'string' }),
+            defineField({ name: 'suffix', title: 'Suffix', type: 'string' }),
+          ],
+        }),
+      ],
     }),
   ],
 })
