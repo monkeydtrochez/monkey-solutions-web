@@ -1,7 +1,8 @@
 ---
 phase: 4
 slug: experience-skills-services
-status: draft
+status: approved
+reviewed_at: 2026-05-10
 shadcn_initialized: true
 preset: "default / radix / lucide / v4"
 created: 2026-05-10
