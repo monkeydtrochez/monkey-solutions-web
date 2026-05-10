@@ -1,24 +1,32 @@
 "use client";
 import { useContext } from "react";
+import Image from "next/image";
 import GlobalContext from "@/app/context/GlobalContext";
 
 export default function AboutSection() {
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile ?? null;
 
-  // aboutBody fallback (per RESEARCH.md Open Question 2 + UI-SPEC Copywriting Contract).
-  // The two paragraph fallback strings are the UI-SPEC verbatim copy.
-  const FALLBACK_PARAGRAPHS = [
-    "Ten years in, I've worked on fintech dashboards used by traders, iOS apps used by students across Sweden, and e-commerce platforms processing real money. My best work hides the complexity — it just feels calm and obvious.",
-    "I take product from ambiguous brief to shipped binary. Comfortable being the only developer in the room, or the new senior in a team of twenty.",
-  ];
+  const descriptionParagraphs =
+    profile?.description && profile.description.length > 0
+      ? profile.description
+          .map((block) => block.children.map((span) => span.text).join(""))
+          .filter(Boolean)
+      : null;
+
   const paragraphs =
-    profile?.aboutBody && profile.aboutBody.trim().length > 0
+    descriptionParagraphs ??
+    (profile?.aboutBody && profile.aboutBody.trim().length > 0
       ? profile.aboutBody
           .split(/\n\n+/)
           .map((p) => p.trim())
           .filter(Boolean)
-      : FALLBACK_PARAGRAPHS;
+      : [
+          "Ten years in, I've worked on fintech dashboards used by traders, iOS apps used by students across Sweden, and e-commerce platforms processing real money. My best work hides the complexity — it just feels calm and obvious.",
+          "I take product from ambiguous brief to shipped binary. Comfortable being the only developer in the room, or the new senior in a team of twenty.",
+        ]);
+
+  const profilePictureUrl = profile?.profilePictureUrl ?? null;
 
   const location = profile?.location ?? "Göteborg, SE";
   const languagesValue = (profile?.languages ?? ["SV", "EN", "ES"]).join(" · ");
@@ -180,33 +188,46 @@ export default function AboutSection() {
               }}
             />
 
-            {/* Portrait placeholder (3:4 striped box with "DT") */}
+            {/* Portrait (3:4) — Sanity image when available, striped placeholder otherwise */}
             <div
-              aria-hidden="true"
               style={{
                 position: "relative",
                 zIndex: 1,
                 aspectRatio: "3 / 4",
                 borderRadius: "var(--radius-sm)",
                 border: "1px solid var(--ms-border)",
-                background:
-                  "repeating-linear-gradient(45deg, var(--ms-bg-alt) 0 10px, var(--ms-surface) 10px 11px)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                overflow: "hidden",
+                ...(!profilePictureUrl && {
+                  background:
+                    "repeating-linear-gradient(45deg, var(--ms-bg-alt) 0 10px, var(--ms-surface) 10px 11px)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }),
               }}
             >
-              <span
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontStyle: "italic",
-                  fontWeight: 400,
-                  fontSize: 64,
-                  color: "var(--ms-fg-faint)",
-                }}
-              >
-                DT
-              </span>
+              {profilePictureUrl ? (
+                <Image
+                  src={profilePictureUrl}
+                  alt="Profile photo"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    fontSize: 64,
+                    color: "var(--ms-fg-faint)",
+                  }}
+                >
+                  DT
+                </span>
+              )}
             </div>
 
             {/* Sticker badge */}

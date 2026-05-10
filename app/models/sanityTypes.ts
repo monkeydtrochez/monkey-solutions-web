@@ -20,6 +20,7 @@ export interface Profile extends BaseType {
   githubUrl: string;
   heroBio?: string;
   aboutBody?: string;
+  profilePictureUrl?: string;
 }
 
 // Type for `education`
@@ -53,7 +54,8 @@ export interface Project extends BaseType {
   client: string;
   site: string;
   tags: string[];
-  overview?: string;
+  body?: WorkDescriptionBlock[];
+  coverImageUrl?: string;
   kind?: string;
   metrics?: ProjectMetric[];
   duration?: Duration;

@@ -51,9 +51,9 @@ export const project = defineType({
       ],
     }),
     defineField({
-      name: 'overview',
+      name: 'body',
       title: 'Overview',
-      type: 'text',
+      type: 'blockContent',
       description: 'Single summary paragraph shown in the expanded accordion row.',
     }),
     defineField({

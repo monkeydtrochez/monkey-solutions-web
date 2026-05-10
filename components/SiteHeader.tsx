@@ -25,7 +25,8 @@ export default function SiteHeader() {
       >
         {/* Logo */}
         <a
-          href="#top"
+          href="#"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           style={{
             display: "inline-flex",
             alignItems: "center",

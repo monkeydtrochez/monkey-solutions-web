@@ -30,6 +30,10 @@ export default function HeroSection() {
       style={{
         position: "relative",
         overflow: "hidden",
+        minHeight: "calc(100vh - 61px)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
         padding: "64px 32px",
         background: "var(--ms-bg)",
       }}

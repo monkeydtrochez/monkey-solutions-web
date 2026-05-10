@@ -168,6 +168,11 @@
 [data-theme="dark"]  .logo-m-text { color: #120a05; }
 [data-theme="light"] .logo-m-text { color: #ffffff; }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
+
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;

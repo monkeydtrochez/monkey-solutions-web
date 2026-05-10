@@ -1,5 +1,6 @@
 "use client";
 import { useState, useContext, useMemo } from "react";
+import Image from "next/image";
 import GlobalContext from "@/app/context/GlobalContext";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/app/models/sanityTypes";
@@ -90,7 +91,7 @@ export default function WorkSection() {
               color: "var(--ms-fg)",
               maxWidth: 900,
             }}>
-              Six projects,{" "}
+              Projects,{" "}
               <em style={{
                 fontFamily: "var(--font-display)",
                 fontStyle: "italic",
@@ -295,17 +296,20 @@ function ProjectRow({
               marginBottom: 10,
             }}>OVERVIEW</div>
 
-            {p.overview && (
-              <p style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "var(--text-body)",
-                fontWeight: 400,
-                lineHeight: 1.6,
-                color: "var(--ms-fg)",
-                maxWidth: 500,
-                margin: 0,
-              }}>{p.overview}</p>
-            )}
+            {p.body && p.body.length > 0 && p.body
+              .map((block) => block.children.map((span) => span.text).join(""))
+              .filter(Boolean)
+              .map((text, i) => (
+                <p key={i} style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--text-body)",
+                  fontWeight: 400,
+                  lineHeight: 1.6,
+                  color: "var(--ms-fg)",
+                  maxWidth: 500,
+                  margin: i === 0 ? 0 : "12px 0 0",
+                }}>{text}</p>
+              ))}
 
             {/* Stack pills — uses p.tags (per PATTERNS.md "tags = stack" decision) */}
             {p.tags && p.tags.length > 0 && (
@@ -415,26 +419,44 @@ function ProjectRow({
               </div>
             ))}
 
-            {/* Screenshot placeholder spans full grid width */}
+            {/* Cover image spans full grid width */}
             <div
-              aria-hidden="true"
               style={{
                 gridColumn: "1 / -1",
                 marginTop: 8,
-                height: 180,
+                position: "relative",
+                height: 260,
                 borderRadius: "var(--radius-sm)",
-                background:
-                  "repeating-linear-gradient(45deg, var(--ms-bg-alt) 0 10px, var(--ms-surface) 10px 11px)",
                 border: "1px solid var(--ms-border)",
+                overflow: "hidden",
+                background: p.coverImageUrl
+                  ? "var(--ms-bg)"
+                  : "repeating-linear-gradient(45deg, var(--ms-bg-alt) 0 10px, var(--ms-surface) 10px 11px)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: "var(--font-mono)",
-                fontSize: "var(--text-mono)",
-                color: "var(--ms-fg-faint)",
-                letterSpacing: 1,
               }}
-            >[{(p.title ?? "UNTITLED").toUpperCase()} · SCREENSHOT]</div>
+            >
+              {p.coverImageUrl ? (
+                <Image
+                  src={p.coverImageUrl}
+                  alt={`${p.title ?? "Project"} cover`}
+                  fill
+                  style={{ objectFit: "contain" }}
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "var(--text-mono)",
+                    color: "var(--ms-fg-faint)",
+                    letterSpacing: 1,
+                  }}
+                >[{(p.title ?? "UNTITLED").toUpperCase()} · SCREENSHOT]</span>
+              )}
+            </div>
           </div>
         </div>
       )}

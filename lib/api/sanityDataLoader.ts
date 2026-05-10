@@ -8,6 +8,7 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
 
     _type == 'profile' => {
     profilePicture,
+      "profilePictureUrl": profilePicture.asset->url,
       description,
       languages,
       mobile,
@@ -37,11 +38,12 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       sortIndex,
       title,
       coverImage,
+      "coverImageUrl": coverImage.asset->url,
       duration,
         client,
         site,
         tags,
-        overview,
+        body,
         kind,
         "metrics": metrics[]{ label, value, suffix }
     }
