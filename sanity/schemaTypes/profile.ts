@@ -20,12 +20,12 @@ export const profile = defineType({
     defineField({
       name: 'linkedInUrl',
       title: 'LinkedIn Url',
-      type: 'string',
+      type: 'url',
     }),
     defineField({
       name: 'githubUrl',
       title: 'GitHub Url',
-      type: 'string',
+      type: 'url',
     }),
     defineField({
       name: 'description',
