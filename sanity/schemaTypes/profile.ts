@@ -83,5 +83,11 @@ export const profile = defineType({
       type: 'string',
       description: 'Short lede paragraph displayed in the hero section.',
     }),
+    defineField({
+      name: 'aboutBody',
+      title: 'About Body',
+      type: 'text',
+      description: 'About section body copy (2+ paragraphs). Separate paragraphs with a blank line.',
+    }),
   ],
 })
