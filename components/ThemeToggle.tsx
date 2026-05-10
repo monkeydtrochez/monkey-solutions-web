@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Theme = "dark" | "light";
 
@@ -17,12 +17,19 @@ export function ThemeToggle() {
   // The real saved preference is applied after mount to avoid hydration mismatch.
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
+  const initRef = useRef(false);
 
   useEffect(() => {
+    if (initRef.current) return;
+    initRef.current = true;
     const saved = getInitialTheme();
-    setMounted(true);
-    setTheme(saved);
     document.documentElement.dataset.theme = saved;
+    // Use a scheduler to avoid calling setState synchronously in effect body
+    const id = setTimeout(() => {
+      setMounted(true);
+      setTheme(saved);
+    }, 0);
+    return () => clearTimeout(id);
   }, []);
 
   function applyTheme(next: Theme) {

@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import WorkSection from "@/components/WorkSection";
+import ExperienceSection from "@/components/ExperienceSection";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,7 @@ export default async function Home() {
         <HeroSection />
         <AboutSection />
         <WorkSection />
+        <ExperienceSection />
       </main>
     </QueryClientWrapper>
   );
