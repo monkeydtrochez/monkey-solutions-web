@@ -57,6 +57,7 @@ tokens, and are exempt from the spacing scale rule.
 |-------|-------|---------------------|
 | `--space-1` | 4px | Inner segment gap, detail line margin-top on education entry |
 | `--space-3` | 8px | Timeline dot gap to text, community row gap between label and value, bar label gap |
+| `--space-5` | 12px | Skill item rows gap (flex column gap between each row in a skill group) |
 | `--space-7` | 16px | Skill group label margin-bottom, community row margin-top, education detail line margin-top |
 | `--space-9` | 20px | Timeline entry column gap |
 | `--space-10` | 24px | Skills group gap between groups, service card description margin-top |
@@ -248,7 +249,7 @@ anchor IDs that these links will eventually resolve to. Use IDs:
         display: inline-block
         margin-left: 8px (next to company name on same line)
         mono 12/600, --ms-orange-text, uppercase
-        padding: 2px 8px
+        padding: 4px 8px
         border: 1px var(--ms-orange-dim)
         border-radius: --radius-pill
 ```
@@ -449,7 +450,7 @@ Each card (4 total):
       display: flex, flex-wrap: wrap, gap: 8px (--space-3)
       Each chip:
         mono 12/400, --ms-fg-faint
-        padding: 4px 10px
+        padding: 4px 8px
         border: 1px var(--ms-border)
         border-radius: --radius-pill
 ```
