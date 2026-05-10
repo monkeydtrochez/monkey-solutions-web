@@ -17,7 +17,8 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       professionalSkills,
       linkedInUrl,
       githubUrl,
-      heroBio
+      heroBio,
+      aboutBody
     },
 
       _type == 'education' => {
@@ -40,7 +41,9 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
         client,
         site,
         tags,
-        body
+        overview,
+        kind,
+        "metrics": metrics[]{ label, value, suffix }
     }
 }`;
 
