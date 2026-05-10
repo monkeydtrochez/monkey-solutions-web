@@ -45,6 +45,14 @@ No new shadcn components need to be installed. No third-party registries.
 All spacing tokens are pre-established in `globals.css :root` from Phase 1. This phase
 uses these tokens by name. Do not add new spacing values — use only what is declared.
 
+The Phase 1 token scale extends the base 8-point grid with 20, 28, and 36px values for
+inter-element rhythm — this was established and approved in the Phase 1 design contract.
+`--space-9` (20px), `--space-11` (28px), and `--space-13` (36px) are valid tokens from
+that approved set and are not exceptions to the spacing scale.
+
+`--section-py` (120px) and `--content-max` (1240px) are layout dimensions, not spacing
+tokens, and are exempt from the spacing scale rule.
+
 | Token | Value | Usage in this phase |
 |-------|-------|---------------------|
 | `--space-1` | 4px | Inner segment gap, detail line margin-top on education entry |
@@ -56,9 +64,9 @@ uses these tokens by name. Do not add new spacing values — use only what is de
 | `--space-12` | 32px | Education list margin-top, community section margin-top, service card padding |
 | `--space-13` | 36px | Timeline section grid margin-top after kicker |
 | `--space-15` | 48px | Section gap between Experience left and Skills/Services column blocks |
-| `--content-max` | 1240px | Max content width for all three sections |
+| `--content-max` | 1240px | Max content width for all three sections (layout dimension, not a spacing token) |
 | `--page-px` | 32px | Horizontal section padding |
-| `--section-py` | 120px | Vertical section padding for all three sections |
+| `--section-py` | 120px | Vertical section padding for all three sections (layout dimension, not a spacing token) |
 
 Exceptions:
 - Timeline vertical line: `width: 1px` — not a spacing token; it is a border dimension.
@@ -120,6 +128,8 @@ number on service cards does not count as a type role — it is aria-hidden deco
 
 All color tokens are pre-established from Phase 1. This section declares which token maps
 to which Phase 4 element.
+
+60/30/10 split: dominant 60% `--ms-bg`, secondary 30% `--ms-bg-alt` + `--ms-surface`, accent 10% `--ms-orange` family.
 
 | Role | Token | Dark value | Light value |
 |------|-------|-----------|-------------|
