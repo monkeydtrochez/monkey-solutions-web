@@ -3,6 +3,7 @@ import DataHydrator from "@/components/wrappers/DataHydrator";
 import QueryClientWrapper from "@/components/wrappers/QueryClientWrapper";
 import SiteHeader from "@/components/SiteHeader";
 import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ export default async function Home() {
       <SiteHeader />
       <main>
         <HeroSection />
+        <AboutSection />
       </main>
     </QueryClientWrapper>
   );
