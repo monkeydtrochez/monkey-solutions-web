@@ -74,7 +74,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 **Wave 1**
-- [ ] 03-01-PLAN.md — Data layer: extend Sanity schemas (project: +overview, +kind, +metrics, -body; profile: +aboutBody), update TypeScript types (ProjectMetric + Project/Profile extensions), update GROQ projections
+- [x] 03-01-PLAN.md — Data layer: extend Sanity schemas (project: +overview, +kind, +metrics, -body; profile: +aboutBody), update TypeScript types (ProjectMetric + Project/Profile extensions), update GROQ projections
 
 **Wave 2** *(blocked on Wave 1)*
 - [ ] 03-02-PLAN.md — AboutSection component (two-column kicker + H2 + body + facts row + portrait placeholder + sticker badge) + page.tsx wiring (ABOUT-01, ABOUT-02, ABOUT-03)
