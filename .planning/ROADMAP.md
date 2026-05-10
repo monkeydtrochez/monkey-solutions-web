@@ -96,7 +96,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 **Wave 1**
-- [ ] 04-01-PLAN.md — Data layer: extend workExperience (company, current) + education (fieldOfStudy) schemas; update TypeScript types + GROQ projection; fix GlobalContext education to Education[] (D-01..D-10)
+- [x] 04-01-PLAN.md — Data layer: extend workExperience (company, current) + education (fieldOfStudy) schemas; update TypeScript types + GROQ projection; fix GlobalContext education to Education[] (D-01..D-10)
 
 **Wave 2** *(blocked on Wave 1)*
 - [ ] 04-02-PLAN.md — ExperienceSection client component (timeline w/ orange pulse current role + education list + ALSO/COMMUNITY 3 rows) + page.tsx wiring (EXP-01, EXP-02, EXP-03)
@@ -141,6 +141,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Foundation + Tech Debt | 3/3 | Complete | 2026-05-09 |
 | 2. Header + Hero | 0/3 | Not started | - |
 | 3. About + Work | 0/3 | Not started | - |
-| 4. Experience, Skills + Services | 0/3 | Not started | - |
+| 4. Experience, Skills + Services | 1/3 | In Progress|  |
 | 5. Contact + Footer | 0/TBD | Not started | - |
 | 6. Responsive + Accessibility | 0/TBD | Not started | - |
