@@ -25,13 +25,16 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       _type == 'education' => {
     school,
       start,
-      end
+      end,
+      fieldOfStudy
     },
 
       _type == 'workExperience' => {
       sortIndex,
       duration,
-      description
+      description,
+      company,
+      current
     },
 
       _type == 'project' => {

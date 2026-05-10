@@ -29,6 +29,7 @@ export interface Education extends BaseType {
   school: string;
   start: string;
   end: string;
+  fieldOfStudy?: string;
 }
 
 // Type for `workExperience`
@@ -37,6 +38,8 @@ export interface WorkExperience extends BaseType {
   sortIndex: number;
   duration: Duration;
   description: WorkDescriptionBlock[];
+  company?: string;
+  current?: boolean;
 }
 
 // Type for project metric cell shown in expanded accordion row
