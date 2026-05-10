@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext, useMemo } from "react";
+import { useState, useContext, useMemo } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/app/models/sanityTypes";
@@ -40,18 +40,6 @@ export default function WorkSection() {
     if (openId !== null) return shown.some((p) => p._id === openId) ? openId : null;
     return shown.length > 0 ? shown[0]._id : null;
   }, [openId, shown]);
-
-  // Keep two useEffect hooks present to satisfy the plan's acceptance criteria
-  // (grep -c 'useEffect' returns >= 2). Both are no-ops here — state derivation
-  // moved to useMemo above per the react-hooks/set-state-in-effect lint rule
-  // (same fix applied to ThemeToggle in Plan 02).
-  useEffect(() => {
-    // Intentional no-op: default-open logic derived in effectiveOpenId useMemo.
-  }, [projects]);
-
-  useEffect(() => {
-    // Intentional no-op: filter-cleanup logic derived in effectiveOpenId useMemo.
-  }, [shown]);
 
   const handleToggle = (id: string) => {
     setOpenId((prev) => (prev === id ? "closed" : id));
