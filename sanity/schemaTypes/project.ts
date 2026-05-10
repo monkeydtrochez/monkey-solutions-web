@@ -16,6 +16,7 @@ export const project = defineType({
       description: 'This field is the title of your project.',
       title: 'Title',
       type: 'string',
+      validation: (Rule) => Rule.required().error('A title is required.'),
     }),
     defineField({
       name: 'coverImage',

@@ -444,7 +444,7 @@ function ProjectRow({
                 color: "var(--ms-fg-faint)",
                 letterSpacing: 1,
               }}
-            >[{p.title.toUpperCase()} · SCREENSHOT]</div>
+            >[{(p.title ?? "UNTITLED").toUpperCase()} · SCREENSHOT]</div>
           </div>
         </div>
       )}
