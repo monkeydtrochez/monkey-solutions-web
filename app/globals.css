@@ -168,6 +168,14 @@
 [data-theme="dark"]  .logo-m-text { color: #120a05; }
 [data-theme="light"] .logo-m-text { color: #ffffff; }
 
+.service-card {
+  border: 1px solid var(--ms-border);
+  transition: border-color var(--anim-hover);
+}
+.service-card:hover {
+  border-color: var(--ms-orange);
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 72px;
