@@ -43,7 +43,7 @@ All requirements for the v1.0 redesign milestone.
 
 - [x] **EXP-01**: User sees an experience timeline with a vertical line, 4 entries, and visual distinction between the current role and past roles (orange pulse glow for current)
 - [x] **EXP-02**: User sees an education list with degree title, institution, years, and detail line for each entry
-- [ ] **EXP-03**: User sees an "Also / Community" sub-section with 3 community activity rows below the education list
+- [x] **EXP-03**: User sees an "Also / Community" sub-section with 3 community activity rows below the education list
 
 ### Skills Section
 
@@ -142,7 +142,7 @@ Deferred — not in v1.0 scope.
 | WORK-03 | Phase 3 | Pending |
 | EXP-01 | Phase 4 | Complete |
 | EXP-02 | Phase 4 | Complete |
-| EXP-03 | Phase 4 | Pending |
+| EXP-03 | Phase 4 | Complete |
 | SKILLS-01 | Phase 4 | Pending |
 | SVC-01 | Phase 4 | Pending |
 | SVC-02 | Phase 4 | Pending |
