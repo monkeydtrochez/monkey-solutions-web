@@ -75,7 +75,7 @@ Exceptions:
 - Metrics card row gap: 16px = `--space-7`. Use `var(--space-7)`.
 - Project row padding: `24px 4px` — 24px = `--space-10`, 4px = `--space-1`.
 - Sticker badge position: `bottom: -16px; left: -16px` — hardcoded offset, not a token.
-- Decorative offset border on portrait: `transform: translate(12px, 12px)` — hardcoded.
+- Decorative offset border on portrait: `transform: translate(16px, 16px)` — hardcoded.
 - Filter pill container padding: `4px` — hardcoded (see Phase 2 precedent for similar exception).
 - Work section accordion list `margin-top: 56px` — between `--space-15` (48) and `--space-17`
   (64); use `mt-14` (Tailwind 56px) or hardcode `56px`. Not a named token.
@@ -100,27 +100,27 @@ Exactly 4 sizes are declared: `clamp(36px, 4.5vw, 64px)`, `28px`, `16px`, `12px`
 No other sizes are permitted. All small/mono elements (kicker labels, expanded row labels,
 badge text, sticker badge, footer note, filter pills, arrow glyph, meta labels, meta values,
 stack pill labels) use `--text-mono` (12px). About facts values and body emphasis use
-`--text-body` (16px) with weight 500 to differentiate. Metrics card values and project
+`--text-body` (16px) with weight 600 to differentiate. Metrics card values and project
 names both use the single 28px display size.
 
 ### Element Mapping
 
 | Element | Size | Weight | Line Height | Additional |
 |---------|------|--------|-------------|------------|
-| About H2 | `--text-h2` (`clamp(36px, 4.5vw, 64px)`) | 300 | 1.02 | `--font-sans`, tracking `-0.035em`, color `--ms-fg` |
-| About H2 Fraunces accent ("wish") | `--text-h2` | 300 italic | 1.02 | `--font-display`, color `--ms-orange-text` |
+| About H2 | `--text-h2` (`clamp(36px, 4.5vw, 64px)`) | 400 | 1.02 | `--font-sans`, tracking `-0.035em`, color `--ms-fg` |
+| About H2 Fraunces accent ("wish") | `--text-h2` | 400 italic | 1.02 | `--font-display`, color `--ms-orange-text` |
 | About body paragraphs | `--text-body` (16px) | 400 | 1.7 | `--font-sans`, color `--ms-fg-soft`, max-width 520px |
-| About body emphasis ("calm and obvious") | `--text-body` (16px) | 500 | 1.7 | color `--ms-fg` |
+| About body emphasis ("calm and obvious") | `--text-body` (16px) | 600 | 1.7 | color `--ms-fg` |
 | About facts label (Location, Languages, etc.) | `--text-mono` (12px) | 400 | n/a | `--font-mono`, uppercase, letter-spacing 1, color `--ms-fg-faint` |
-| About facts value | `--text-body` (16px) | 500 | n/a | `--font-sans`, color `--ms-fg` |
+| About facts value | `--text-body` (16px) | 600 | n/a | `--font-sans`, color `--ms-fg` |
 | Kicker number (01, 02) | `--text-mono` (12px) | 600 | n/a | `--font-mono`, color `--ms-orange-text` |
 | Kicker label (ABOUT, SELECTED WORK) | `--text-mono` (12px) | 400 | n/a | `--font-mono`, uppercase, letter-spacing 1 |
-| Work H2 | `--text-h2` (`clamp(36px, 4.5vw, 64px)`) | 300 / 600 mix | 0.95 | `--font-sans`, tracking `-0.04em`, color `--ms-fg` |
-| Work H2 Fraunces accent ("actually") | `--text-h2` | 300 italic | 0.95 | `--font-display`, color `--ms-orange-text` |
+| Work H2 | `--text-h2` (`clamp(36px, 4.5vw, 64px)`) | 400 / 600 mix | 0.95 | `--font-sans`, tracking `-0.04em`, color `--ms-fg` |
+| Work H2 Fraunces accent ("actually") | `--text-h2` | 400 italic | 0.95 | `--font-display`, color `--ms-orange-text` |
 | Work H2 "shipped." | `--text-h2` | 600 | 0.95 | `--font-sans` |
 | Filter pill labels (all/web/ios/saas) | `--text-mono` (12px) | 600 | n/a | `--font-mono` |
 | Project row — number (001, 002…) | `--text-mono` (12px) | 400 | n/a | `--font-mono`, letter-spacing 0.5px, color `--ms-fg-faint` |
-| Project row — name | 28px | 500 | n/a | `--font-sans`, tracking `-0.02em`, color `--ms-fg` |
+| Project row — name | 28px | 600 | n/a | `--font-sans`, tracking `-0.02em`, color `--ms-fg` |
 | Project row — kind | `--text-mono` (12px) | 400 | n/a | `--font-mono`, letter-spacing 0.3px, color `--ms-fg-soft` |
 | Project row — year | `--text-mono` (12px) | 400 | n/a | `--font-mono`, text-align right, color `--ms-fg-faint` |
 | Project row — arrow (→) | `--text-mono` (12px) | 400 | n/a | `--font-mono`, text-align center |
@@ -130,11 +130,11 @@ names both use the single 28px display size.
 | Expanded row — meta values | `--text-mono` (12px) | 400 | n/a | `--font-mono`, color `--ms-fg` |
 | Expanded row — "Case study ↗" | `--text-mono` (12px) | 600 | n/a | color `--ms-orange-text`, no underline |
 | Metrics card — label | `--text-mono` (12px) | 400 | n/a | `--font-mono`, uppercase, letter-spacing 1, color `--ms-fg-faint` |
-| Metrics card — value | 28px | 300 | 1 | `--font-sans`, tracking `-0.02em`, color `--ms-orange-text` |
+| Metrics card — value | 28px | 400 | 1 | `--font-sans`, tracking `-0.02em`, color `--ms-orange-text` |
 | Metrics card — suffix | `--text-mono` (12px) | 400 | n/a | `--font-mono`, color `--ms-fg-soft`, margin-top: 4px (optional — omit if empty) |
 | Footer note below project list | `--text-mono` (12px) | 400 | n/a | color `--ms-fg-soft`, text-align center |
 | Footer note link | `--text-mono` (12px) | 600 | n/a | color `--ms-orange-text`, no underline |
-| Sticker badge | `--text-mono` (12px) | 700 | n/a | `--font-mono`, letter-spacing 0.5px |
+| Sticker badge | `--text-mono` (12px) | 600 | n/a | `--font-mono`, letter-spacing 0.5px |
 
 ---
 
@@ -210,12 +210,12 @@ Same pattern used for Hire CTA button and orange-bg elements in Phase 2.
 
 ```
 H2:
-  font: sans clamp(36px, 4.5vw, 64px)/300
+  font: sans clamp(36px, 4.5vw, 64px)/400
   tracking: -0.035em
   line-height: 1.02
   color: --ms-fg
   "I build what teams "
-  <span Fraunces italic 300 --ms-orange-text>wish</span>
+  <span Fraunces italic 400 --ms-orange-text>wish</span>
   " they had time to build."
 
 Body (2 paragraphs):
@@ -224,14 +224,14 @@ Body (2 paragraphs):
   color: --ms-fg-soft
   max-width: 520px
   paragraph gap: 16px (--space-7)
-  "calm and obvious" — weight 500, color --ms-fg
+  "calm and obvious" — weight 600, color --ms-fg
 
 Facts row:
   margin-top: 36px
   display: flex, gap: 32px, flex-wrap: wrap
   Each pair:
     label: mono 12/400 (--text-mono), uppercase, letter-spacing 1, --ms-fg-faint
-    value: sans 16/500 (--text-body weight 500), --ms-fg, margin-top: 4px
+    value: sans 16/600 (--text-body weight 600), --ms-fg, margin-top: 4px
   Items:
     Location / "Göteborg, SE"
     Languages / "SV · EN · ES"
@@ -246,7 +246,7 @@ Container: position relative
 Decorative offset border:
   position: absolute, inset: 0
   border: 1px var(--ms-border-strong)
-  transform: translate(12px, 12px)
+  transform: translate(16px, 16px)
   border-radius: 4px (--radius-sm)
   aria-hidden: true
 
@@ -257,7 +257,7 @@ Portrait placeholder:
   z-index: 1
   background: repeating-linear-gradient(45deg, --ms-bg-alt 0 10px, --ms-surface 10px 11px)
   border: 1px var(--ms-border)
-  Centered: "DT" in Fraunces italic 300, color --ms-fg-faint (placeholder initials — D-14)
+  Centered: "DT" in Fraunces italic 400, color --ms-fg-faint (placeholder initials — D-14)
   [When profile.profilePicture is populated: replace with Next.js <Image> via imageUrlBuilder]
 
 Sticker badge:
@@ -266,7 +266,7 @@ Sticker badge:
   color: #120a05 (dark) / #fff (light)
   padding: 8px 16px
   border-radius: 6px (--radius-md)
-  font: mono 12/700 (--text-mono weight 700), letter-spacing 0.5px
+  font: mono 12/600 (--text-mono weight 600), letter-spacing 0.5px
   transform: rotate(-3deg)
   box-shadow: --shadow-sticker
   Copy: "↓ hi, nice to meet you" (hardcoded — D-16)
@@ -293,13 +293,13 @@ Sticker badge:
     <Kicker n="02" label="Selected work" />
     H2:
       margin-top: 28px
-      font: sans clamp(36px, 4.5vw, 64px)/300 (--text-h2)
+      font: sans clamp(36px, 4.5vw, 64px)/400 (--text-h2)
       tracking: -0.04em
       line-height: 0.95
       color: --ms-fg
       max-width: 900px
       "Six projects, "
-      <span Fraunces italic 300 --ms-orange-text>actually</span>
+      <span Fraunces italic 400 --ms-orange-text>actually</span>
       " "
       <span weight 600>shipped.</span>
 
@@ -332,7 +332,7 @@ Sticker badge:
   transition: background 0.2s (--anim-hover)
 
   Col 1 — number: mono 12/400, letter-spacing 0.5px, --ms-fg-faint
-  Col 2 — project name: sans 28/500, tracking -0.02em, --ms-fg
+  Col 2 — project name: sans 28/600, tracking -0.02em, --ms-fg
   Col 3 — kind: mono 12/400, letter-spacing 0.3px, --ms-fg-soft
   Col 4 — year: mono 12/400, text-align right, --ms-fg-faint
   Col 5 — arrow "→": mono 12/400 (--text-mono), text-align center
@@ -385,7 +385,7 @@ Expanded panel — animated in with ms-fadein 0.3s (--anim-fadein)
 
     Each metric cell (label / value / suffix):
       label: mono 12/400 (--text-mono), uppercase, letter-spacing 1, --ms-fg-faint
-      value: sans 28/300, tracking -0.02em, line-height 1, --ms-orange-text, margin-top: 8px (--space-3)
+      value: sans 28/400, tracking -0.02em, line-height 1, --ms-orange-text, margin-top: 8px (--space-3)
       suffix: mono 12/400, --ms-fg-soft, margin-top: 4px (optional — omit if empty)
 
     Screenshot placeholder (full-width, below metrics grid):
