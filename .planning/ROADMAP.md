@@ -71,7 +71,16 @@ Plans:
   3. All 6 projects appear as accordion rows; clicking one opens it and closes any previously open row
   4. An expanded project row shows the overview, stack pills, metrics card, and screenshot placeholder
   5. The category filter control updates the visible project rows when a category is selected
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+**Wave 1**
+- [ ] 03-01-PLAN.md — Data layer: extend Sanity schemas (project: +overview, +kind, +metrics, -body; profile: +aboutBody), update TypeScript types (ProjectMetric + Project/Profile extensions), update GROQ projections
+
+**Wave 2** *(blocked on Wave 1)*
+- [ ] 03-02-PLAN.md — AboutSection component (two-column kicker + H2 + body + facts row + portrait placeholder + sticker badge) + page.tsx wiring (ABOUT-01, ABOUT-02, ABOUT-03)
+
+**Wave 3** *(blocked on Wave 2 — shares app/page.tsx)*
+- [ ] 03-03-PLAN.md — WorkSection component (filter pills + accordion with single-open + ProjectRow + metrics card + screenshot placeholder + footer note) + page.tsx wiring (WORK-01, WORK-02, WORK-03)
 **UI hint**: yes
 
 ### Phase 4: Experience, Skills + Services
@@ -122,7 +131,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation + Tech Debt | 3/3 | Complete | 2026-05-09 |
 | 2. Header + Hero | 0/3 | Not started | - |
-| 3. About + Work | 0/TBD | Not started | - |
+| 3. About + Work | 0/3 | Not started | - |
 | 4. Experience, Skills + Services | 0/TBD | Not started | - |
 | 5. Contact + Footer | 0/TBD | Not started | - |
 | 6. Responsive + Accessibility | 0/TBD | Not started | - |
