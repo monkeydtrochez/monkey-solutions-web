@@ -10,7 +10,7 @@ import {
 
 interface ContextType {
   profile: Profile | null;
-  education: Education | null;
+  education: Education[] | null;
   workExperience: WorkExperience[] | null;
   projects: Project[] | null;
   setSiteContentToContext: (data: SanityApiResponse[] | null) => void;
@@ -24,7 +24,7 @@ export const GlobalContextProvider = ({
   children: ReactNode;
 }) => {
   const [profile, setProfileData] = useState<Profile | null>(null);
-  const [education, setEducationData] = useState<Education | null>(null);
+  const [education, setEducationData] = useState<Education[] | null>(null);
   const [workExperience, setWorkExperienceData] = useState<
     WorkExperience[] | null
   >(null);
@@ -37,10 +37,10 @@ export const GlobalContextProvider = ({
         setProfileData(profileData);
       }
 
-      const educationData = data?.find((item) => item._type === "education");
-      if (educationData) {
-        setEducationData(educationData);
-      }
+      const isEducation = (item: SanityApiResponse): item is Education =>
+        item._type === "education";
+      const educationArray = data?.filter(isEducation) ?? [];
+      setEducationData(educationArray);
 
       const isWorkExperience = (item: SanityApiResponse): item is WorkExperience =>
         item._type === "workExperience";
