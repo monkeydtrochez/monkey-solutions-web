@@ -14,17 +14,10 @@ export default function AboutSection() {
           .filter(Boolean)
       : null;
 
-  const paragraphs =
-    descriptionParagraphs ??
-    (profile?.aboutBody && profile.aboutBody.trim().length > 0
-      ? profile.aboutBody
-          .split(/\n\n+/)
-          .map((p) => p.trim())
-          .filter(Boolean)
-      : [
-          "Ten years in, I've worked on fintech dashboards used by traders, iOS apps used by students across Sweden, and e-commerce platforms processing real money. My best work hides the complexity — it just feels calm and obvious.",
-          "I take product from ambiguous brief to shipped binary. Comfortable being the only developer in the room, or the new senior in a team of twenty.",
-        ]);
+  const paragraphs = descriptionParagraphs ?? [
+    "Ten years in, I've worked on fintech dashboards used by traders, iOS apps used by students across Sweden, and e-commerce platforms processing real money. My best work hides the complexity — it just feels calm and obvious.",
+    "I take product from ambiguous brief to shipped binary. Comfortable being the only developer in the room, or the new senior in a team of twenty.",
+  ];
 
   const profilePictureUrl = profile?.profilePictureUrl ?? null;
 

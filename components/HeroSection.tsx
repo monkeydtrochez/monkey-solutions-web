@@ -5,7 +5,7 @@ import StatusDot from "@/components/ui/StatusDot";
 import TerminalCard from "@/components/TerminalCard";
 
 type TrustStat = {
-  number: string;
+  number?: string;
   accent?: "prefix" | "suffix";
   accentChar?: string;
   label: string;
@@ -13,10 +13,9 @@ type TrustStat = {
 };
 
 const TRUST_STATS: TrustStat[] = [
-  { number: "08", accent: "suffix", accentChar: "+", label: "years shipping" },
-  { number: "40", accent: "suffix", accentChar: "+", label: "projects delivered" },
-  { number: "07", label: "languages in stack" },
-  { number: "100", accent: "suffix", accentChar: "%", label: "projects shipped", sub: "(on time)" },
+  { number: "10", accent: "suffix", accentChar: "+", label: "years shipping" },
+  { number: "20", accent: "suffix", accentChar: "+", label: "Tools and languages in stack" },
+  { label: "AI-first", sub: "Native with AI tools" },
 ];
 
 export default function HeroSection() {
@@ -102,7 +101,7 @@ export default function HeroSection() {
               <span style={{ color: "var(--ms-orange-text)", fontWeight: 700 }}>
                 AVAILABLE
               </span>
-              <span>· freelance projects, Q2 2026 →</span>
+              <span>· freelance projects →</span>
             </div>
 
             {/* H1 */}
@@ -227,16 +226,22 @@ export default function HeroSection() {
                   color: "var(--ms-fg)",
                 }}
               >
-                {stat.accent === "prefix" && stat.accentChar && (
-                  <span style={{ color: "var(--ms-orange-text)" }}>
-                    {stat.accentChar}
-                  </span>
-                )}
-                {stat.number}
-                {stat.accent === "suffix" && stat.accentChar && (
-                  <span style={{ color: "var(--ms-orange-text)" }}>
-                    {stat.accentChar}
-                  </span>
+                {stat.number ? (
+                  <>
+                    {stat.accent === "prefix" && stat.accentChar && (
+                      <span style={{ color: "var(--ms-orange-text)" }}>
+                        {stat.accentChar}
+                      </span>
+                    )}
+                    {stat.number}
+                    {stat.accent === "suffix" && stat.accentChar && (
+                      <span style={{ color: "var(--ms-orange-text)" }}>
+                        {stat.accentChar}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  stat.label
                 )}
               </div>
               <div
@@ -249,14 +254,20 @@ export default function HeroSection() {
                   letterSpacing: "0.4px",
                 }}
               >
-                {stat.label}
-                {stat.sub && (
+                {stat.number ? (
                   <>
-                    {" "}
-                    <span style={{ color: "var(--ms-fg-faint)" }}>
-                      {stat.sub}
-                    </span>
+                    {stat.label}
+                    {stat.sub && (
+                      <>
+                        {" "}
+                        <span style={{ color: "var(--ms-fg-faint)" }}>{stat.sub}</span>
+                      </>
+                    )}
                   </>
+                ) : (
+                  stat.sub && (
+                    <span style={{ color: "var(--ms-fg-faint)" }}>{stat.sub}</span>
+                  )
                 )}
               </div>
             </div>

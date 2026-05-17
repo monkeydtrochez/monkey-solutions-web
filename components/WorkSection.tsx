@@ -5,22 +5,20 @@ import GlobalContext from "@/app/context/GlobalContext";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/app/models/sanityTypes";
 
-type Filter = "all" | "web" | "ios" | "saas";
-
-const matchesFilter = (kind: string | undefined | null, filter: Filter): boolean => {
-  const k = kind ?? "";
-  if (filter === "all") return true;
-  if (filter === "web") return /commerce|web|booking/i.test(k);
-  if (filter === "ios") return /iOS/.test(k);              // case-sensitive — do NOT add "i" flag
-  if (filter === "saas") return /SaaS/i.test(k);
-  return true;
-};
 
 export default function WorkSection() {
   const ctx = useContext(GlobalContext);
   const projects = useMemo(() => ctx?.projects ?? [], [ctx?.projects]);
 
-  const [filter, setFilter] = useState<Filter>("all");
+  // Derive unique kind values from project data
+  const filterOptions = useMemo(() => {
+    const kinds = Array.from(
+      new Set(projects.map((p) => p.kind).filter((k): k is string => Boolean(k)))
+    );
+    return ["all", ...kinds];
+  }, [projects]);
+
+  const [filter, setFilter] = useState("all");
   // openId tracks user-explicit selection:
   //   null     = no explicit pick yet (auto-open first shown row)
   //   "closed" = user explicitly collapsed (no row open)
@@ -28,7 +26,10 @@ export default function WorkSection() {
   const [openId, setOpenId] = useState<string | "closed" | null>(null);
 
   const shown = useMemo(
-    () => projects.filter((p) => matchesFilter(p.kind, filter)),
+    () =>
+      filter === "all"
+        ? projects
+        : projects.filter((p) => p.kind === filter),
     [projects, filter]
   );
 
@@ -111,7 +112,7 @@ export default function WorkSection() {
             borderRadius: "var(--radius-pill)",
             padding: 4,
           }}>
-            {(["all", "web", "ios", "saas"] as const).map((f) => {
+            {filterOptions.map((f) => {
               const active = filter === f;
               return (
                 <button
@@ -363,20 +364,28 @@ function ProjectRow({
                   color: "var(--ms-fg)",
                 }}>{year || "—"}</div>
               </div>
-              <a
-                href="#"
-                style={{
-                  marginLeft: "auto",
-                  color: "var(--ms-orange-text)",
-                  fontWeight: 600,
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--text-mono)",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >Case study ↗</a>
+              {p.site && (
+                <a
+                  href={p.site}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit ${p.title} site (opens in new tab)`}
+                  style={{
+                    marginLeft: "auto",
+                    color: "var(--ms-orange-text)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    padding: 6,
+                    borderRadius: "var(--radius-sm)",
+                    border: "1px solid var(--ms-orange-dim)",
+                    lineHeight: 1,
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </a>
+              )}
             </div>
           </div>
 

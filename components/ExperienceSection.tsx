@@ -2,16 +2,11 @@
 import { useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
 
-const COMMUNITY = [
-  { label: "Open source contributor", detail: "GitHub / @danmunro" },
-  { label: "Tech speaker", detail: "GothenburgJS, 2023" },
-  { label: "Mentor", detail: "Hack Your Future, SE" },
-];
-
 export default function ExperienceSection() {
   const ctx = useContext(GlobalContext);
   const workExperience = ctx?.workExperience ?? [];
   const education = ctx?.education ?? [];
+  const communityWork = ctx?.profile?.communityWork ?? [];
 
   return (
     <section
@@ -75,83 +70,89 @@ export default function ExperienceSection() {
           </em>
         </h2>
 
-        {/* Two-column grid: timeline (left) + education + community (right) */}
+        {/* ── Full-width experience timeline ── */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 64,
-            marginTop: 36,
-            alignItems: "start",
+            position: "relative",
+            marginTop: 48,
           }}
         >
-          {/* ── Left column: Experience timeline ── */}
+          {/* Explicit vertical line — positioned so it aligns with dot centres */}
           <div
+            aria-hidden="true"
             style={{
-              position: "relative",
-              paddingLeft: 32,
-              borderLeft: "1px solid var(--ms-border)",
+              position: "absolute",
+              left: 7,
+              top: 8,
+              bottom: 8,
+              width: 1,
+              background: "var(--ms-border)",
             }}
-          >
-            {workExperience.map((entry, index) => {
-              const isLast = index === workExperience.length - 1;
+          />
 
-              // Compute plain text from blockContent (D-06) — no block renderer library
-              const text = entry.description
-                ?.map((block) => block.children?.map((c) => c.text).join(""))
-                .filter(Boolean)
-                .join(" ");
+          {workExperience.map((entry, index) => {
+            const isLast = index === workExperience.length - 1;
 
-              return (
+            // Compute plain text from blockContent (D-06) — no block renderer library
+            const text = entry.description
+              ?.map((block) => block.children?.map((c) => c.text).join(""))
+              .filter(Boolean)
+              .join(" ");
+
+            return (
+              <div
+                key={entry._id}
+                style={{
+                  position: "relative",
+                  paddingLeft: 32,
+                  paddingBottom: isLast ? 0 : 48,
+                }}
+              >
+                {/* Dot — current role: orange 16px pulsing; past role: grey 12px static */}
+                {entry.current === true ? (
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      left: -1,
+                      top: 2,
+                      width: 16,
+                      height: 16,
+                      borderRadius: "50%",
+                      background: "var(--ms-orange)",
+                      boxShadow: "0 0 0 4px var(--ms-orange-dim)",
+                      animation: "ms-pulse var(--anim-pulse) infinite",
+                    }}
+                  />
+                ) : (
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      left: 1,
+                      top: 4,
+                      width: 12,
+                      height: 12,
+                      borderRadius: "50%",
+                      background: "var(--ms-border-strong)",
+                      border: "2px solid var(--ms-bg-alt)",
+                    }}
+                  />
+                )}
+
+                {/* Entry: meta left, description right */}
                 <div
-                  key={entry._id}
                   style={{
-                    position: "relative",
-                    paddingBottom: isLast ? 0 : 36,
+                    display: "grid",
+                    gridTemplateColumns: "220px 1fr",
+                    gap: 40,
+                    alignItems: "start",
                   }}
                 >
-                  {/* Dot — current role: orange 16px pulsing; past role: grey 12px static */}
-                  {entry.current === true ? (
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: "absolute",
-                        left: -8,
-                        top: 4,
-                        width: 16,
-                        height: 16,
-                        borderRadius: "50%",
-                        background: "var(--ms-orange)",
-                        boxShadow: "0 0 0 4px var(--ms-orange-dim)",
-                        animation: "ms-pulse var(--anim-pulse) infinite",
-                      }}
-                    />
-                  ) : (
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: "absolute",
-                        left: -6,
-                        top: 6,
-                        width: 12,
-                        height: 12,
-                        borderRadius: "50%",
-                        background: "var(--ms-border-strong)",
-                        border: "1px solid var(--ms-bg-alt)",
-                      }}
-                    />
-                  )}
-
-                  {/* Entry content */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 4,
-                    }}
-                  >
+                  {/* Meta column */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                     {/* Company name + optional "Current" badge */}
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
                       <span
                         style={{
                           fontFamily: "var(--font-sans)",
@@ -165,13 +166,11 @@ export default function ExperienceSection() {
                       {entry.current === true && (
                         <span
                           style={{
-                            display: "inline-block",
-                            marginLeft: 8,
-                            padding: "4px 8px",
+                            padding: "3px 8px",
                             border: "1px solid var(--ms-orange-dim)",
                             borderRadius: "var(--radius-pill)",
                             fontFamily: "var(--font-mono)",
-                            fontSize: 12,
+                            fontSize: 11,
                             fontWeight: 600,
                             textTransform: "uppercase",
                             color: "var(--ms-orange-text)",
@@ -197,116 +196,118 @@ export default function ExperienceSection() {
                     {/* Year range — use || for endYear so empty string falls back to "Present" */}
                     <div
                       style={{
+                        marginTop: 2,
                         fontFamily: "var(--font-mono)",
                         fontSize: 12,
                         fontWeight: 400,
                         color: "var(--ms-fg-faint)",
                       }}
                     >
-                      {entry.duration?.startYear ?? "?"}{" "}
-                      &ndash;{" "}
-                      {entry.duration?.endYear || "Present"}
+                      {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
                     </div>
-
-                    {/* Description paragraph — rendered only when text is truthy */}
-                    {text && (
-                      <p
-                        style={{
-                          marginTop: 8,
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "var(--text-body)",
-                          fontWeight: 400,
-                          lineHeight: 1.6,
-                          color: "var(--ms-fg-soft)",
-                          maxWidth: 480,
-                        }}
-                      >
-                        {text}
-                      </p>
-                    )}
                   </div>
-                </div>
-              );
-            })}
-          </div>
 
-          {/* ── Right column: Education list + Community sub-section ── */}
-          <div>
-            {/* Education list */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 24,
-              }}
-            >
-              {education.map((entry) => (
-                <div
-                  key={entry._id}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr auto",
-                    gap: 16,
-                    alignItems: "start",
-                  }}
-                >
-                  {/* Left: degree, institution, optional fieldOfStudy */}
-                  <div>
-                    <div
+                  {/* Description column */}
+                  {text && (
+                    <p
                       style={{
+                        margin: 0,
+                        paddingTop: 2,
                         fontFamily: "var(--font-sans)",
-                        fontSize: 16,
-                        fontWeight: 600,
-                        color: "var(--ms-fg)",
-                      }}
-                    >
-                      {entry.title}
-                    </div>
-                    <div
-                      style={{
-                        marginTop: 4,
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 12,
+                        fontSize: "var(--text-body)",
                         fontWeight: 400,
+                        lineHeight: 1.65,
                         color: "var(--ms-fg-soft)",
                       }}
                     >
-                      {entry.school}
-                    </div>
-                    {entry.fieldOfStudy && (
-                      <div
-                        style={{
-                          marginTop: 8,
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 12,
-                          fontWeight: 400,
-                          color: "var(--ms-fg-faint)",
-                        }}
-                      >
-                        {entry.fieldOfStudy}
-                      </div>
-                    )}
-                  </div>
+                      {text}
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
-                  {/* Right: year range */}
+        {/* ── Education + Community row (below timeline) ── */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 64,
+            marginTop: 64,
+            paddingTop: 48,
+            borderTop: "1px solid var(--ms-border)",
+            alignItems: "start",
+          }}
+        >
+          {/* Education list */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {education.map((entry) => (
+              <div
+                key={entry._id}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr auto",
+                  gap: 16,
+                  alignItems: "start",
+                }}
+              >
+                <div>
                   <div
                     style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: 16,
+                      fontWeight: 600,
+                      color: "var(--ms-fg)",
+                    }}
+                  >
+                    {entry.title}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 4,
                       fontFamily: "var(--font-mono)",
                       fontSize: 12,
                       fontWeight: 400,
-                      color: "var(--ms-fg-faint)",
-                      textAlign: "right",
-                      whiteSpace: "nowrap",
+                      color: "var(--ms-fg-soft)",
                     }}
                   >
-                    {entry.start} &ndash; {entry.end}
+                    {entry.school}
                   </div>
+                  {entry.fieldOfStudy && (
+                    <div
+                      style={{
+                        marginTop: 6,
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 12,
+                        fontWeight: 400,
+                        color: "var(--ms-fg-faint)",
+                      }}
+                    >
+                      {entry.fieldOfStudy}
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 12,
+                    fontWeight: 400,
+                    color: "var(--ms-fg-faint)",
+                    textAlign: "right",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {entry.start}&ndash;{entry.end}
+                </div>
+              </div>
+            ))}
+          </div>
 
-            {/* Community sub-section (D-12: 3 hardcoded rows) */}
-            <div style={{ marginTop: 48 }}>
+          {/* Community sub-section — from profile.communityWork */}
+          {communityWork.length > 0 && (
+            <div>
               <div
                 style={{
                   fontFamily: "var(--font-mono)",
@@ -321,9 +322,9 @@ export default function ExperienceSection() {
                 ALSO / COMMUNITY
               </div>
 
-              {COMMUNITY.map((row) => (
+              {communityWork.map((row) => (
                 <div
-                  key={row.label}
+                  key={row._key}
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -341,23 +342,26 @@ export default function ExperienceSection() {
                       color: "var(--ms-fg-soft)",
                     }}
                   >
-                    {row.label}
+                    {row.assignment}
                   </span>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 12,
-                      fontWeight: 400,
-                      color: "var(--ms-fg-faint)",
-                      textAlign: "right",
-                    }}
-                  >
-                    {row.detail}
-                  </span>
+                  {row.organisation && (
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 12,
+                        fontWeight: 400,
+                        color: "var(--ms-fg-faint)",
+                        textAlign: "right",
+                      }}
+                    >
+                      {row.organisation}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
-          </div>
+          )}
+
         </div>
       </div>
     </section>

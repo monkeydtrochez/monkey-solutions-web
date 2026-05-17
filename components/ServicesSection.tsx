@@ -2,34 +2,27 @@ import { Badge } from "@/components/ui/badge";
 
 const SERVICES = [
   {
-    number: "01.",
+    number: "01",
     title: "Full-Stack Web",
     description:
-      "End-to-end product development — from API design to shipped UI. React, Next.js, Node, and whatever the project actually needs.",
-    stack: ["Next.js", "TypeScript", "PostgreSQL", "Tailwind"],
+      "From landing page to full product. Modern fullstack frameworks, headless CMS, and whatever the project actually needs.",
+    stack: ["Devops", "Development", "Headless CMS", "Design", "Integrations"],
   },
   {
-    number: "02.",
-    title: "iOS Development",
+    number: "02",
+    title: "Dev advisory",
     description:
-      "Native Swift and SwiftUI apps. I care about how they feel in your hand as much as what they do.",
-    stack: ["Swift", "SwiftUI", "Xcode", "Core Data"],
+      "Code reviews, architecture calls, hiring loops. Sometimes the most useful thing is a second pair of eyes.",
+    stack: ["Code audits", "Architecture reviews", "Hiring loops", "Consulting"],
   },
   {
-    number: "03.",
-    title: "Consulting & Rescue",
+    number: "03",
+    title: "Backend & APIs",
     description:
-      "Inherited a mess? I audit, stabilise, and hand over a codebase you can confidently build on.",
-    stack: ["Audit", "Refactor", "Docs", "CI"],
+      "Services built with best suited frameworks, typed from DB to client. Boring-by-choice, readable, tested.",
+    stack: ["Performance", "Security", "Devops", "Architecture design", "Observability", "Monitoring", "Testing"],
   },
-  {
-    number: "04.",
-    title: "Design Systems",
-    description:
-      "Tokens, components, and the documentation that makes a team fast. I've built them from scratch and inherited them mid-project.",
-    stack: ["Figma Tokens", "Tailwind", "shadcn", "Storybook"],
-  },
-] as const;
+];
 
 export default function ServicesSection() {
   return (
@@ -43,7 +36,7 @@ export default function ServicesSection() {
       }}
     >
       <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
-        {/* Kicker row: 05 ── SERVICES */}
+        {/* Kicker row */}
         <div
           style={{
             display: "flex",
@@ -55,129 +48,166 @@ export default function ServicesSection() {
             letterSpacing: 1,
           }}
         >
-          <span style={{ color: "var(--ms-orange-text)", fontWeight: 600 }}>
-            05
-          </span>
+          <span style={{ color: "var(--ms-orange-text)", fontWeight: 600 }}>05</span>
           <span
             aria-hidden="true"
-            style={{
-              width: 28,
-              height: 1,
-              background: "var(--ms-border-strong)",
-            }}
+            style={{ width: 28, height: 1, background: "var(--ms-border-strong)" }}
           />
           <span style={{ textTransform: "uppercase" }}>SERVICES</span>
         </div>
 
-        {/* H2 */}
-        <h2
+        {/* Header: title left, subtitle right */}
+        <div
           style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 64,
             marginTop: 36,
-            fontFamily: "var(--font-sans)",
-            fontSize: "var(--text-h2)",
-            fontWeight: 400,
-            lineHeight: 1.02,
-            letterSpacing: "-0.035em",
-            color: "var(--ms-fg)",
-            margin: 0,
-            marginBlockStart: 36,
+            alignItems: "end",
           }}
         >
-          What I offer
-        </h2>
+          <h2
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--text-h2)",
+              fontWeight: 400,
+              lineHeight: 1.05,
+              letterSpacing: "-0.035em",
+              color: "var(--ms-fg)",
+            }}
+          >
+            A few of many ways we could be{" "}
+            <em
+              style={{
+                fontFamily: "var(--font-display)",
+                fontStyle: "italic",
+                fontWeight: 400,
+                color: "var(--ms-fg)",
+              }}
+            >
+              working
+            </em>{" "}
+            <strong style={{ fontWeight: 700, color: "var(--ms-orange-text)" }}>
+              together.
+            </strong>
+          </h2>
 
-        {/* 2x2 service card grid */}
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--text-body)",
+              fontWeight: 400,
+              lineHeight: 1.65,
+              color: "var(--ms-fg-soft)",
+            }}
+          >
+            Most engagements are 4–12 weeks, fixed scope or monthly retainer.
+            I&apos;ll tell you honestly if your project isn&apos;t a fit for me.
+          </p>
+        </div>
+
+        {/* Service cards — 3-column grid */}
         <div
           style={{
             marginTop: 48,
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: 24,
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 16,
           }}
         >
-          {SERVICES.map((service) => (
-            <div
-              key={service.number}
-              className="service-card"
-              style={{
-                position: "relative",
-                overflow: "hidden",
-                padding: 32,
-                background: "var(--ms-surface)",
-                borderRadius: "var(--radius-2xl)",
-              }}
-            >
-              {/* Decorative giant Fraunces italic number */}
-              <span
-                aria-hidden="true"
+          {SERVICES.map((service) => {
+            return (
+              <div
+                key={service.number}
+                className="service-card"
                 style={{
-                  position: "absolute",
-                  top: -8,
-                  right: 16,
-                  fontFamily: "var(--font-display)",
-                  fontStyle: "italic",
-                  fontWeight: 400,
-                  fontSize: "clamp(80px, 10vw, 140px)",
-                  lineHeight: 0.85,
-                  color: "var(--ms-border-strong)",
-                  userSelect: "none",
+                  position: "relative",
+                  overflow: "hidden",
+                  padding: 32,
+                  background: "var(--ms-surface)",
+                  borderRadius: "var(--radius-xl)",
                 }}
               >
-                {service.number}
-              </span>
-
-              {/* Card content */}
-              <div style={{ position: "relative", zIndex: 1 }}>
-                {/* Title */}
-                <h3
+                {/* Decorative background number */}
+                <span
+                  aria-hidden="true"
                   style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "var(--text-h3)",
-                    fontWeight: 600,
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1.2,
-                    color: "var(--ms-fg)",
-                    maxWidth: 280,
-                    margin: 0,
-                  }}
-                >
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p
-                  style={{
-                    marginTop: 16,
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "var(--text-body)",
+                    position: "absolute",
+                    top: -16,
+                    right: 16,
+                    fontFamily: "var(--font-display)",
+                    fontStyle: "italic",
                     fontWeight: 400,
-                    lineHeight: 1.6,
-                    color: "var(--ms-fg-soft)",
-                    margin: 0,
-                    marginBlockStart: 16,
+                    fontSize: "clamp(120px, 16vw, 200px)",
+                    lineHeight: 0.85,
+                    color: "var(--ms-bg-alt)",
+                    userSelect: "none",
+                    pointerEvents: "none",
                   }}
                 >
-                  {service.description}
-                </p>
+                  {service.number}
+                </span>
 
-                {/* Stack chip row */}
-                <div
-                  style={{
-                    marginTop: 24,
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 8,
-                  }}
-                >
-                  {service.stack.map((chip) => (
-                    <Badge key={chip} variant="outline" aria-hidden="true">
-                      {chip}
-                    </Badge>
-                  ))}
+                {/* Card content */}
+                <div style={{ position: "relative", zIndex: 1 }}>
+                  {/* Kicker */}
+                  <div
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "var(--text-mono)",
+                      fontWeight: 400,
+                      color: "var(--ms-fg-faint)",
+                      marginBottom: 16,
+                      letterSpacing: "0.5px",
+                    }}
+                  >
+                    — service / {service.number}
+                  </div>
+
+                  {/* Title */}
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "var(--text-h3)",
+                      fontWeight: 700,
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.15,
+                      color: "var(--ms-fg)",
+                    }}
+                  >
+                    {service.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p
+                    style={{
+                      marginTop: 12,
+                      marginBottom: 0,
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "var(--text-body)",
+                      fontWeight: 400,
+                      lineHeight: 1.6,
+                      color: "var(--ms-fg-soft)",
+                    }}
+                  >
+                    {service.description}
+                  </p>
+
+                  {/* Stack chips */}
+                  <div style={{ marginTop: 24, display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {service.stack.map((chip) => (
+                      <Badge key={chip} variant="outline">
+                        {chip}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

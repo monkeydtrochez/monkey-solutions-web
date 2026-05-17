@@ -16,10 +16,11 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       location,
       personalitySkills,
       professionalSkills,
+      skillGroups,
+      communityWork,
       linkedInUrl,
       githubUrl,
-      heroBio,
-      aboutBody
+      heroBio
     },
 
       _type == 'education' => {

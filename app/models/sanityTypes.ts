@@ -5,12 +5,26 @@ interface BaseType {
   title: string;
 }
 
+export interface ProfessionalSkill {
+  _key: string;
+  name: string;
+  category: string;
+}
+
+export interface CommunityEntry {
+  _key: string;
+  assignment: string;
+  organisation?: string;
+}
+
 // Type for `profile`
 export interface Profile extends BaseType {
   _type: "profile";
   location: string;
   languages: string[];
   professionalSkills: string[];
+  skillGroups?: ProfessionalSkill[];
+  communityWork?: CommunityEntry[];
   personalitySkills: string[];
   profilePicture: ImageReference;
   description: WorkDescriptionBlock[];
@@ -19,7 +33,6 @@ export interface Profile extends BaseType {
   linkedInUrl: string;
   githubUrl: string;
   heroBio?: string;
-  aboutBody?: string;
   profilePictureUrl?: string;
 }
 

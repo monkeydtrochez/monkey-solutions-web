@@ -58,6 +58,33 @@ export const profile = defineType({
       ],
     }),
     defineField({
+      name: 'communityWork',
+      title: 'Community & Board work',
+      description: 'Extra assignments shown in the "Also / Community" section.',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'communityEntry',
+          fields: [
+            defineField({
+              name: 'assignment',
+              title: 'Assignment',
+              type: 'string',
+              description: 'What you do, e.g. "Active board member for a .NET program"',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'organisation',
+              title: 'Organisation',
+              type: 'string',
+              description: 'Who you do it for, e.g. "Handelsakademin Göteborg"',
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'personalitySkills',
       title: 'Personality skills',
       type: 'array',
@@ -69,7 +96,7 @@ export const profile = defineType({
     }),
     defineField({
       name: 'professionalSkills',
-      title: 'Professional skills',
+      title: 'Professional skills (legacy)',
       type: 'array',
       of: [
         defineArrayMember({
@@ -78,16 +105,44 @@ export const profile = defineType({
       ],
     }),
     defineField({
+      name: 'skillGroups',
+      title: 'Professional skills (categorized)',
+      description: 'Used by the redesigned site. Each skill has a name and a category.',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'skillEntry',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Skill name',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'category',
+              title: 'Category',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Languages', value: 'Languages'},
+                  {title: 'Frontend', value: 'Frontend'},
+                  {title: 'Backend & Infra', value: 'Backend & Infra'},
+                  {title: 'Craft', value: 'Craft'},
+                ],
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'heroBio',
       title: 'Hero Bio',
       type: 'string',
       description: 'Short lede paragraph displayed in the hero section.',
-    }),
-    defineField({
-      name: 'aboutBody',
-      title: 'About Body',
-      type: 'text',
-      description: 'About section body copy (2+ paragraphs). Separate paragraphs with a blank line.',
     }),
   ],
 })

@@ -1,54 +1,30 @@
-const SKILL_GROUPS = [
-  {
-    group: "Languages",
-    skills: [
-      { name: "TypeScript", proficiency: 9 },
-      { name: "Python", proficiency: 7 },
-      { name: "Swift", proficiency: 7 },
-      { name: "SQL", proficiency: 7 },
-      { name: "Bash", proficiency: 5 },
-    ],
-  },
-  {
-    group: "Frontend",
-    skills: [
-      { name: "React / Next.js", proficiency: 9 },
-      { name: "SwiftUI", proficiency: 8 },
-      { name: "CSS / Tailwind", proficiency: 9 },
-      { name: "Figma", proficiency: 7 },
-    ],
-  },
-  {
-    group: "Backend & Infra",
-    skills: [
-      { name: "Node / Express", proficiency: 8 },
-      { name: "PostgreSQL", proficiency: 7 },
-      { name: "Docker", proficiency: 6 },
-      { name: "AWS", proficiency: 6 },
-      { name: "Sanity CMS", proficiency: 8 },
-    ],
-  },
-  {
-    group: "Craft",
-    skills: [
-      { name: "Product thinking", proficiency: 9 },
-      { name: "API design", proficiency: 8 },
-      { name: "Performance", proficiency: 8 },
-      { name: "Accessibility", proficiency: 7 },
-    ],
-  },
-] as const;
+"use client";
+import { useContext } from "react";
+import GlobalContext from "@/app/context/GlobalContext";
+import { Badge } from "@/components/ui/badge";
 
 export default function SkillsSection() {
+  const ctx = useContext(GlobalContext);
+  const profile = ctx?.profile;
+
+  // Group professional skills by category, preserving insertion order
+  const categoryMap = new Map<string, string[]>();
+  for (const skill of profile?.skillGroups ?? []) {
+    const cat = skill.category ?? "Other";
+    if (!categoryMap.has(cat)) categoryMap.set(cat, []);
+    categoryMap.get(cat)!.push(skill.name);
+  }
+  const techGroups = Array.from(categoryMap.entries());
+
+  const personalitySkills = profile?.personalitySkills ?? [];
+
   return (
     <section
       id="skills"
-      style={{
-        padding: "var(--section-py) var(--page-px)",
-      }}
+      style={{ padding: "var(--section-py) var(--page-px)" }}
     >
       <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
-        {/* Kicker row: 04 ── SKILLS */}
+        {/* Kicker row */}
         <div
           style={{
             display: "flex",
@@ -60,21 +36,14 @@ export default function SkillsSection() {
             letterSpacing: 1,
           }}
         >
-          <span style={{ color: "var(--ms-orange-text)", fontWeight: 600 }}>
-            04
-          </span>
+          <span style={{ color: "var(--ms-orange-text)", fontWeight: 600 }}>04</span>
           <span
             aria-hidden="true"
-            style={{
-              width: 28,
-              height: 1,
-              background: "var(--ms-border-strong)",
-            }}
+            style={{ width: 28, height: 1, background: "var(--ms-border-strong)" }}
           />
           <span style={{ textTransform: "uppercase" }}>SKILLS</span>
         </div>
 
-        {/* H2 */}
         <h2
           style={{
             marginTop: 36,
@@ -84,115 +53,119 @@ export default function SkillsSection() {
             lineHeight: 1.02,
             letterSpacing: "-0.035em",
             color: "var(--ms-fg)",
-            margin: 0,
-            marginBlockStart: 36,
           }}
         >
-          What I work with
+          Tools I reach for{" "}
+          <em
+            style={{
+              fontFamily: "var(--font-display)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              color: "var(--ms-orange-text)",
+            }}
+          >
+            without
+          </em>{" "}
+          <strong style={{ fontWeight: 700 }}>thinking.</strong>
         </h2>
 
-        {/* 4-column skill groups grid */}
-        <div
-          style={{
-            marginTop: 48,
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 24,
-          }}
-        >
-          {SKILL_GROUPS.map((group) => (
-            <div key={group.group}>
-              {/* Group header */}
-              <div
+        {/* ── Technical skill categories ── */}
+        {techGroups.length > 0 && (
+          <div
+            style={{
+              marginTop: 48,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: 40,
+              alignItems: "start",
+            }}
+          >
+            {techGroups.map(([group, skills]) => (
+              <div key={group}>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "var(--text-mono)",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: 1,
+                    color: "var(--ms-fg)",
+                    marginBottom: 16,
+                    paddingBottom: 8,
+                    borderBottom: "1px solid var(--ms-border)",
+                  }}
+                >
+                  {group}
+                </div>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {skills.map((name) => (
+                    <Badge key={name} variant="outline">
+                      {name}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ── Personality traits ── */}
+        {personalitySkills.length > 0 && (
+          <div
+            style={{
+              marginTop: 56,
+              paddingTop: 48,
+              borderTop: "1px solid var(--ms-border)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: 16,
+                marginBottom: 28,
+              }}
+            >
+              <span
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: "var(--text-mono)",
                   fontWeight: 600,
                   textTransform: "uppercase",
                   letterSpacing: 1,
-                  color: "var(--ms-fg)",
-                  marginBottom: 16,
-                  paddingBottom: 8,
-                  borderBottom: "1px solid var(--ms-border)",
+                  color: "var(--ms-fg-faint)",
                 }}
               >
-                {group.group}
-              </div>
-
-              {/* Skill rows */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 12,
-                }}
-              >
-                {group.skills.map((skill) => (
-                  <div
-                    key={skill.name}
-                    role="img"
-                    aria-label={`${skill.name}: ${skill.proficiency} out of 10`}
-                  >
-                    {/* Label row */}
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: 4,
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "var(--text-body)",
-                          fontWeight: 400,
-                          color: "var(--ms-fg-soft)",
-                        }}
-                      >
-                        {skill.name}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "var(--text-mono)",
-                          fontWeight: 400,
-                          color: "var(--ms-fg-faint)",
-                        }}
-                      >
-                        {skill.proficiency}/10
-                      </span>
-                    </div>
-
-                    {/* 10-segment bar */}
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "var(--space-1)",
-                        height: 8,
-                        width: "100%",
-                      }}
-                    >
-                      {Array.from({ length: 10 }).map((_, i) => (
-                        <div
-                          key={i}
-                          style={{
-                            flex: 1,
-                            height: 8,
-                            borderRadius: "var(--radius-xs)",
-                            background:
-                              i < skill.proficiency
-                                ? "var(--ms-orange)"
-                                : "var(--ms-border-strong)",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                How I show up
+              </span>
+              <span
+                aria-hidden="true"
+                style={{ flex: 1, height: 1, background: "var(--ms-border)" }}
+              />
             </div>
-          ))}
-        </div>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              {personalitySkills.map((trait) => (
+                <span
+                  key={trait}
+                  style={{
+                    padding: "10px 20px",
+                    border: "1px solid var(--ms-border)",
+                    borderRadius: "var(--radius-pill)",
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "var(--text-body)",
+                    fontWeight: 400,
+                    color: "var(--ms-fg-soft)",
+                    background: "var(--ms-surface)",
+                  }}
+                >
+                  {trait}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
