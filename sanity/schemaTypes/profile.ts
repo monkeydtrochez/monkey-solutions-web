@@ -144,5 +144,23 @@ export const profile = defineType({
       type: 'string',
       description: 'Short lede paragraph displayed in the hero section.',
     }),
+    defineField({
+      name: 'availabilityStatus',
+      title: 'Availability Status',
+      type: 'string',
+      description: 'e.g. "Open for Q3 projects". Shown in footer Status column.',
+    }),
+    defineField({
+      name: 'orgNumber',
+      title: 'Organisation Number',
+      type: 'string',
+      description: 'e.g. "559123-4567". Shown in footer Studio address block.',
+    }),
+    defineField({
+      name: 'readCvUrl',
+      title: 'Read.cv URL',
+      type: 'url',
+      description: 'Read.cv profile URL. Shown in footer Elsewhere column. Optional — link is omitted if not set.',
+    }),
   ],
 })

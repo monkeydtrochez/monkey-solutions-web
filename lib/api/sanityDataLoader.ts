@@ -20,7 +20,10 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       communityWork,
       linkedInUrl,
       githubUrl,
-      heroBio
+      heroBio,
+      availabilityStatus,
+      orgNumber,
+      readCvUrl
     },
 
       _type == 'education' => {

@@ -34,6 +34,9 @@ export interface Profile extends BaseType {
   githubUrl: string;
   heroBio?: string;
   profilePictureUrl?: string;
+  availabilityStatus?: string;
+  orgNumber?: string;
+  readCvUrl?: string;
 }
 
 // Type for `education`
