@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: Header + Hero** - Sticky header with nav/CTA and full hero section with trust strip
 - [ ] **Phase 3: About + Work** - Two-column About section and expandable project accordion with filter
 - [ ] **Phase 4: Experience, Skills + Services** - Timeline, education, skills bars, and service card grid
-- [ ] **Phase 5: Contact + Footer** - Contact form with success state, resume downloads, and footer
+- [x] **Phase 5: Contact + Footer** - Contact form with success state, resume downloads, and footer (completed 2026-05-18)
 - [ ] **Phase 6: Responsive + Accessibility** - Mobile layouts, reduced-motion support, and a11y baseline
 
 ## Phase Details
@@ -124,7 +124,7 @@ Plans:
 - [x] 05-02-PLAN.md — ContactSection client component (two-column: direct links + resume download card + form with optimistic success state) + page.tsx wiring (CONTACT-01, CONTACT-02, CONTACT-03, CONTACT-04)
 
 **Wave 3** *(blocked on Wave 2 — shares app/page.tsx)*
-- [ ] 05-03-PLAN.md — FooterSection client component (giant wordmark, 4-column meta grid with CMS fields, bottom strip) + page.tsx wiring outside main (FOOTER-01, FOOTER-02, FOOTER-03)
+- [x] 05-03-PLAN.md — FooterSection client component (giant wordmark, 4-column meta grid with CMS fields, bottom strip) + page.tsx wiring outside main (FOOTER-01, FOOTER-02, FOOTER-03)
 **UI hint**: yes
 
 ### Phase 6: Responsive + Accessibility
@@ -151,5 +151,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Header + Hero | 0/3 | Not started | - |
 | 3. About + Work | 0/3 | Not started | - |
 | 4. Experience, Skills + Services | 2/3 | In Progress|  |
-| 5. Contact + Footer | 2/3 | In Progress|  |
+| 5. Contact + Footer | 3/3 | Complete   | 2026-05-18 |
 | 6. Responsive + Accessibility | 0/TBD | Not started | - |
