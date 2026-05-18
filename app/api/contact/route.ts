@@ -8,7 +8,10 @@ import { NextRequest, NextResponse } from 'next/server';
 //   'Contact Form <contact@monkeysolutions.se>'
 // Until then, use onboarding@resend.dev ONLY if daniel@monkeysolutions.se is
 // the Resend account's registered email address.
-const resend = new Resend(process.env.RESEND_API_KEY);
+//
+// Resend is instantiated lazily inside the handler so that builds without
+// RESEND_API_KEY succeed. The SDK throws at construction time when the key
+// is absent, which would break `next build` for all other routes.
 
 export async function POST(request: NextRequest) {
   if (!process.env.RESEND_API_KEY) {
@@ -18,6 +21,8 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   let name: string, email: string, budget: string, project: string;
   try {

@@ -8,6 +8,7 @@ import WorkSection from "@/components/WorkSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import SkillsSection from "@/components/SkillsSection";
 import ServicesSection from "@/components/ServicesSection";
+import ContactSection from "@/components/ContactSection";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +25,7 @@ export default async function Home() {
         <ExperienceSection />
         <SkillsSection />
         <ServicesSection />
+        <ContactSection />
       </main>
     </QueryClientWrapper>
   );
