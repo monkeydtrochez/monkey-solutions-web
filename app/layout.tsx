@@ -31,9 +31,6 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <GlobalContextProvider>
           {children}
-          <footer className="py-4 text-center text-sm text-gray-500">
-            © {new Date().getFullYear()} Monkey Solutions. All rights reserved.
-          </footer>
         </GlobalContextProvider>
       </body>
     </html>
