@@ -56,10 +56,10 @@ All requirements for the v1.0 redesign milestone.
 
 ### Contact Section
 
-- [ ] **CONTACT-01**: User can submit a contact form with name, email, budget, and project description fields
-- [ ] **CONTACT-02**: Contact form shows an optimistic success state (green background, checkmark, confirmation text) for 3.5 seconds on successful submission, then resets
-- [ ] **CONTACT-03**: User can download a resume as PDF in English or Swedish via styled download cards
-- [ ] **CONTACT-04**: User sees direct contact links for email, LinkedIn, and GitHub with trailing arrow icons
+- [x] **CONTACT-01**: User can submit a contact form with name, email, budget, and project description fields
+- [x] **CONTACT-02**: Contact form shows an optimistic success state (green background, checkmark, confirmation text) for 3.5 seconds on successful submission, then resets
+- [x] **CONTACT-03**: User can download a resume as PDF in English or Swedish via styled download cards
+- [x] **CONTACT-04**: User sees direct contact links for email, LinkedIn, and GitHub with trailing arrow icons
 
 ### Footer
 
@@ -146,10 +146,10 @@ Deferred — not in v1.0 scope.
 | SKILLS-01 | Phase 4 | Pending |
 | SVC-01 | Phase 4 | Pending |
 | SVC-02 | Phase 4 | Pending |
-| CONTACT-01 | Phase 5 | Pending |
-| CONTACT-02 | Phase 5 | Pending |
-| CONTACT-03 | Phase 5 | Pending |
-| CONTACT-04 | Phase 5 | Pending |
+| CONTACT-01 | Phase 5 | Complete |
+| CONTACT-02 | Phase 5 | Complete |
+| CONTACT-03 | Phase 5 | Complete |
+| CONTACT-04 | Phase 5 | Complete |
 | FOOTER-01 | Phase 5 | Pending |
 | FOOTER-02 | Phase 5 | Pending |
 | FOOTER-03 | Phase 5 | Pending |
