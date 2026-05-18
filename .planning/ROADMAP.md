@@ -118,7 +118,7 @@ Plans:
 **Plans**: 3 plans
 Plans:
 **Wave 1**
-- [ ] 05-01-PLAN.md — Data layer + backend: install resend, extend Sanity profile schema (availabilityStatus, orgNumber, readCvUrl), update GROQ + TypeScript types, create /api/contact Resend POST handler, seed /public/ placeholder PDFs (CONTACT-01, CONTACT-02, CONTACT-03)
+- [x] 05-01-PLAN.md — Data layer + backend: install resend, extend Sanity profile schema (availabilityStatus, orgNumber, readCvUrl), update GROQ + TypeScript types, create /api/contact Resend POST handler, seed /public/ placeholder PDFs (CONTACT-01, CONTACT-02, CONTACT-03)
 
 **Wave 2** *(blocked on Wave 1)*
 - [ ] 05-02-PLAN.md — ContactSection client component (two-column: direct links + resume download card + form with optimistic success state) + page.tsx wiring (CONTACT-01, CONTACT-02, CONTACT-03, CONTACT-04)
@@ -151,5 +151,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Header + Hero | 0/3 | Not started | - |
 | 3. About + Work | 0/3 | Not started | - |
 | 4. Experience, Skills + Services | 2/3 | In Progress|  |
-| 5. Contact + Footer | 0/3 | Not started | - |
+| 5. Contact + Footer | 1/3 | In Progress | - |
 | 6. Responsive + Accessibility | 0/TBD | Not started | - |

@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: Redesign Monkey Solutions Web
-status: Phase 4 fully delivered
-stopped_at: Phase 5 context gathered
-last_updated: "2026-05-17T20:37:29.269Z"
-last_activity: 2026-05-10
+status: executing
+stopped_at: "Completed 05-01-PLAN.md"
+last_updated: "2026-05-18T14:29:41Z"
+last_activity: 2026-05-18 -- Completed Phase 05 Plan 01 (data layer + backend)
 progress:
   total_phases: 6
   completed_phases: 4
-  total_plans: 12
+  total_plans: 15
   completed_plans: 12
-  percent: 100
+  percent: 80
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-09)
 
 **Core value:** Let visitors hire Daniel — every section funnels toward the contact form, direct email, and resume download.
-**Current focus:** Phase 04 — experience-skills-services (COMPLETE)
+**Current focus:** Phase 05 — contact-footer
 
 ## Current Position
 
-Phase: 04 (experience-skills-services) — COMPLETE
-Plan: 3 of 3 (all plans complete)
-Status: Phase 4 fully delivered
-Last activity: 2026-05-10
+Phase: 05 (contact-footer) — EXECUTING
+Plan: 2 of 3
+Status: Executing Phase 05 (Plan 01 complete)
+Last activity: 2026-05-18 -- Completed Phase 05 Plan 01 (data layer + backend)
 
 Progress: [██████████] 100%
 
@@ -64,6 +64,9 @@ Recent decisions affecting current work:
 - Design tokens as CSS variables on `<html data-theme>` — SSR-safe, no JS flash
 - Fix tech debt inline with redesign — same files, fix once
 - Dark theme as default — brand aesthetic is dark-moody
+- RESEND_API_KEY server-side only (no NEXT_PUBLIC_) — contact form email delivery via Resend
+- Resend sandbox sender (onboarding@resend.dev) until monkeysolutions.se domain is verified in Resend Dashboard
+- Three new optional Sanity profile fields (availabilityStatus, orgNumber, readCvUrl) for footer CMS content
 
 ### Pending Todos
 
@@ -81,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-17T20:37:29.261Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-contact-footer/05-CONTEXT.md
+Last session: 2026-05-18T14:29:41Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: .planning/phases/05-contact-footer/05-02-PLAN.md
