@@ -14,11 +14,6 @@ const NAV_ITEMS = [
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const [reducedMotion] = useState(() =>
-    typeof window !== "undefined"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false
-  );
   const headerRef = useRef<HTMLElement>(null);
 
   const handleKey = useCallback((e: KeyboardEvent) => {
@@ -67,7 +62,8 @@ export default function SiteHeader() {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: reducedMotion ? "instant" : "smooth" });
+            const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
           }}
           style={{
             display: "inline-flex",
@@ -192,13 +188,12 @@ export default function SiteHeader() {
       {/* Mobile dropdown panel — always in DOM, animated via maxHeight + opacity */}
       <div
         id="mobile-nav-panel"
-        className="ms:hidden"
+        className="ms:hidden mobile-nav-panel"
         aria-hidden={!open}
         style={{
           overflow: "hidden",
           maxHeight: open ? 500 : 0,
           opacity: open ? 1 : 0,
-          transition: reducedMotion ? undefined : "max-height 150ms ease-out, opacity 150ms ease-out",
           borderBottom: open ? "1px solid var(--ms-border)" : undefined,
         }}
       >

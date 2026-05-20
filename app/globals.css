@@ -169,6 +169,10 @@
   .ms-pulse-anim {
     animation: none !important;
   }
+  .mobile-nav-panel,
+  .back-to-top-btn {
+    transition: none !important;
+  }
 }
 
 /* Phase 2: theme-switchable backgrounds and text colors that don't fit the --ms-* token scheme */
@@ -177,6 +181,14 @@
 
 [data-theme="dark"]  .logo-m-text { color: #120a05; }
 [data-theme="light"] .logo-m-text { color: #ffffff; }
+
+.mobile-nav-panel {
+  transition: max-height 150ms ease-out, opacity 150ms ease-out;
+}
+
+.back-to-top-btn {
+  transition: opacity 0.15s ease;
+}
 
 .service-card {
   border: 1px solid var(--ms-border);

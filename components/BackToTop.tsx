@@ -3,11 +3,6 @@ import { useState, useEffect } from "react";
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
-  const [reducedMotion] = useState(() =>
-    typeof window !== "undefined"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false
-  );
 
   useEffect(() => {
     function handleScroll() {
@@ -18,14 +13,15 @@ export default function BackToTop() {
   }, []);
 
   function handleClick() {
-    window.scrollTo({ top: 0, behavior: reducedMotion ? "instant" : "smooth" });
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
   }
 
   return (
     <button
       onClick={handleClick}
       aria-label="Back to top"
-      className="focus-ring"
+      className="focus-ring back-to-top-btn"
       style={{
         position: "fixed",
         bottom: 24,
@@ -42,7 +38,6 @@ export default function BackToTop() {
         cursor: "pointer",
         opacity: visible ? 1 : 0,
         pointerEvents: visible ? "auto" : "none",
-        transition: reducedMotion ? undefined : "opacity 0.15s ease",
       }}
     >
       <svg
