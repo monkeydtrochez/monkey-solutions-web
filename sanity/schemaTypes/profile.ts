@@ -134,6 +134,13 @@ export const profile = defineType({
               },
               validation: (Rule) => Rule.required(),
             }),
+            defineField({
+              name: 'proficiency',
+              title: 'Proficiency (1–10)',
+              type: 'number',
+              description: 'How many of the 10 segments to fill in the skills bar.',
+              validation: (Rule) => Rule.min(1).max(10).integer(),
+            }),
           ],
         }),
       ],
