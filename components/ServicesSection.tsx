@@ -22,13 +22,6 @@ const SERVICES = [
       "Services built with best suited frameworks, typed from DB to client. Boring-by-choice, readable, tested.",
     stack: ["Performance", "Security", "Devops", "Architecture design", "Observability", "Monitoring", "Testing"],
   },
-  {
-    number: "04",
-    title: "Mobile & iOS",
-    description:
-      "Native iOS apps and cross-platform mobile. Swift or React Native — whatever fits the product and the team.",
-    stack: ["Swift", "SwiftUI", "React Native", "App Store", "Push notifications"],
-  },
 ];
 
 export default function ServicesSection() {
@@ -114,9 +107,9 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        {/* Service cards — 2×2 grid */}
+        {/* Service cards — 3-column grid */}
         <div
-          className="grid grid-cols-1 ms:grid-cols-2"
+          className="grid grid-cols-1 ms:grid-cols-3"
           style={{
             marginTop: 48,
             gap: 16,

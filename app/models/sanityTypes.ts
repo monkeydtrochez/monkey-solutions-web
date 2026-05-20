@@ -9,7 +9,6 @@ export interface ProfessionalSkill {
   _key: string;
   name: string;
   category: string;
-  proficiency?: number;
 }
 
 export interface CommunityEntry {

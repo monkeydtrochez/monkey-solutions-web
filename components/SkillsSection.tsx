@@ -1,21 +1,20 @@
 "use client";
 import { useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
-
-const CATEGORY_ORDER = ["Languages", "Frontend", "Backend & Infra", "Craft"];
+import { Badge } from "@/components/ui/badge";
 
 export default function SkillsSection() {
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile;
 
-  const categoryMap = new Map<string, { name: string; proficiency: number }[]>();
-  for (const cat of CATEGORY_ORDER) categoryMap.set(cat, []);
+  // Group professional skills by category, preserving insertion order
+  const categoryMap = new Map<string, string[]>();
   for (const skill of profile?.skillGroups ?? []) {
     const cat = skill.category ?? "Other";
     if (!categoryMap.has(cat)) categoryMap.set(cat, []);
-    categoryMap.get(cat)!.push({ name: skill.name, proficiency: skill.proficiency ?? 8 });
+    categoryMap.get(cat)!.push(skill.name);
   }
-  const groups = Array.from(categoryMap.entries()).filter(([, skills]) => skills.length > 0);
+  const techGroups = Array.from(categoryMap.entries());
 
   const personalitySkills = profile?.personalitySkills ?? [];
 
@@ -70,13 +69,18 @@ export default function SkillsSection() {
           <strong style={{ fontWeight: 700 }}>thinking.</strong>
         </h2>
 
-        {/* ── 4-group 10-segment proficiency bars ── */}
-        {groups.length > 0 && (
+        {/* ── Technical skill categories ── */}
+        {techGroups.length > 0 && (
           <div
-            className="grid grid-cols-1 ms:grid-cols-4"
-            style={{ marginTop: 48, gap: 40, alignItems: "start" }}
+            style={{
+              marginTop: 48,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: 40,
+              alignItems: "start",
+            }}
           >
-            {groups.map(([group, skills]) => (
+            {techGroups.map(([group, skills]) => (
               <div key={group}>
                 <div
                   style={{
@@ -86,7 +90,7 @@ export default function SkillsSection() {
                     textTransform: "uppercase",
                     letterSpacing: 1,
                     color: "var(--ms-fg)",
-                    marginBottom: 20,
+                    marginBottom: 16,
                     paddingBottom: 8,
                     borderBottom: "1px solid var(--ms-border)",
                   }}
@@ -94,41 +98,11 @@ export default function SkillsSection() {
                   {group}
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                  {skills.map(({ name, proficiency }) => (
-                    <div
-                      key={name}
-                      role="img"
-                      aria-label={`${name}: ${proficiency} out of 10`}
-                    >
-                      <div
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "var(--text-body)",
-                          fontWeight: 400,
-                          color: "var(--ms-fg-soft)",
-                          marginBottom: 6,
-                        }}
-                      >
-                        {name}
-                      </div>
-                      <div style={{ display: "flex", gap: 3 }}>
-                        {Array.from({ length: 10 }).map((_, i) => (
-                          <div
-                            key={i}
-                            style={{
-                              flex: 1,
-                              height: 6,
-                              borderRadius: "var(--radius-xs)",
-                              background:
-                                i < proficiency
-                                  ? "var(--ms-orange)"
-                                  : "var(--ms-border-strong)",
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {skills.map((name) => (
+                    <Badge key={name} variant="outline">
+                      {name}
+                    </Badge>
                   ))}
                 </div>
               </div>
