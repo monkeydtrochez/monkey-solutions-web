@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [reducedMotion] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false
+  );
 
   useEffect(() => {
-    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-
     function handleScroll() {
       setVisible(window.scrollY > 300);
     }
