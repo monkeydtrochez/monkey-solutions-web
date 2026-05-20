@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { GlobalContextProvider } from "./context/GlobalContext";
 import { inter, jetbrainsMono, fraunces } from "./fonts";
+import BackToTop from "@/components/BackToTop";
 
 export const metadata: Metadata = {
   title: "Monkey Solutions",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <GlobalContextProvider>
           {children}
         </GlobalContextProvider>
+        <BackToTop />
       </body>
     </html>
   );
