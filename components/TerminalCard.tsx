@@ -130,7 +130,7 @@ export default function TerminalCard() {
         >
           ${" "}
           <span
-            className="ms-cursor"
+            className="ms-cursor ms-cursor-anim"
             aria-hidden="true"
             style={{
               borderRight: "7px solid var(--ms-orange)",

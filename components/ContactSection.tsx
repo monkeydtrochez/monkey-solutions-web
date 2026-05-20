@@ -105,11 +105,8 @@ export default function ContactSection() {
       <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
         {/* Two-column grid */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1.1fr",
-            gap: 80,
-          }}
+          className="grid grid-cols-1 ms:grid-cols-[1fr_1.1fr]"
+          style={{ gap: 80 }}
         >
           {/* ── LEFT COLUMN ── */}
           <div>
@@ -553,6 +550,7 @@ export default function ContactSection() {
                 onBlur={(e) =>
                   (e.currentTarget.style.borderBottomColor = "var(--ms-border-strong)")
                 }
+                className="focus-ring"
                 style={inputStyle}
               />
             </div>
@@ -572,6 +570,7 @@ export default function ContactSection() {
                 onBlur={(e) =>
                   (e.currentTarget.style.borderBottomColor = "var(--ms-border-strong)")
                 }
+                className="focus-ring"
                 style={inputStyle}
               />
             </div>
@@ -591,6 +590,7 @@ export default function ContactSection() {
                 onBlur={(e) =>
                   (e.currentTarget.style.borderBottomColor = "var(--ms-border-strong)")
                 }
+                className="focus-ring"
                 style={inputStyle}
               />
             </div>
@@ -610,6 +610,7 @@ export default function ContactSection() {
                 onBlur={(e) =>
                   (e.currentTarget.style.borderBottomColor = "var(--ms-border-strong)")
                 }
+                className="focus-ring"
                 style={textareaStyle}
               />
             </div>
@@ -617,8 +618,8 @@ export default function ContactSection() {
             {/* Submit button */}
             <button
               type="submit"
-              aria-live="polite"
               disabled={sending}
+              className="focus-ring"
               style={{
                 marginTop: 8,
                 width: "100%",
@@ -669,6 +670,16 @@ export default function ContactSection() {
                 {error}
               </p>
             )}
+
+            {/* Accessible live region — always present in DOM; receives text when form is submitted */}
+            <div
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className="sr-only"
+            >
+              {sent ? "Message sent — I will be in touch soon." : ""}
+            </div>
           </form>
         </div>
       </div>

@@ -57,9 +57,8 @@ export default function FooterSection() {
 
         {/* 4-column meta grid */}
         <div
+          className="grid grid-cols-2 ms:grid-cols-4"
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
             gap: 32,
             paddingTop: 32,
             borderTop: "1px solid var(--ms-border)",
@@ -162,6 +161,7 @@ export default function FooterSection() {
               >
                 <span
                   aria-hidden="true"
+                  className="ms-pulse-anim"
                   style={{
                     position: "absolute",
                     inset: -3,

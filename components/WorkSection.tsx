@@ -120,6 +120,7 @@ export default function WorkSection() {
                   type="button"
                   onClick={() => setFilter(f)}
                   aria-pressed={active}
+                  className="focus-ring"
                   style={{
                     all: "unset",
                     cursor: "pointer",
@@ -217,59 +218,86 @@ function ProjectRow({
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={panelId}
+        aria-label={open ? `Collapse ${p.title}` : `Expand ${p.title}`}
+        className="focus-ring"
         style={{
           all: "unset",
           cursor: "pointer",
           width: "100%",
           boxSizing: "border-box",
-          padding: "24px 4px",
-          display: "grid",
-          gridTemplateColumns: "56px 1.2fr 1fr 80px 28px",
-          gap: 20,
-          alignItems: "center",
+          display: "block",
         }}
       >
-        <span style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--text-mono)",
-          color: "var(--ms-fg-faint)",
-          letterSpacing: "0.5px",
-        }}>{displayNumber}</span>
-
-        <span style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: 28,
-          fontWeight: 600,
-          letterSpacing: "-0.02em",
-          color: "var(--ms-fg)",
-        }}>{p.title}</span>
-
-        <span style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--text-mono)",
-          color: "var(--ms-fg-soft)",
-          letterSpacing: "0.3px",
-        }}>{p.kind}</span>
-
-        <span style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--text-mono)",
-          color: "var(--ms-fg-faint)",
-          textAlign: "right",
-        }}>{year}</span>
-
-        <span
-          aria-hidden="true"
-          style={{
+        {/* Mobile compact layout (visible below 480px, hidden at compact: and above) */}
+        <span className="flex compact:hidden flex-col gap-1 w-full py-6 px-1">
+          <span style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: 28,
+            fontWeight: 600,
+            letterSpacing: "-0.02em",
+            color: "var(--ms-fg)",
+          }}>{p.title}</span>
+          <span style={{
             fontFamily: "var(--font-mono)",
             fontSize: "var(--text-mono)",
-            textAlign: "center",
-            color: open ? "var(--ms-orange-text)" : "var(--ms-fg-soft)",
-            transform: open ? "rotate(90deg)" : "rotate(0deg)",
-            transition: "transform var(--anim-chevron), color var(--anim-hover)",
-            display: "inline-block",
+            color: "var(--ms-fg-soft)",
+          }}>
+            {p.kind}{year ? ` · ${year}` : ""}
+          </span>
+        </span>
+
+        {/* Desktop 5-column grid (hidden below 480px, shown at compact: and above) */}
+        <span
+          className="hidden compact:grid"
+          style={{
+            gridTemplateColumns: "56px 1.2fr 1fr 80px 28px",
+            gap: 20,
+            padding: "24px 4px",
+            alignItems: "center",
           }}
-        >→</span>
+        >
+          <span style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--text-mono)",
+            color: "var(--ms-fg-faint)",
+            letterSpacing: "0.5px",
+          }}>{displayNumber}</span>
+
+          <span style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: 28,
+            fontWeight: 600,
+            letterSpacing: "-0.02em",
+            color: "var(--ms-fg)",
+          }}>{p.title}</span>
+
+          <span style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--text-mono)",
+            color: "var(--ms-fg-soft)",
+            letterSpacing: "0.3px",
+          }}>{p.kind}</span>
+
+          <span style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--text-mono)",
+            color: "var(--ms-fg-faint)",
+            textAlign: "right",
+          }}>{year}</span>
+
+          <span
+            aria-hidden="true"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--text-mono)",
+              textAlign: "center",
+              color: open ? "var(--ms-orange-text)" : "var(--ms-fg-soft)",
+              transform: open ? "rotate(90deg)" : "rotate(0deg)",
+              transition: "transform var(--anim-chevron), color var(--anim-hover)",
+              display: "inline-block",
+            }}
+          >→</span>
+        </span>
       </button>
 
       {open && (

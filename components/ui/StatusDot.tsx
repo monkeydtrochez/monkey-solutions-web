@@ -16,7 +16,7 @@ export default function StatusDot({ pulse = true }: StatusDotProps) {
     >
       {pulse && (
         <span
-          className="animate-pulse"
+          className="animate-pulse ms-pulse-anim"
           style={{
             position: "absolute",
             inset: 0,

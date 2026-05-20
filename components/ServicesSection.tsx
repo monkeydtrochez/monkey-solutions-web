@@ -58,9 +58,8 @@ export default function ServicesSection() {
 
         {/* Header: title left, subtitle right */}
         <div
+          className="grid grid-cols-1 ms:grid-cols-2"
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
             gap: 64,
             marginTop: 36,
             alignItems: "end",
@@ -110,10 +109,9 @@ export default function ServicesSection() {
 
         {/* Service cards — 3-column grid */}
         <div
+          className="grid grid-cols-1 ms:grid-cols-3"
           style={{
             marginTop: 48,
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
             gap: 16,
           }}
         >
