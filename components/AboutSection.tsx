@@ -63,7 +63,7 @@ export default function AboutSection() {
 
         {/* Two-column grid */}
         <div
-          className="grid grid-cols-1 md:grid-cols-2"
+          className="grid grid-cols-1 ms:grid-cols-2"
           style={{
             gap: 72,
             marginTop: 36,

@@ -112,6 +112,7 @@ export default function ExperienceSection() {
                 {entry.current === true ? (
                   <div
                     aria-hidden="true"
+                    className="ms-pulse-anim"
                     style={{
                       position: "absolute",
                       left: -1,
@@ -142,9 +143,8 @@ export default function ExperienceSection() {
 
                 {/* Entry: meta left, description right */}
                 <div
+                  className="grid grid-cols-1 ms:grid-cols-[220px_1fr]"
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "220px 1fr",
                     gap: 40,
                     alignItems: "start",
                   }}
@@ -231,9 +231,8 @@ export default function ExperienceSection() {
 
         {/* ── Education + Community row (below timeline) ── */}
         <div
+          className="grid grid-cols-1 ms:grid-cols-2"
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
             gap: 64,
             marginTop: 64,
             paddingTop: 48,
