@@ -2,6 +2,11 @@
 @config "../tailwind.config.ts";
 @plugin "tailwindcss-animate";
 
+@theme {
+  --breakpoint-ms:      760px;
+  --breakpoint-compact: 480px;
+}
+
 /* Override Tailwind dark variant to use data-theme attribute (per D-02, D-03) */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -158,7 +163,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-pulse, [class*="ms-cursor"] { animation: none; }
+  .animate-pulse,
+  [class*="ms-cursor"],
+  .ms-cursor-anim,
+  .ms-pulse-anim {
+    animation: none !important;
+  }
 }
 
 /* Phase 2: theme-switchable backgrounds and text colors that don't fit the --ms-* token scheme */
@@ -190,6 +200,27 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .focus-ring {
+    outline: none;
+  }
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--ms-orange);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }
 
