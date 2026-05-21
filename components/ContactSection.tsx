@@ -237,7 +237,8 @@ export default function ContactSection() {
                   {profile?.linkedInUrl
                     ? (() => {
                         try {
-                          return new URL(profile.linkedInUrl).hostname;
+                          const u = new URL(profile.linkedInUrl);
+                          return (u.hostname + u.pathname).replace(/^www\./, "").replace(/\/$/, "");
                         } catch {
                           return profile.linkedInUrl;
                         }
@@ -269,7 +270,16 @@ export default function ContactSection() {
                     paddingBottom: 2,
                   }}
                 >
-                  github.com/danmunro
+                  {profile?.githubUrl
+                    ? (() => {
+                        try {
+                          const u = new URL(profile.githubUrl);
+                          return (u.hostname + u.pathname).replace(/^www\./, "").replace(/\/$/, "");
+                        } catch {
+                          return profile.githubUrl;
+                        }
+                      })()
+                    : "—"}
                 </span>
                 <span style={{ marginLeft: "auto", color: "var(--ms-orange-text)" }}>↗</span>
               </a>
@@ -583,7 +593,7 @@ export default function ContactSection() {
               <input
                 id="field-budget"
                 type="text"
-                placeholder="€10k · €50k · let's talk"
+                placeholder="10k · 50k · let's talk"
                 value={form.budget}
                 onChange={(e) => setForm((f) => ({ ...f, budget: e.target.value }))}
                 onFocus={(e) => (e.currentTarget.style.borderBottomColor = "var(--ms-orange)")}

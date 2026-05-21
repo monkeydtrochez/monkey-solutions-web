@@ -116,8 +116,8 @@ export default function SiteHeader() {
           </span>
         </a>
 
-        {/* Desktop nav — hidden below 760px */}
-        <nav className="hidden ms:flex items-center gap-8 flex-wrap">
+        {/* Desktop nav — hidden below 1200px */}
+        <nav className="hidden desk:flex items-center gap-8">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.num}
@@ -156,19 +156,19 @@ export default function SiteHeader() {
               transition: "opacity var(--anim-hover)",
             }}
           >
-            <StatusDot />
+            <StatusDot color="rgba(255,255,255,0.9)" />
             Hire me
           </a>
         </nav>
 
-        {/* Hamburger button — visible only below 760px */}
+        {/* Hamburger button — visible only below 1200px */}
         <button
-          className="ms:hidden focus-ring"
+          className="desk:hidden focus-ring"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav-panel"
           onClick={() => setOpen((v) => !v)}
-          style={{ all: "unset", cursor: "pointer", padding: 4, display: "flex", flexDirection: "column", gap: 4 }}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 4, lineHeight: 0 }}
         >
           {open ? (
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -188,7 +188,7 @@ export default function SiteHeader() {
       {/* Mobile dropdown panel — always in DOM, animated via maxHeight + opacity */}
       <div
         id="mobile-nav-panel"
-        className="ms:hidden mobile-nav-panel"
+        className="desk:hidden mobile-nav-panel"
         aria-hidden={!open}
         style={{
           overflow: "hidden",

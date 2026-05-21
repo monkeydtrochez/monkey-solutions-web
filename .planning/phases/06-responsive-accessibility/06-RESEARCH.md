@@ -594,22 +594,13 @@ The `!important` is required to override inline `style` animation values from JS
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Mobile header nav overflow**
-   - What we know: `SiteHeader.tsx` nav has `overflow: "hidden"` which clips wrapped nav links at narrow widths
-   - What's unclear: Is this intentional (hide overflow) or a bug from the initial implementation?
-   - Recommendation: Remove `overflow: hidden` from nav to prevent links being clipped, but do not implement a hamburger menu (not in requirements). Keep as a note for the planner.
+1. **Mobile header nav overflow** — RESOLVED: Remove `overflow: hidden` from the nav (Task 2.4 in Plan 06-02). No hamburger menu — not in requirements. Wrapped links are the correct mobile behavior.
 
-2. **ContactSection on mobile: form ordering**
-   - What we know: The two-column contact layout stacks to single column (form below links). The form is the RIGHT column — on mobile it renders below the direct links.
-   - What's unclear: Should the form come first on mobile (above the links) for conversion priority?
-   - Recommendation: Requirements say "collapse to single column" with no column order specification. Keep DOM order (links first, form second). Flag for user decision if desired.
+2. **ContactSection on mobile: form ordering** — RESOLVED: Keep DOM order (direct links first, form second). Requirements specify single-column collapse with no ordering constraint.
 
-3. **ServicesSection: 3-column cards at mobile**
-   - What we know: 3 cards in `repeat(3, 1fr)`. At < 760px they should go to 1 column per RESP-01.
-   - What's unclear: Should they be 1 column or perhaps a 2+1 layout at medium widths (e.g., 480px-760px)?
-   - Recommendation: Go to `grid-cols-1 ms:grid-cols-3`. Skip a middle breakpoint unless the user specifies one.
+3. **ServicesSection: 3-column cards at mobile** — RESOLVED: Use `grid-cols-1 ms:grid-cols-3`. No intermediate breakpoint — requirements only specify the 760px collapse to single column.
 
 ---
 

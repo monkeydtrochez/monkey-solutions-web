@@ -135,7 +135,6 @@ export default function TerminalCard() {
             style={{
               borderRight: "7px solid var(--ms-orange)",
               paddingRight: 1,
-              animation: "ms-cursor var(--anim-cursor) step-end infinite",
             }}
           >
             _

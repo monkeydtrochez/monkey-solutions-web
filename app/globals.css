@@ -5,6 +5,7 @@
 @theme {
   --breakpoint-ms:      760px;
   --breakpoint-compact: 480px;
+  --breakpoint-desk:    1200px;
 }
 
 /* Override Tailwind dark variant to use data-theme attribute (per D-02, D-03) */
@@ -181,6 +182,14 @@
 
 [data-theme="dark"]  .logo-m-text { color: #120a05; }
 [data-theme="light"] .logo-m-text { color: #ffffff; }
+
+.ms-pulse-anim {
+  animation: ms-pulse 2.2s ease-out infinite;
+}
+
+.ms-cursor-anim {
+  animation: ms-cursor 1.1s step-end infinite;
+}
 
 .mobile-nav-panel {
   transition: max-height 150ms ease-out, opacity 150ms ease-out;

@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { data, error } = await resend.emails.send({
-    from: 'onboarding@resend.dev', // TODO: change to verified domain sender for production
+    from: 'Contact request for Monkey Solutions <contact@notifications.monkeysolutions.se>',
     to: 'daniel@monkeysolutions.se',
     subject: `New contact from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nBudget: ${budget}\n\n${project}`,

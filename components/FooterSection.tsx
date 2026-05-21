@@ -168,7 +168,6 @@ export default function FooterSection() {
                     borderRadius: "50%",
                     background: "var(--ms-orange)",
                     opacity: 0.3,
-                    animation: "ms-pulse var(--anim-pulse) infinite",
                   }}
                 />
               </div>

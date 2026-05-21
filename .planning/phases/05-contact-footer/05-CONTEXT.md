@@ -26,7 +26,7 @@ Build two sections: (1) ContactSection — a two-column layout with a direct-lin
 
 ### Resume Downloads (CONTACT-03)
 
-- **D-06:** Two download cards use `<a href="/public/resume_en.pdf" download>` and `<a href="/public/resume_sv.pdf" download>`. Placeholder PDF files should be created in `/public/` if Daniel hasn't provided real ones yet (a stub file is fine — the download link must work).
+- **D-06:** Two download cards use `<a href="/resume_en.pdf" download>` and `<a href="/resume_sv.pdf" download>`. Next.js serves `/public/` assets at the root path — the `href` must omit the `/public/` prefix. Placeholder PDF files should be created in `/public/` if Daniel hasn't provided real ones yet (a stub file is fine — the download link must work).
 
 ### Contact Section Data Source (CONTACT-04)
 

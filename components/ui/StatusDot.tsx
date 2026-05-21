@@ -1,8 +1,9 @@
 type StatusDotProps = {
   pulse?: boolean;
+  color?: string;
 };
 
-export default function StatusDot({ pulse = true }: StatusDotProps) {
+export default function StatusDot({ pulse = true, color = "var(--ms-orange)" }: StatusDotProps) {
   return (
     <span
       aria-hidden="true"
@@ -16,14 +17,13 @@ export default function StatusDot({ pulse = true }: StatusDotProps) {
     >
       {pulse && (
         <span
-          className="animate-pulse ms-pulse-anim"
+          className="ms-pulse-anim"
           style={{
             position: "absolute",
             inset: 0,
             borderRadius: "50%",
-            background: "var(--ms-orange)",
-            opacity: 0.3,
-            animation: "ms-pulse var(--anim-pulse) ease-out infinite",
+            background: color,
+            opacity: 0.4,
           }}
         />
       )}
@@ -32,7 +32,7 @@ export default function StatusDot({ pulse = true }: StatusDotProps) {
           width: 8,
           height: 8,
           borderRadius: "50%",
-          background: "var(--ms-orange)",
+          background: color,
         }}
       />
     </span>
