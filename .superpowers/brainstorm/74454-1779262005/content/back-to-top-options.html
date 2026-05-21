@@ -1,0 +1,187 @@
+<h2>Back-to-top button — which style?</h2>
+<p class="subtitle">Fixed to the bottom-right corner. Appears after scrolling down ~300px.</p>
+
+<style>
+  .btt-stage {
+    background: #120a05;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* fake page content */
+  .btt-page-lines {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btt-line {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+  }
+  .btt-line.short { width: 55%; }
+  .btt-line.med { width: 80%; }
+  .btt-line.heading {
+    height: 10px;
+    width: 45%;
+    background: rgba(255,255,255,0.12);
+    margin-bottom: 4px;
+  }
+
+  /* Option A: icon-only circle */
+  .btt-a {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: #ff6b1a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(255,107,26,0.35);
+    cursor: pointer;
+  }
+  .btt-a svg { width: 16px; height: 16px; fill: none; stroke: #120a05; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Option B: pill with label */
+  .btt-b {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(18,10,5,0.92);
+    border: 1px solid rgba(255,107,26,0.5);
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px 8px 10px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .btt-b-arrow {
+    width: 18px;
+    height: 18px;
+    background: #ff6b1a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .btt-b-arrow svg { width: 10px; height: 10px; fill: none; stroke: #120a05; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .btt-b-label {
+    font-family: monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* Option C: ghost square */
+  .btt-c {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255,107,26,0.6);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: rgba(18,10,5,0.7);
+    backdrop-filter: blur(8px);
+  }
+  .btt-c svg { width: 14px; height: 14px; fill: none; stroke: #ff6b1a; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .cards { gap: 24px; }
+  .card-image { background: transparent !important; padding: 16px 16px 0 !important; }
+</style>
+
+<div class="cards">
+
+  <!-- A: filled circle -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="btt-stage">
+        <div class="btt-page-lines">
+          <div class="btt-line heading"></div>
+          <div class="btt-line med"></div>
+          <div class="btt-line short"></div>
+          <div class="btt-line med"></div>
+          <div class="btt-line" style="width:70%"></div>
+          <div class="btt-line short"></div>
+          <div class="btt-line" style="width:65%"></div>
+          <div class="btt-line med"></div>
+        </div>
+        <div class="btt-a">
+          <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Orange circle</h3>
+      <p>Solid orange fill, up-arrow chevron. Bold, minimal. Matches the "Hire me" button energy.</p>
+    </div>
+  </div>
+
+  <!-- B: pill with label -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="btt-stage">
+        <div class="btt-page-lines">
+          <div class="btt-line heading"></div>
+          <div class="btt-line med"></div>
+          <div class="btt-line short"></div>
+          <div class="btt-line med"></div>
+          <div class="btt-line" style="width:70%"></div>
+          <div class="btt-line short"></div>
+          <div class="btt-line" style="width:65%"></div>
+          <div class="btt-line med"></div>
+        </div>
+        <div class="btt-b">
+          <div class="btt-b-arrow">
+            <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+          </div>
+          <span class="btt-b-label">back to top</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Pill with label</h3>
+      <p>Frosted dark background, orange accent ring. "back to top" text next to the arrow. More descriptive.</p>
+    </div>
+  </div>
+
+  <!-- C: ghost square -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="btt-stage">
+        <div class="btt-page-lines">
+          <div class="btt-line heading"></div>
+          <div class="btt-line med"></div>
+          <div class="btt-line short"></div>
+          <div class="btt-line med"></div>
+          <div class="btt-line" style="width:70%"></div>
+          <div class="btt-line short"></div>
+          <div class="btt-line" style="width:65%"></div>
+          <div class="btt-line med"></div>
+        </div>
+        <div class="btt-c">
+          <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Ghost square</h3>
+      <p>Outlined, no fill. Orange border and chevron. More subtle — doesn't compete with the "Hire me" CTA.</p>
+    </div>
+  </div>
+
+</div>
