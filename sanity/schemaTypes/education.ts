@@ -41,5 +41,11 @@ export const education = defineType({
         list: lastFiftyYears(),
       },
     }),
+    defineField({
+      name: 'fieldOfStudy',
+      title: 'Field of Study',
+      type: 'string',
+      description: 'Degree or major detail line, e.g. "Computer Science". Renders below the school name if present.',
+    }),
   ],
 })

@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, useCallback, ReactNode } from "react";
 import {
   SanityApiResponse,
   Profile,
@@ -8,96 +8,55 @@ import {
   Project,
 } from "../models/sanityTypes";
 
-// Define the shape of your context data
 interface ContextType {
   profile: Profile | null;
-  education: Education | null;
+  education: Education[] | null;
   workExperience: WorkExperience[] | null;
   projects: Project[] | null;
-  showCV: boolean;
-  showProjects: boolean;
-  animateCard: boolean;
-  setSiteContentToContext: (data: SanityApiResponse[]) => void;
-  handleViewCV: () => void;
-  handleViewProjects: () => void;
-  handleBackButton: () => void;
-  toggleCardAnimation: (shouldAnimate: boolean) => void;
+  setSiteContentToContext: (data: SanityApiResponse[] | null) => void;
 }
 
-// Create the context
 const GlobalContext = createContext<ContextType | null>(null);
 
-// Define the provider component
 export const GlobalContextProvider = ({
   children,
 }: {
   children: ReactNode;
 }) => {
-  // Create state for siteContent, showCV and animateCard
   const [profile, setProfileData] = useState<Profile | null>(null);
-  const [education, setEducationData] = useState<Education | null>(null);
+  const [education, setEducationData] = useState<Education[] | null>(null);
   const [workExperience, setWorkExperienceData] = useState<
     WorkExperience[] | null
   >(null);
   const [projects, setProjects] = useState<Project[] | null>(null);
 
-  const [showCV, setShowCV] = useState(false);
-  const [showProjects, setShowProjects] = useState(false);
-  const [animateCard, setAnimateCard] = useState(false);
-
-  // Define functions for updating states from other components
-
-  const setSiteContentToContext = (data: SanityApiResponse[] | null) => {
-    const profileData = data?.find((item) => item._type === "profile");
-    if (profileData) {
-      setProfileData(profileData);
-    }
-
-    const educationData = data?.find((item) => item._type === "education");
-    if (educationData) {
-      setEducationData(educationData);
-    }
-
-    if (!workExperience) {
-      const workExperienceArray = data?.filter(
-        (data) => data._type === "workExperience"
-      );
-
-      if (workExperienceArray) {
-        const sortedList = workExperienceArray.sort(
-          (a, b) => a.sortIndex - b.sortIndex
-        );
-        setWorkExperienceData(sortedList);
+  const setSiteContentToContext = useCallback(
+    (data: SanityApiResponse[] | null) => {
+      const profileData = data?.find((item) => item._type === "profile");
+      if (profileData) {
+        setProfileData(profileData);
       }
-    }
 
-    const projectsData = data?.filter((data) => data._type === "project");
-    if (projectsData && !projects) {
-      const sortedList = projectsData.sort((a, b) => a.sortIndex - b.sortIndex);
-      setProjects(sortedList);
-    }
-  };
+      const isEducation = (item: SanityApiResponse): item is Education =>
+        item._type === "education";
+      const educationArray = data?.filter(isEducation) ?? [];
+      setEducationData(educationArray);
 
-  const handleViewProjects = () => {
-    setShowProjects(true);
-    setShowCV(false);
-  };
+      const isWorkExperience = (item: SanityApiResponse): item is WorkExperience =>
+        item._type === "workExperience";
+      const workExperienceArray = data?.filter(isWorkExperience) ?? [];
+      const sortedWE = [...workExperienceArray].sort((a, b) => a.sortIndex - b.sortIndex);
+      setWorkExperienceData(sortedWE);
 
-  const handleViewCV = () => {
-    setShowCV(true);
-    setShowProjects(false);
-  };
+      const isProject = (item: SanityApiResponse): item is Project =>
+        item._type === "project";
+      const projectsData = data?.filter(isProject) ?? [];
+      const sortedP = [...projectsData].sort((a, b) => a.sortIndex - b.sortIndex);
+      setProjects(sortedP);
+    },
+    []
+  );
 
-  const handleBackButton = () => {
-    setShowCV(false);
-    setShowProjects(false);
-  };
-
-  const toggleCardAnimation = (shouldAnimate: boolean) => {
-    setAnimateCard(shouldAnimate);
-  };
-
-  // Return provider and expose the public fields and methods
   return (
     <GlobalContext.Provider
       value={{
@@ -105,14 +64,7 @@ export const GlobalContextProvider = ({
         education,
         workExperience,
         projects,
-        showCV,
-        showProjects,
-        animateCard,
         setSiteContentToContext,
-        handleViewCV,
-        handleViewProjects,
-        handleBackButton,
-        toggleCardAnimation,
       }}
     >
       {children}

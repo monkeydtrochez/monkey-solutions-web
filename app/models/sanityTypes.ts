@@ -5,12 +5,26 @@ interface BaseType {
   title: string;
 }
 
+export interface ProfessionalSkill {
+  _key: string;
+  name: string;
+  category: string;
+}
+
+export interface CommunityEntry {
+  _key: string;
+  assignment: string;
+  organisation?: string;
+}
+
 // Type for `profile`
 export interface Profile extends BaseType {
   _type: "profile";
   location: string;
   languages: string[];
   professionalSkills: string[];
+  skillGroups?: ProfessionalSkill[];
+  communityWork?: CommunityEntry[];
   personalitySkills: string[];
   profilePicture: ImageReference;
   description: WorkDescriptionBlock[];
@@ -18,6 +32,13 @@ export interface Profile extends BaseType {
   email: string;
   linkedInUrl: string;
   githubUrl: string;
+  heroBio?: string;
+  profilePictureUrl?: string;
+  availabilityStatus?: string;
+  orgNumber?: string;
+  readCvUrl?: string;
+  resumeEnUrl?: string;
+  resumeSvUrl?: string;
 }
 
 // Type for `education`
@@ -26,6 +47,7 @@ export interface Education extends BaseType {
   school: string;
   start: string;
   end: string;
+  fieldOfStudy?: string;
 }
 
 // Type for `workExperience`
@@ -34,6 +56,15 @@ export interface WorkExperience extends BaseType {
   sortIndex: number;
   duration: Duration;
   description: WorkDescriptionBlock[];
+  company?: string;
+  current?: boolean;
+}
+
+// Type for project metric cell shown in expanded accordion row
+export interface ProjectMetric {
+  label: string;
+  value: string;
+  suffix: string;
 }
 
 export interface Project extends BaseType {
@@ -44,7 +75,11 @@ export interface Project extends BaseType {
   client: string;
   site: string;
   tags: string[];
-  body: WorkDescriptionBlock[];
+  body?: WorkDescriptionBlock[];
+  coverImageUrl?: string;
+  kind?: string;
+  metrics?: ProjectMetric[];
+  duration?: Duration;
 }
 
 // Type for the `profilePicture` field

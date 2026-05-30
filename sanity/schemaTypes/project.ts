@@ -16,6 +16,7 @@ export const project = defineType({
       description: 'This field is the title of your project.',
       title: 'Title',
       type: 'string',
+      validation: (Rule) => Rule.required().error('A title is required.'),
     }),
     defineField({
       name: 'coverImage',
@@ -51,8 +52,31 @@ export const project = defineType({
     }),
     defineField({
       name: 'body',
-      title: 'Body',
+      title: 'Overview',
       type: 'blockContent',
+      description: 'Single summary paragraph shown in the expanded accordion row.',
+    }),
+    defineField({
+      name: 'kind',
+      title: 'Kind',
+      type: 'string',
+      description: 'Display label, e.g. "E-commerce · Headless", "iOS · Education", "SaaS · Product".',
+    }),
+    defineField({
+      name: 'metrics',
+      title: 'Metrics',
+      type: 'array',
+      validation: (Rule) => Rule.max(3),
+      of: [
+        defineArrayMember({
+          type: 'object',
+          fields: [
+            defineField({ name: 'label', title: 'Label', type: 'string' }),
+            defineField({ name: 'value', title: 'Value', type: 'string' }),
+            defineField({ name: 'suffix', title: 'Suffix', type: 'string' }),
+          ],
+        }),
+      ],
     }),
   ],
 })
