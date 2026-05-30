@@ -356,7 +356,7 @@ export default function ContactSection() {
               >
                 {/* EN download button */}
                 <a
-                  href="/resume_en.pdf"
+                  href={profile?.resumeEnUrl ?? "/resume_en.pdf"}
                   download
                   onMouseEnter={() => setHoveredCard("en")}
                   onMouseLeave={() => setHoveredCard(null)}
@@ -419,7 +419,7 @@ export default function ContactSection() {
 
                 {/* SV download button */}
                 <a
-                  href="/resume_sv.pdf"
+                  href={profile?.resumeSvUrl ?? "/resume_sv.pdf"}
                   download
                   onMouseEnter={() => setHoveredCard("sv")}
                   onMouseLeave={() => setHoveredCard(null)}

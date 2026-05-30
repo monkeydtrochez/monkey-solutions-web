@@ -162,5 +162,23 @@ export const profile = defineType({
       type: 'url',
       description: 'Read.cv profile URL. Shown in footer Elsewhere column. Optional — link is omitted if not set.',
     }),
+    defineField({
+      name: 'resumeEn',
+      title: 'Resume (English)',
+      type: 'file',
+      description: 'PDF resume in English. Downloaded from the contact section.',
+      options: {
+        accept: 'application/pdf',
+      },
+    }),
+    defineField({
+      name: 'resumeSv',
+      title: 'Resume (Swedish)',
+      type: 'file',
+      description: 'PDF resume in Swedish. Downloaded from the contact section.',
+      options: {
+        accept: 'application/pdf',
+      },
+    }),
   ],
 })

@@ -37,6 +37,8 @@ export interface Profile extends BaseType {
   availabilityStatus?: string;
   orgNumber?: string;
   readCvUrl?: string;
+  resumeEnUrl?: string;
+  resumeSvUrl?: string;
 }
 
 // Type for `education`

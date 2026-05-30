@@ -23,7 +23,9 @@ const query = `*[_type == 'profile' || _type == 'workExperience' || _type == 'ed
       heroBio,
       availabilityStatus,
       orgNumber,
-      readCvUrl
+      readCvUrl,
+      "resumeEnUrl": resumeEn.asset->url,
+      "resumeSvUrl": resumeSv.asset->url
     },
 
       _type == 'education' => {
