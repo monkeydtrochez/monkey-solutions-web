@@ -350,7 +350,7 @@ export default function ContactSection() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
+                  gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
                   gap: 8,
                 }}
               >
@@ -392,7 +392,7 @@ export default function ContactSection() {
                     EN
                   </div>
                   {/* Middle block */}
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
                         fontFamily: "var(--font-sans)",
@@ -408,6 +408,9 @@ export default function ContactSection() {
                         fontFamily: "var(--font-mono)",
                         fontSize: 10,
                         color: "var(--ms-fg-faint)",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       resume_en.pdf
@@ -455,7 +458,7 @@ export default function ContactSection() {
                     SV
                   </div>
                   {/* Middle block */}
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
                         fontFamily: "var(--font-sans)",
@@ -471,6 +474,9 @@ export default function ContactSection() {
                         fontFamily: "var(--font-mono)",
                         fontSize: 10,
                         color: "var(--ms-fg-faint)",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       resume_sv.pdf

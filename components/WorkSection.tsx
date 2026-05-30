@@ -303,16 +303,14 @@ function ProjectRow({
       {open && (
         <div
           id={panelId}
+          className="grid grid-cols-1 ms:grid-cols-[56px_1fr_1fr] gap-5"
           style={{
             padding: "8px 4px 36px",
-            display: "grid",
-            gridTemplateColumns: "56px 1fr 1fr",
-            gap: 20,
             animation: "ms-fadein var(--anim-fadein)",
           }}
         >
-          {/* Col 1 — spacer */}
-          <div aria-hidden="true" />
+          {/* Col 1 — spacer (desktop only) */}
+          <div aria-hidden="true" className="hidden ms:block" />
 
           {/* Col 2 — Overview + stack + meta */}
           <div>
@@ -418,15 +416,16 @@ function ProjectRow({
           </div>
 
           {/* Col 3 — Metrics card + screenshot placeholder */}
-          <div style={{
-            border: "1px solid var(--ms-border)",
-            borderRadius: "var(--radius-lg)",
-            padding: 20,
-            background: "var(--ms-surface)",
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 16,
-          }}>
+          <div
+            className="grid grid-cols-2 ms:grid-cols-3"
+            style={{
+              border: "1px solid var(--ms-border)",
+              borderRadius: "var(--radius-lg)",
+              padding: 20,
+              background: "var(--ms-surface)",
+              gap: 16,
+            }}
+          >
             {(p.metrics ?? []).map((m, i) => (
               <div key={`${m.label}-${i}`}>
                 <div style={{
@@ -462,7 +461,8 @@ function ProjectRow({
                 gridColumn: "1 / -1",
                 marginTop: 8,
                 position: "relative",
-                height: 260,
+                aspectRatio: "16 / 10",
+                minHeight: 180,
                 borderRadius: "var(--radius-sm)",
                 border: "1px solid var(--ms-border)",
                 overflow: "hidden",
