@@ -106,7 +106,7 @@ export default function FooterSection() {
           </div>
 
           {/* Column 3 — Elsewhere */}
-          <div>
+          <div className="order-4 ms:order-none">
             <div style={labelStyle}>ELSEWHERE</div>
             <div>
               {[
@@ -138,7 +138,7 @@ export default function FooterSection() {
           </div>
 
           {/* Column 4 — Status */}
-          <div>
+          <div className="order-3 ms:order-none">
             <div style={labelStyle}>STATUS</div>
             <div
               style={{

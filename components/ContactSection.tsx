@@ -356,13 +356,19 @@ export default function ContactSection() {
               >
                 {/* EN download button */}
                 <a
-                  href={profile?.resumeEnUrl ?? "/resume_en.pdf"}
-                  download
+                  href={
+                    profile?.resumeEnUrl
+                      ? `${profile.resumeEnUrl}?dl=resume_en.pdf`
+                      : "/resume_en.pdf"
+                  }
+                  download="resume_en.pdf"
                   onMouseEnter={() => setHoveredCard("en")}
                   onMouseLeave={() => setHoveredCard(null)}
+                  className="resume-download-card"
                   style={{
                     display: "flex",
                     alignItems: "center",
+                    justifyContent: "space-between",
                     gap: 16,
                     padding: 16,
                     border: `1px solid ${hoveredCard === "en" ? "var(--ms-orange)" : "var(--ms-border-strong)"}`,
@@ -392,7 +398,7 @@ export default function ContactSection() {
                     EN
                   </div>
                   {/* Middle block */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="resume-download-text" style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
                         fontFamily: "var(--font-sans)",
@@ -422,13 +428,19 @@ export default function ContactSection() {
 
                 {/* SV download button */}
                 <a
-                  href={profile?.resumeSvUrl ?? "/resume_sv.pdf"}
-                  download
+                  href={
+                    profile?.resumeSvUrl
+                      ? `${profile.resumeSvUrl}?dl=resume_sv.pdf`
+                      : "/resume_sv.pdf"
+                  }
+                  download="resume_sv.pdf"
                   onMouseEnter={() => setHoveredCard("sv")}
                   onMouseLeave={() => setHoveredCard(null)}
+                  className="resume-download-card"
                   style={{
                     display: "flex",
                     alignItems: "center",
+                    justifyContent: "space-between",
                     gap: 16,
                     padding: 16,
                     border: `1px solid ${hoveredCard === "sv" ? "var(--ms-orange)" : "var(--ms-border-strong)"}`,
@@ -458,7 +470,7 @@ export default function ContactSection() {
                     SV
                   </div>
                   {/* Middle block */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div className="resume-download-text" style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
                         fontFamily: "var(--font-sans)",
