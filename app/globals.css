@@ -118,6 +118,7 @@
     --space-17: 64px; --space-18: 72px; --space-19: 80px; --space-20: 96px;
     --space-21: 120px; --space-22: 140px;
     --content-max:         1240px;
+    --site-max:            1680px;
     --page-px:             32px;
     --section-py:          120px;
     --section-py-contact:  140px;
@@ -249,7 +250,23 @@ body {
   * {
     @apply border-border;
   }
+  html {
+    @apply bg-background;
+  }
   body {
     @apply bg-background text-foreground;
+    max-width: var(--site-max);
+    margin-inline: auto;
   }
 }
+
+/* Resume download buttons — hide label text only when the card is too narrow */
+.resume-download-card {
+  container-type: inline-size;
+}
+@container (max-width: 159px) {
+  .resume-download-text {
+    display: none;
+  }
+}
+
