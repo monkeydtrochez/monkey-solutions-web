@@ -210,7 +210,10 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 72px;
+  /* Fallback clearance below the sticky header for keyboard/focus scrolling.
+     Anchor-link navigation is handled in JS (components/SmoothScroll.tsx), which
+     also skips each section's decorative top padding to land on the content. */
+  scroll-padding-top: 88px;
 }
 
 body {

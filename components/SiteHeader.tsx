@@ -185,16 +185,23 @@ export default function SiteHeader() {
         </button>
       </div>
 
-      {/* Mobile dropdown panel — always in DOM, animated via maxHeight + opacity */}
+      {/* Mobile dropdown panel — absolutely positioned so opening/closing it never
+          shifts document flow (otherwise hash navigation overshoots the target section) */}
       <div
         id="mobile-nav-panel"
         className="desk:hidden mobile-nav-panel"
         aria-hidden={!open}
         style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: "100%",
           overflow: "hidden",
           maxHeight: open ? 500 : 0,
           opacity: open ? 1 : 0,
+          background: "var(--ms-bg)",
           borderBottom: open ? "1px solid var(--ms-border)" : undefined,
+          pointerEvents: open ? "auto" : "none",
         }}
       >
         <div style={{ padding: "8px 0" }}>

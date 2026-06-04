@@ -352,7 +352,7 @@ function ProjectRow({
               </div>
             )}
 
-            {/* Meta strip — Role / Year / Case study link */}
+            {/* Meta strip — Client / Year / Case study link */}
             <div style={{
               marginTop: 24,
               display: "flex",
@@ -360,21 +360,23 @@ function ProjectRow({
               alignItems: "flex-start",
               flexWrap: "wrap",
             }}>
-              <div>
-                <div style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--text-mono)",
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                  color: "var(--ms-fg-faint)",
-                }}>Role</div>
-                <div style={{
-                  marginTop: 4,
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--text-mono)",
-                  color: "var(--ms-fg)",
-                }}>{p.client || "—"}</div>
-              </div>
+              {p.client?.trim() && (
+                <div>
+                  <div style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "var(--text-mono)",
+                    textTransform: "uppercase",
+                    letterSpacing: 1,
+                    color: "var(--ms-fg-faint)",
+                  }}>Client</div>
+                  <div style={{
+                    marginTop: 4,
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "var(--text-mono)",
+                    color: "var(--ms-fg)",
+                  }}>{p.client}</div>
+                </div>
+              )}
               <div>
                 <div style={{
                   fontFamily: "var(--font-mono)",

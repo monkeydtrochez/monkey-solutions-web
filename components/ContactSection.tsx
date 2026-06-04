@@ -121,7 +121,7 @@ export default function ContactSection() {
                 letterSpacing: 1,
               }}
             >
-              <span style={{ color: "var(--ms-orange-text)", fontWeight: 600 }}>07</span>
+              <span style={{ color: "var(--ms-orange-text)", fontWeight: 600 }}>06</span>
               <span
                 aria-hidden="true"
                 style={{
