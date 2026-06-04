@@ -3,6 +3,7 @@ import "./globals.css";
 import { GlobalContextProvider } from "./context/GlobalContext";
 import { inter, jetbrainsMono, fraunces } from "./fonts";
 import BackToTop from "@/components/BackToTop";
+import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
   title: "Monkey Solutions",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <GlobalContextProvider>
           {children}
         </GlobalContextProvider>
+        <SmoothScroll />
         <BackToTop />
       </body>
     </html>
