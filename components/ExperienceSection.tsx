@@ -1,13 +1,53 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useMemo, useState } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
 import type { WorkExperience } from "@/app/models/sanityTypes";
 
+// Plain text from a work entry's blockContent description (D-06) — no block renderer.
+function getDescriptionText(entry: WorkExperience): string {
+  return (
+    entry.description
+      ?.map((block) => block.children?.map((c) => c.text).join(""))
+      .filter(Boolean)
+      .join(" ") ?? ""
+  );
+}
+
+// A row is collapsible only if it has description text to reveal.
+function hasDescription(entry: WorkExperience): boolean {
+  return getDescriptionText(entry).length > 0;
+}
+
 export default function ExperienceSection() {
   const ctx = useContext(GlobalContext);
-  const workExperience = ctx?.workExperience ?? [];
+  const workExperience = useMemo(() => ctx?.workExperience ?? [], [ctx?.workExperience]);
   const education = ctx?.education ?? [];
   const communityWork = ctx?.profile?.communityWork ?? [];
+
+  // openId tracks the user's explicit selection:
+  //   null     = no explicit pick yet (auto-open the current employer)
+  //   "closed" = user explicitly collapsed everything
+  //   string   = user explicitly opened this row id
+  const [openId, setOpenId] = useState<string | "closed" | null>(null);
+
+  // Resolve which row is actually open — only ever a row that has a description.
+  const effectiveOpenId = useMemo(() => {
+    if (openId === "closed") return null;
+    if (openId !== null) {
+      const match = workExperience.find((e) => e._id === openId);
+      return match && hasDescription(match) ? openId : null;
+    }
+    // No explicit pick: default to the current employer if it has a description,
+    // else the first entry that has one.
+    const current = workExperience.find((e) => e.current === true && hasDescription(e));
+    if (current) return current._id;
+    const firstWithText = workExperience.find(hasDescription);
+    return firstWithText ? firstWithText._id : null;
+  }, [openId, workExperience]);
+
+  const handleToggle = (id: string) => {
+    setOpenId((prev) => (prev === id ? "closed" : id));
+  };
 
   return (
     <section
@@ -95,6 +135,8 @@ export default function ExperienceSection() {
             <ExperienceRow
               key={entry._id}
               entry={entry}
+              open={effectiveOpenId === entry._id}
+              onToggle={() => handleToggle(entry._id)}
               isLast={index === workExperience.length - 1}
             />
           ))}
@@ -240,16 +282,97 @@ export default function ExperienceSection() {
 
 function ExperienceRow({
   entry,
+  open,
+  onToggle,
   isLast,
 }: {
   entry: WorkExperience;
+  open: boolean;
+  onToggle: () => void;
   isLast: boolean;
 }) {
-  // Compute plain text from blockContent (D-06) — no block renderer library
-  const text = entry.description
-    ?.map((block) => block.children?.map((c) => c.text).join(""))
-    .filter(Boolean)
-    .join(" ");
+  const text = getDescriptionText(entry);
+  const collapsible = text.length > 0;
+  const panelId = `experience-panel-${entry._id}`;
+
+  // Shared meta block (company + badge, role, year range)
+  const meta = (
+    <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, minWidth: 0 }}>
+      {/* Company name + optional "Current" badge */}
+      <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+        <span
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: 16,
+            fontWeight: 600,
+            color: "var(--ms-fg)",
+          }}
+        >
+          {entry.company ?? ""}
+        </span>
+        {entry.current === true && (
+          <span
+            style={{
+              padding: "3px 8px",
+              border: "1px solid var(--ms-orange-dim)",
+              borderRadius: "var(--radius-pill)",
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              color: "var(--ms-orange-text)",
+            }}
+          >
+            Current
+          </span>
+        )}
+      </div>
+
+      {/* Role title */}
+      <div
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 12,
+          fontWeight: 400,
+          color: "var(--ms-fg-soft)",
+        }}
+      >
+        {entry.title}
+      </div>
+
+      {/* Year range — use || for endYear so empty string falls back to "Present" */}
+      <div
+        style={{
+          marginTop: 2,
+          fontFamily: "var(--font-mono)",
+          fontSize: 12,
+          fontWeight: 400,
+          color: "var(--ms-fg-faint)",
+        }}
+      >
+        {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
+      </div>
+    </div>
+  );
+
+  // Chevron — collapsible rows only; rotates 90° when open
+  const chevron = collapsible ? (
+    <span
+      aria-hidden="true"
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "var(--text-mono)",
+        color: open ? "var(--ms-orange-text)" : "var(--ms-fg-soft)",
+        transform: open ? "rotate(90deg)" : "rotate(0deg)",
+        transition: "transform var(--anim-chevron), color var(--anim-hover)",
+        display: "inline-block",
+        marginTop: 2,
+        flexShrink: 0,
+      }}
+    >
+      →
+    </span>
+  ) : null;
 
   return (
     <div
@@ -292,89 +415,53 @@ function ExperienceRow({
         />
       )}
 
-      {/* Entry: meta left, description right */}
-      <div
-        className="grid grid-cols-1 ms:grid-cols-[220px_1fr]"
-        style={{
-          gap: 40,
-          alignItems: "start",
-        }}
-      >
-        {/* Meta column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          {/* Company name + optional "Current" badge */}
-          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-            <span
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: 16,
-                fontWeight: 600,
-                color: "var(--ms-fg)",
-              }}
-            >
-              {entry.company ?? ""}
-            </span>
-            {entry.current === true && (
-              <span
-                style={{
-                  padding: "3px 8px",
-                  border: "1px solid var(--ms-orange-dim)",
-                  borderRadius: "var(--radius-pill)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  fontWeight: 600,
-                  textTransform: "uppercase",
-                  color: "var(--ms-orange-text)",
-                }}
-              >
-                Current
-              </span>
-            )}
-          </div>
-
-          {/* Role title */}
-          <div
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 12,
-              fontWeight: 400,
-              color: "var(--ms-fg-soft)",
-            }}
-          >
-            {entry.title}
-          </div>
-
-          {/* Year range — use || for endYear so empty string falls back to "Present" */}
-          <div
-            style={{
-              marginTop: 2,
-              fontFamily: "var(--font-mono)",
-              fontSize: 12,
-              fontWeight: 400,
-              color: "var(--ms-fg-faint)",
-            }}
-          >
-            {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
-          </div>
+      {/* Header — clickable button when collapsible, plain row otherwise */}
+      {collapsible ? (
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls={panelId}
+          aria-label={`${open ? "Collapse" : "Expand"} ${entry.company ?? "role"}`}
+          className="focus-ring"
+          style={{
+            all: "unset",
+            boxSizing: "border-box",
+            cursor: "pointer",
+            width: "100%",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 16,
+          }}
+        >
+          {meta}
+          {chevron}
+        </button>
+      ) : (
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+          {meta}
         </div>
+      )}
 
-        {/* Description column */}
-        {text && (
-          <p
-            style={{
-              margin: 0,
-              paddingTop: 2,
-              fontFamily: "var(--font-sans)",
-              fontSize: "var(--text-body)",
-              fontWeight: 400,
-              lineHeight: 1.65,
-              color: "var(--ms-fg-soft)",
-            }}
-          >
-            {text}
-          </p>
-        )}
-      </div>
+      {/* Collapsible description panel */}
+      {collapsible && open && (
+        <p
+          id={panelId}
+          style={{
+            margin: 0,
+            marginTop: 16,
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--text-body)",
+            fontWeight: 400,
+            lineHeight: 1.65,
+            color: "var(--ms-fg-soft)",
+            maxWidth: 640,
+            animation: "ms-fadein var(--anim-fadein)",
+          }}
+        >
+          {text}
+        </p>
+      )}
     </div>
   );
 }
