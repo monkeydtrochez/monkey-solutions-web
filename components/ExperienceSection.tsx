@@ -1,6 +1,7 @@
 "use client";
 import { useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
+import type { WorkExperience } from "@/app/models/sanityTypes";
 
 export default function ExperienceSection() {
   const ctx = useContext(GlobalContext);
@@ -90,143 +91,13 @@ export default function ExperienceSection() {
             }}
           />
 
-          {workExperience.map((entry, index) => {
-            const isLast = index === workExperience.length - 1;
-
-            // Compute plain text from blockContent (D-06) — no block renderer library
-            const text = entry.description
-              ?.map((block) => block.children?.map((c) => c.text).join(""))
-              .filter(Boolean)
-              .join(" ");
-
-            return (
-              <div
-                key={entry._id}
-                style={{
-                  position: "relative",
-                  paddingLeft: 32,
-                  paddingBottom: isLast ? 0 : 48,
-                }}
-              >
-                {/* Dot — current role: orange 16px pulsing; past role: grey 12px static */}
-                {entry.current === true ? (
-                  <div
-                    aria-hidden="true"
-                    className="ms-pulse-anim"
-                    style={{
-                      position: "absolute",
-                      left: -1,
-                      top: 2,
-                      width: 16,
-                      height: 16,
-                      borderRadius: "50%",
-                      background: "var(--ms-orange)",
-                      boxShadow: "0 0 0 4px var(--ms-orange-dim)",
-                      animation: "ms-pulse var(--anim-pulse) infinite",
-                    }}
-                  />
-                ) : (
-                  <div
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      left: 1,
-                      top: 4,
-                      width: 12,
-                      height: 12,
-                      borderRadius: "50%",
-                      background: "var(--ms-border-strong)",
-                      border: "2px solid var(--ms-bg-alt)",
-                    }}
-                  />
-                )}
-
-                {/* Entry: meta left, description right */}
-                <div
-                  className="grid grid-cols-1 ms:grid-cols-[220px_1fr]"
-                  style={{
-                    gap: 40,
-                    alignItems: "start",
-                  }}
-                >
-                  {/* Meta column */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    {/* Company name + optional "Current" badge */}
-                    <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: 16,
-                          fontWeight: 600,
-                          color: "var(--ms-fg)",
-                        }}
-                      >
-                        {entry.company ?? ""}
-                      </span>
-                      {entry.current === true && (
-                        <span
-                          style={{
-                            padding: "3px 8px",
-                            border: "1px solid var(--ms-orange-dim)",
-                            borderRadius: "var(--radius-pill)",
-                            fontFamily: "var(--font-mono)",
-                            fontSize: 11,
-                            fontWeight: 600,
-                            textTransform: "uppercase",
-                            color: "var(--ms-orange-text)",
-                          }}
-                        >
-                          Current
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Role title */}
-                    <div
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 12,
-                        fontWeight: 400,
-                        color: "var(--ms-fg-soft)",
-                      }}
-                    >
-                      {entry.title}
-                    </div>
-
-                    {/* Year range — use || for endYear so empty string falls back to "Present" */}
-                    <div
-                      style={{
-                        marginTop: 2,
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 12,
-                        fontWeight: 400,
-                        color: "var(--ms-fg-faint)",
-                      }}
-                    >
-                      {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
-                    </div>
-                  </div>
-
-                  {/* Description column */}
-                  {text && (
-                    <p
-                      style={{
-                        margin: 0,
-                        paddingTop: 2,
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "var(--text-body)",
-                        fontWeight: 400,
-                        lineHeight: 1.65,
-                        color: "var(--ms-fg-soft)",
-                      }}
-                    >
-                      {text}
-                    </p>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+          {workExperience.map((entry, index) => (
+            <ExperienceRow
+              key={entry._id}
+              entry={entry}
+              isLast={index === workExperience.length - 1}
+            />
+          ))}
         </div>
 
         {/* ── Education + Community row (below timeline) ── */}
@@ -364,5 +235,146 @@ export default function ExperienceSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ExperienceRow({
+  entry,
+  isLast,
+}: {
+  entry: WorkExperience;
+  isLast: boolean;
+}) {
+  // Compute plain text from blockContent (D-06) — no block renderer library
+  const text = entry.description
+    ?.map((block) => block.children?.map((c) => c.text).join(""))
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        paddingLeft: 32,
+        paddingBottom: isLast ? 0 : 48,
+      }}
+    >
+      {/* Dot — current role: orange 16px pulsing; past role: grey 12px static */}
+      {entry.current === true ? (
+        <div
+          aria-hidden="true"
+          className="ms-pulse-anim"
+          style={{
+            position: "absolute",
+            left: -1,
+            top: 2,
+            width: 16,
+            height: 16,
+            borderRadius: "50%",
+            background: "var(--ms-orange)",
+            boxShadow: "0 0 0 4px var(--ms-orange-dim)",
+            animation: "ms-pulse var(--anim-pulse) infinite",
+          }}
+        />
+      ) : (
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: 1,
+            top: 4,
+            width: 12,
+            height: 12,
+            borderRadius: "50%",
+            background: "var(--ms-border-strong)",
+            border: "2px solid var(--ms-bg-alt)",
+          }}
+        />
+      )}
+
+      {/* Entry: meta left, description right */}
+      <div
+        className="grid grid-cols-1 ms:grid-cols-[220px_1fr]"
+        style={{
+          gap: 40,
+          alignItems: "start",
+        }}
+      >
+        {/* Meta column */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          {/* Company name + optional "Current" badge */}
+          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: 16,
+                fontWeight: 600,
+                color: "var(--ms-fg)",
+              }}
+            >
+              {entry.company ?? ""}
+            </span>
+            {entry.current === true && (
+              <span
+                style={{
+                  padding: "3px 8px",
+                  border: "1px solid var(--ms-orange-dim)",
+                  borderRadius: "var(--radius-pill)",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  color: "var(--ms-orange-text)",
+                }}
+              >
+                Current
+              </span>
+            )}
+          </div>
+
+          {/* Role title */}
+          <div
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              fontWeight: 400,
+              color: "var(--ms-fg-soft)",
+            }}
+          >
+            {entry.title}
+          </div>
+
+          {/* Year range — use || for endYear so empty string falls back to "Present" */}
+          <div
+            style={{
+              marginTop: 2,
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              fontWeight: 400,
+              color: "var(--ms-fg-faint)",
+            }}
+          >
+            {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
+          </div>
+        </div>
+
+        {/* Description column */}
+        {text && (
+          <p
+            style={{
+              margin: 0,
+              paddingTop: 2,
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--text-body)",
+              fontWeight: 400,
+              lineHeight: 1.65,
+              color: "var(--ms-fg-soft)",
+            }}
+          >
+            {text}
+          </p>
+        )}
+      </div>
+    </div>
   );
 }
