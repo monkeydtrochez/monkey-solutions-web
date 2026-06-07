@@ -12,7 +12,7 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @layer base {
-  /* ── DARK THEME (default) ─────────────────────── */
+  /* ── DARK THEME ───────────────────────────────── */
   [data-theme="dark"] {
     /* Shadcn-compatible tokens — consumed via hsl(var(--token)) in tailwind.config.ts */
     --background: 30 18% 4%;
