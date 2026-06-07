@@ -13,9 +13,59 @@ function getDescriptionText(entry: WorkExperience): string {
   );
 }
 
-// A row is collapsible only if it has description text to reveal.
-function hasDescription(entry: WorkExperience): boolean {
-  return getDescriptionText(entry).length > 0;
+// An employer with all of its activities (client engagements) grouped together.
+type EmployerGroup = {
+  key: string;
+  company: string;
+  entries: WorkExperience[];
+  current: boolean;
+  startYear: string;
+  endYearDisplay: string;
+  count: number;
+};
+
+// Group work entries by employer, preserving first-seen (chronological) order.
+function groupByEmployer(entries: WorkExperience[]): EmployerGroup[] {
+  const order: string[] = [];
+  const map = new Map<string, WorkExperience[]>();
+
+  for (const entry of entries) {
+    const key = entry.company || entry._id;
+    if (!map.has(key)) {
+      map.set(key, []);
+      order.push(key);
+    }
+    map.get(key)!.push(entry);
+  }
+
+  return order.map((key) => {
+    const groupEntries = map.get(key)!;
+    const current = groupEntries.some((e) => e.current === true);
+
+    const startYears = groupEntries
+      .map((e) => e.duration?.startYear)
+      .filter((y): y is string => Boolean(y));
+    const endYears = groupEntries
+      .map((e) => e.duration?.endYear)
+      .filter((y): y is string => Boolean(y));
+
+    const startYear = startYears.length
+      ? startYears.reduce((min, y) => (Number(y) < Number(min) ? y : min))
+      : "";
+    const latestEnd = endYears.length
+      ? endYears.reduce((max, y) => (Number(y) > Number(max) ? y : max))
+      : "";
+
+    return {
+      key,
+      company: groupEntries[0].company ?? "",
+      entries: groupEntries,
+      current,
+      startYear,
+      endYearDisplay: current ? "Present" : latestEnd,
+      count: groupEntries.length,
+    };
+  });
 }
 
 export default function ExperienceSection() {
@@ -24,29 +74,29 @@ export default function ExperienceSection() {
   const education = ctx?.education ?? [];
   const communityWork = ctx?.profile?.communityWork ?? [];
 
-  // openId tracks the user's explicit selection:
+  // One row per employer; each employer holds its client engagements.
+  const groups = useMemo(() => groupByEmployer(workExperience), [workExperience]);
+
+  // openId tracks the user's explicit selection, keyed by employer:
   //   null     = no explicit pick yet (auto-open the current employer)
   //   "closed" = user explicitly collapsed everything
-  //   string   = user explicitly opened this row id
+  //   string   = user explicitly opened this employer key
   const [openId, setOpenId] = useState<string | "closed" | null>(null);
 
-  // Resolve which row is actually open — only ever a row that has a description.
+  // Resolve which employer is actually open.
   const effectiveOpenId = useMemo(() => {
     if (openId === "closed") return null;
     if (openId !== null) {
-      const match = workExperience.find((e) => e._id === openId);
-      return match && hasDescription(match) ? openId : null;
+      return groups.some((g) => g.key === openId) ? openId : null;
     }
-    // No explicit pick: default to the current employer if it has a description,
-    // else the first entry that has one.
-    const current = workExperience.find((e) => e.current === true && hasDescription(e));
-    if (current) return current._id;
-    const firstWithText = workExperience.find(hasDescription);
-    return firstWithText ? firstWithText._id : null;
-  }, [openId, workExperience]);
+    // No explicit pick: default to the employer with the current role, else the first.
+    const current = groups.find((g) => g.current);
+    if (current) return current.key;
+    return groups.length > 0 ? groups[0].key : null;
+  }, [openId, groups]);
 
-  const handleToggle = (id: string) => {
-    setOpenId((prev) => (prev === id ? "closed" : id));
+  const handleToggle = (key: string) => {
+    setOpenId((prev) => (prev === key ? "closed" : key));
   };
 
   return (
@@ -131,13 +181,13 @@ export default function ExperienceSection() {
             }}
           />
 
-          {workExperience.map((entry, index) => (
-            <ExperienceRow
-              key={entry._id}
-              entry={entry}
-              open={effectiveOpenId === entry._id}
-              onToggle={() => handleToggle(entry._id)}
-              isLast={index === workExperience.length - 1}
+          {groups.map((group, index) => (
+            <EmployerRow
+              key={group.key}
+              group={group}
+              open={effectiveOpenId === group.key}
+              onToggle={() => handleToggle(group.key)}
+              isLast={index === groups.length - 1}
             />
           ))}
         </div>
@@ -280,99 +330,20 @@ export default function ExperienceSection() {
   );
 }
 
-function ExperienceRow({
-  entry,
+function EmployerRow({
+  group,
   open,
   onToggle,
   isLast,
 }: {
-  entry: WorkExperience;
+  group: EmployerGroup;
   open: boolean;
   onToggle: () => void;
   isLast: boolean;
 }) {
-  const text = getDescriptionText(entry);
-  const collapsible = text.length > 0;
-  const panelId = `experience-panel-${entry._id}`;
-
-  // Shared meta block (company + badge, role, year range)
-  const meta = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, minWidth: 0 }}>
-      {/* Company name + optional "Current" badge */}
-      <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-        <span
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 16,
-            fontWeight: 600,
-            color: "var(--ms-fg)",
-          }}
-        >
-          {entry.company ?? ""}
-        </span>
-        {entry.current === true && (
-          <span
-            style={{
-              padding: "3px 8px",
-              border: "1px solid var(--ms-orange-dim)",
-              borderRadius: "var(--radius-pill)",
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              fontWeight: 600,
-              textTransform: "uppercase",
-              color: "var(--ms-orange-text)",
-            }}
-          >
-            Current
-          </span>
-        )}
-      </div>
-
-      {/* Role title */}
-      <div
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 12,
-          fontWeight: 400,
-          color: "var(--ms-fg-soft)",
-        }}
-      >
-        {entry.title}
-      </div>
-
-      {/* Year range — use || for endYear so empty string falls back to "Present" */}
-      <div
-        style={{
-          marginTop: 2,
-          fontFamily: "var(--font-mono)",
-          fontSize: 12,
-          fontWeight: 400,
-          color: "var(--ms-fg-faint)",
-        }}
-      >
-        {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
-      </div>
-    </div>
-  );
-
-  // Chevron — collapsible rows only; rotates 90° when open
-  const chevron = collapsible ? (
-    <span
-      aria-hidden="true"
-      style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: "var(--text-mono)",
-        color: open ? "var(--ms-orange-text)" : "var(--ms-fg-soft)",
-        transform: open ? "rotate(90deg)" : "rotate(0deg)",
-        transition: "transform var(--anim-chevron), color var(--anim-hover)",
-        display: "inline-block",
-        marginTop: 2,
-        flexShrink: 0,
-      }}
-    >
-      →
-    </span>
-  ) : null;
+  const panelId = `experience-panel-${group.key}`;
+  const rangeLabel = `${group.startYear || "?"}–${group.endYearDisplay || "Present"}`;
+  const countLabel = `${group.count} ${group.count === 1 ? "engagement" : "engagements"}`;
 
   return (
     <div
@@ -382,8 +353,8 @@ function ExperienceRow({
         paddingBottom: isLast ? 0 : 48,
       }}
     >
-      {/* Dot — current role: orange 16px pulsing; past role: grey 12px static */}
-      {entry.current === true ? (
+      {/* Dot — current employer: orange 16px pulsing; past: grey 12px static */}
+      {group.current ? (
         <div
           aria-hidden="true"
           className="ms-pulse-anim"
@@ -415,48 +386,151 @@ function ExperienceRow({
         />
       )}
 
-      {/* Header — clickable button when collapsible, plain row otherwise */}
-      {collapsible ? (
-        <button
-          type="button"
-          onClick={onToggle}
-          aria-expanded={open}
-          aria-controls={panelId}
-          aria-label={`${open ? "Collapse" : "Expand"} ${entry.company ?? "role"}`}
-          className="focus-ring"
+      {/* Employer header — clickable accordion toggle */}
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-controls={panelId}
+        aria-label={`${open ? "Collapse" : "Expand"} ${group.company || "employer"}`}
+        className="focus-ring"
+        style={{
+          all: "unset",
+          boxSizing: "border-box",
+          cursor: "pointer",
+          width: "100%",
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 16,
+        }}
+      >
+        {/* Meta: company + badge, then range · count */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            <span
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: 16,
+                fontWeight: 600,
+                color: "var(--ms-fg)",
+              }}
+            >
+              {group.company}
+            </span>
+            {group.current && (
+              <span
+                style={{
+                  padding: "3px 8px",
+                  border: "1px solid var(--ms-orange-dim)",
+                  borderRadius: "var(--radius-pill)",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  color: "var(--ms-orange-text)",
+                }}
+              >
+                Current
+              </span>
+            )}
+          </div>
+
+          <div
+            style={{
+              marginTop: 2,
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              fontWeight: 400,
+              color: "var(--ms-fg-faint)",
+            }}
+          >
+            {rangeLabel} · {countLabel}
+          </div>
+        </div>
+
+        {/* Chevron — rotates 90° when open */}
+        <span
+          aria-hidden="true"
           style={{
-            all: "unset",
-            boxSizing: "border-box",
-            cursor: "pointer",
-            width: "100%",
-            display: "flex",
-            alignItems: "flex-start",
-            gap: 16,
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--text-mono)",
+            color: open ? "var(--ms-orange-text)" : "var(--ms-fg-soft)",
+            transform: open ? "rotate(90deg)" : "rotate(0deg)",
+            transition: "transform var(--anim-chevron), color var(--anim-hover)",
+            display: "inline-block",
+            marginTop: 2,
+            flexShrink: 0,
           }}
         >
-          {meta}
-          {chevron}
-        </button>
-      ) : (
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
-          {meta}
-        </div>
-      )}
+          →
+        </span>
+      </button>
 
-      {/* Collapsible description panel */}
-      {collapsible && open && (
-        <p
+      {/* Expanded panel — all activities for this employer */}
+      {open && (
+        <div
           id={panelId}
           style={{
-            margin: 0,
-            marginTop: 16,
+            marginTop: 20,
+            maxWidth: 680,
+            animation: "ms-fadein var(--anim-fadein)",
+          }}
+        >
+          {group.entries.map((entry, i) => (
+            <ActivityItem key={entry._id} entry={entry} isFirst={i === 0} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ActivityItem({ entry, isFirst }: { entry: WorkExperience; isFirst: boolean }) {
+  const text = getDescriptionText(entry);
+
+  return (
+    <div
+      style={{
+        marginTop: isFirst ? 0 : 20,
+        paddingTop: isFirst ? 0 : 20,
+        borderTop: isFirst ? "none" : "1px solid var(--ms-border)",
+      }}
+    >
+      {/* Role / client title */}
+      <div
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 13,
+          fontWeight: 500,
+          color: "var(--ms-fg)",
+        }}
+      >
+        {entry.title}
+      </div>
+
+      {/* Year range */}
+      <div
+        style={{
+          marginTop: 4,
+          fontFamily: "var(--font-mono)",
+          fontSize: 12,
+          fontWeight: 400,
+          color: "var(--ms-fg-faint)",
+        }}
+      >
+        {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
+      </div>
+
+      {/* Description */}
+      {text && (
+        <p
+          style={{
+            margin: "10px 0 0",
             fontFamily: "var(--font-sans)",
             fontSize: "var(--text-body)",
             fontWeight: 400,
             lineHeight: 1.65,
             color: "var(--ms-fg-soft)",
-            maxWidth: 640,
-            animation: "ms-fadein var(--anim-fadein)",
           }}
         >
           {text}
