@@ -4,18 +4,18 @@ import { useEffect, useRef, useState } from "react";
 type Theme = "dark" | "light";
 
 function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
   try {
     const saved = localStorage.getItem("ms_theme") as Theme | null;
     if (saved === "light" || saved === "dark") return saved;
   } catch {}
-  return "dark";
+  return "light";
 }
 
 export function ThemeToggle() {
-  // Always start with "dark" so SSR and initial client render match.
+  // Always start with "light" so SSR and initial client render match.
   // The real saved preference is applied after mount to avoid hydration mismatch.
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
   const initRef = useRef(false);
 
