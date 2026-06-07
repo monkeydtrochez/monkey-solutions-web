@@ -49,6 +49,7 @@ function groupByEmployer(entries: WorkExperience[]): EmployerGroup[] {
       .map((e) => e.duration?.endYear)
       .filter((y): y is string => Boolean(y));
 
+    // Years are clean 4-digit strings in the data; compared numerically.
     const startYear = startYears.length
       ? startYears.reduce((min, y) => (Number(y) < Number(min) ? y : min))
       : "";
@@ -341,7 +342,9 @@ function EmployerRow({
   onToggle: () => void;
   isLast: boolean;
 }) {
-  const panelId = `experience-panel-${group.key}`;
+  // Derive the panel's DOM id from a Sanity _id (always id-safe) rather than
+  // group.key, which can be a company name containing spaces (invalid HTML id).
+  const panelId = `experience-panel-${group.entries[0]._id}`;
   const rangeLabel = `${group.startYear || "?"}–${group.endYearDisplay || "Present"}`;
   const countLabel = `${group.count} ${group.count === 1 ? "engagement" : "engagements"}`;
 
