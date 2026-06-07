@@ -260,7 +260,7 @@ export default function SiteHeader() {
                 textDecoration: "none",
               }}
             >
-              <StatusDot />
+              <StatusDot color="rgba(255,255,255,0.9)" />
               Hire me
             </a>
           </div>
