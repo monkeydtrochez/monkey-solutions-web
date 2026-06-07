@@ -1,4 +1,4 @@
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 import { createClientFromParam, SanityClientConfig } from "@/app/sanityClient";
 
 export function buildImageUrlFor(
@@ -7,21 +7,19 @@ export function buildImageUrlFor(
 ) {
   if (!imageRef) {
     console.warn("Warning: imageRef is undefined.");
-    return ""; // todo add placeholder image
+    return "";
   }
   try {
     const sanityClient = createClientFromParam(sanityClientConfig);
     if (sanityClient !== null) {
-      const builder = imageUrlBuilder(sanityClient);
-
+      const builder = createImageUrlBuilder(sanityClient);
       const imageUrl = builder.image(imageRef);
-
-      return imageUrl ? imageUrl.toString() : ""; // todo add placeholder image
+      return imageUrl ? imageUrl.toString() : "";
     }
 
-    return ""; // todo add placeholder image
+    return "";
   } catch (error) {
     console.error("Error building image URL:", error);
-    return ""; // todo add placeholder image
+    return "";
   }
 }

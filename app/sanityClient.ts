@@ -8,15 +8,11 @@ export interface SanityClientConfig {
 }
 
 export function createClientFromParam(config: SanityClientConfig) {
-  if (config) {
-    return createClient({
-      projectId: config.projectId,
-      dataset: config.dataset,
-      apiVersion: config.apiVersion,
-      useCdn: config.useCdn,
-      perspective: "published",
-    });
-  } else {
-    return null;
-  }
+  return createClient({
+    projectId: config.projectId,
+    dataset: config.dataset,
+    apiVersion: config.apiVersion,
+    useCdn: config.useCdn,
+    perspective: "published",
+  });
 }

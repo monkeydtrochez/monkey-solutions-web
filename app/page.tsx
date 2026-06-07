@@ -1,29 +1,34 @@
 import { loadSanityData } from "@/lib/api/sanityDataLoader";
-import BusinessCard from "@/components/BusinessCard";
-import CV from "@/components/CV";
-import { SanityApiResponse } from "./models/sanityTypes";
-import Projects from "@/components/Projects";
-import SiteWrapper from "@/components/wrappers/SiteWrapper";
+import DataHydrator from "@/components/wrappers/DataHydrator";
 import QueryClientWrapper from "@/components/wrappers/QueryClientWrapper";
+import SiteHeader from "@/components/SiteHeader";
+import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import WorkSection from "@/components/WorkSection";
+import ExperienceSection from "@/components/ExperienceSection";
+import SkillsSection from "@/components/SkillsSection";
+import ServicesSection from "@/components/ServicesSection";
+import ContactSection from "@/components/ContactSection";
+import FooterSection from "@/components/FooterSection";
 
-// Force dynamic rendering
 export const dynamic = "force-dynamic";
-export const revalidate = 1;
-
-async function getSanityData() {
-  return loadSanityData();
-}
 
 export default async function Home() {
-  const data = await getSanityData();
-
+  const data = await loadSanityData();
   return (
     <QueryClientWrapper>
-      <SiteWrapper data={data as SanityApiResponse[]}>
-        <BusinessCard />
-        <CV />
-        <Projects />
-      </SiteWrapper>
+      <DataHydrator data={data} />
+      <SiteHeader />
+      <main>
+        <HeroSection />
+        <AboutSection />
+        <WorkSection />
+        <ExperienceSection />
+        <SkillsSection />
+        <ServicesSection />
+        <ContactSection />
+      </main>
+      <FooterSection />
     </QueryClientWrapper>
   );
 }

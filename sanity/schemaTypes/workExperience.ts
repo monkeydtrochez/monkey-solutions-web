@@ -26,5 +26,18 @@ export const workExperience = defineType({
       title: 'Work Description',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'company',
+      title: 'Company',
+      type: 'string',
+      description: 'The employer or client organisation name displayed in the timeline.',
+    }),
+    defineField({
+      name: 'current',
+      title: 'Current role',
+      type: 'boolean',
+      description: 'Enable for the active/current job. Controls the orange pulse dot in the timeline.',
+      initialValue: false,
+    }),
   ],
 })

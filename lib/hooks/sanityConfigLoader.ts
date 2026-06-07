@@ -12,20 +12,3 @@ export const useSanityConfigLoader = () => {
   });
   return { config: data, error };
 };
-
-export const fetchSanityConfig = async (): Promise<SanityClientConfig> => {
-  try {
-    const response = await axios.get<SanityClientConfig>("/api/sanity-config");
-
-    if (response.status !== 200) {
-      throw new Error(
-        `Failed to fetch Sanity config. Status: ${response.status}`
-      );
-    }
-
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching Sanity config:", error);
-    throw new Error("Unable to fetch Sanity configuration.");
-  }
-};

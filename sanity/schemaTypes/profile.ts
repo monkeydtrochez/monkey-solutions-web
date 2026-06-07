@@ -20,12 +20,12 @@ export const profile = defineType({
     defineField({
       name: 'linkedInUrl',
       title: 'LinkedIn Url',
-      type: 'string',
+      type: 'url',
     }),
     defineField({
       name: 'githubUrl',
       title: 'GitHub Url',
-      type: 'string',
+      type: 'url',
     }),
     defineField({
       name: 'description',
@@ -58,6 +58,33 @@ export const profile = defineType({
       ],
     }),
     defineField({
+      name: 'communityWork',
+      title: 'Community & Board work',
+      description: 'Extra assignments shown in the "Also / Community" section.',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'communityEntry',
+          fields: [
+            defineField({
+              name: 'assignment',
+              title: 'Assignment',
+              type: 'string',
+              description: 'What you do, e.g. "Active board member for a .NET program"',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'organisation',
+              title: 'Organisation',
+              type: 'string',
+              description: 'Who you do it for, e.g. "Handelsakademin Göteborg"',
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'personalitySkills',
       title: 'Personality skills',
       type: 'array',
@@ -69,13 +96,89 @@ export const profile = defineType({
     }),
     defineField({
       name: 'professionalSkills',
-      title: 'Professional skills',
+      title: 'Professional skills (legacy)',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'string',
         }),
       ],
+    }),
+    defineField({
+      name: 'skillGroups',
+      title: 'Professional skills (categorized)',
+      description: 'Used by the redesigned site. Each skill has a name and a category.',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'skillEntry',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Skill name',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'category',
+              title: 'Category',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Languages', value: 'Languages'},
+                  {title: 'Frontend', value: 'Frontend'},
+                  {title: 'Backend & Infra', value: 'Backend & Infra'},
+                  {title: 'Craft', value: 'Craft'},
+                ],
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
+      name: 'heroBio',
+      title: 'Hero Bio',
+      type: 'string',
+      description: 'Short lede paragraph displayed in the hero section.',
+    }),
+    defineField({
+      name: 'availabilityStatus',
+      title: 'Availability Status',
+      type: 'string',
+      description: 'e.g. "Open for Q3 projects". Shown in footer Status column.',
+    }),
+    defineField({
+      name: 'orgNumber',
+      title: 'Organisation Number',
+      type: 'string',
+      description: 'e.g. "559123-4567". Shown in footer Studio address block.',
+    }),
+    defineField({
+      name: 'readCvUrl',
+      title: 'Read.cv URL',
+      type: 'url',
+      description: 'Read.cv profile URL. Shown in footer Elsewhere column. Optional — link is omitted if not set.',
+    }),
+    defineField({
+      name: 'resumeEn',
+      title: 'Resume (English)',
+      type: 'file',
+      description: 'PDF resume in English. Downloaded from the contact section.',
+      options: {
+        accept: 'application/pdf',
+      },
+    }),
+    defineField({
+      name: 'resumeSv',
+      title: 'Resume (Swedish)',
+      type: 'file',
+      description: 'PDF resume in Swedish. Downloaded from the contact section.',
+      options: {
+        accept: 'application/pdf',
+      },
     }),
   ],
 })
