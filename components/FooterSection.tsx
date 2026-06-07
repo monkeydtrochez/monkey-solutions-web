@@ -78,7 +78,7 @@ export default function FooterSection() {
           </div>
 
           {/* Column 2 — Navigate */}
-          <div>
+          {/* <div>
             <div style={labelStyle}>NAVIGATE</div>
             <nav style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[
@@ -103,7 +103,7 @@ export default function FooterSection() {
                 </a>
               ))}
             </nav>
-          </div>
+          </div> */}
 
           {/* Column 3 — Elsewhere */}
           <div className="order-4 ms:order-none">

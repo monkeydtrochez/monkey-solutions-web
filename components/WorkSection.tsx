@@ -166,29 +166,6 @@ export default function WorkSection() {
             ))
           )}
         </div>
-
-        {/* Footer note */}
-        <p style={{
-          marginTop: 48,
-          textAlign: "center",
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--text-mono)",
-          fontWeight: 400,
-          color: "var(--ms-fg-soft)",
-          margin: "48px 0 0 0",
-        }}>
-          Want the full list?{" "}
-          <a
-            href="#contact"
-            style={{
-              color: "var(--ms-orange-text)",
-              fontWeight: 600,
-              textDecoration: "none",
-            }}
-          >
-            Ask for the extended portfolio →
-          </a>
-        </p>
       </div>
     </section>
   );
