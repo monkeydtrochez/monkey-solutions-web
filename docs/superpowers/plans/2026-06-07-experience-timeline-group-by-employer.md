@@ -1,3 +1,45 @@
+# Group Experience Timeline by Employer — Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Render the Experience timeline as one accordion row per employer (3 rows) instead of one per activity (15 rows); expanding an employer reveals all its client engagements with role/client, years, and description.
+
+**Architecture:** Derive employer groups client-side from the existing `workExperience` array via a module-scope `groupByEmployer` helper. Keep the single-open accordion (`WorkSection` pattern) but key it by employer. Replace `ExperienceRow` with `EmployerRow` (the employer header + expanded panel) and a small `ActivityItem` (one engagement). Only `components/ExperienceSection.tsx` changes.
+
+**Tech Stack:** Next.js App Router client component, React `useState`/`useMemo`, inline styles + Tailwind utilities + CSS custom properties from `app/globals.css`.
+
+**Spec:** `docs/superpowers/specs/2026-06-07-experience-timeline-group-by-employer-design.md`
+
+**Note on testing:** This repo has no test runner (CLAUDE.md → "There are no tests configured"). Do NOT add a test framework (YAGNI). Verification is `npm run lint`, `npm run build` (type-checks), and a manual browser check at `#experience`.
+
+**Commit messages:** Per CLAUDE.md, never include `Co-authored-by` or any AI attribution.
+
+**Data reality (for the manual check):** 15 entries across 3 employers — Visionite (1 activity, current, 2025–Present), QueensLab (7, 2020–2024), Knowit Experience (7, 2015–2020). Every activity has a description.
+
+---
+
+## File Structure
+
+| File | Responsibility | Change |
+|------|----------------|--------|
+| `components/ExperienceSection.tsx` | Renders the Experience + Education section. | Modify only — add `EmployerGroup` type + `groupByEmployer` helper; key accordion state by employer; replace `ExperienceRow` with `EmployerRow` + `ActivityItem`; remove the now-unused `hasDescription` helper. |
+
+No other files change. No schema/data-loader/type changes — grouping is derived from existing `company`, `current`, `duration`, `title`, `description` fields.
+
+---
+
+## Task 1: Group the timeline by employer
+
+This task replaces the per-activity accordion with a per-employer accordion in one cohesive rewrite of `components/ExperienceSection.tsx`. The section header (kicker + H2), the timeline vertical line, the dot styling/pulse, the no-tint open state, and the entire Education + Community block are preserved.
+
+**Files:**
+- Modify: `components/ExperienceSection.tsx`
+
+- [ ] **Step 1: Replace the entire contents of `components/ExperienceSection.tsx` with the following.**
+
+This removes `hasDescription` (no longer needed — every employer is collapsible), adds the `EmployerGroup` type and `groupByEmployer` helper, keys the accordion state by employer, maps over `groups`, and replaces `ExperienceRow` with `EmployerRow` + `ActivityItem`. `getDescriptionText`, the section header, and the Education + Community block are unchanged from the current file.
+
+```tsx
 "use client";
 import { useContext, useMemo, useState } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
@@ -49,7 +91,6 @@ function groupByEmployer(entries: WorkExperience[]): EmployerGroup[] {
       .map((e) => e.duration?.endYear)
       .filter((y): y is string => Boolean(y));
 
-    // Years are clean 4-digit strings in the data; compared numerically.
     const startYear = startYears.length
       ? startYears.reduce((min, y) => (Number(y) < Number(min) ? y : min))
       : "";
@@ -342,9 +383,7 @@ function EmployerRow({
   onToggle: () => void;
   isLast: boolean;
 }) {
-  // Derive the panel's DOM id from a Sanity _id (always id-safe) rather than
-  // group.key, which can be a company name containing spaces (invalid HTML id).
-  const panelId = `experience-panel-${group.entries[0]._id}`;
+  const panelId = `experience-panel-${group.key}`;
   const rangeLabel = `${group.startYear || "?"}–${group.endYearDisplay || "Present"}`;
   const countLabel = `${group.count} ${group.count === 1 ? "engagement" : "engagements"}`;
 
@@ -542,3 +581,57 @@ function ActivityItem({ entry, isFirst }: { entry: WorkExperience; isFirst: bool
     </div>
   );
 }
+```
+
+- [ ] **Step 2: Lint**
+
+Run: `npm run lint`
+Expected: PASS with no errors/warnings. In particular, no `no-unused-vars` (confirm `hasDescription` was removed and `getDescriptionText` is still used by `ActivityItem`) and no `react-hooks/exhaustive-deps` warning (the `groups` memo deps on `[workExperience]`; `effectiveOpenId` deps on `[openId, groups]`; `groupByEmployer`/`getDescriptionText` are module-scope).
+
+- [ ] **Step 3: Build (type-check)**
+
+Run: `npm run build`
+Expected: Build succeeds, no TypeScript errors.
+
+- [ ] **Step 4: Manual behavior check**
+
+Run: `npm run dev`, open `http://localhost:3000/#experience`. Verify:
+- The timeline shows **3 rows**: Visionite, QueensLab, Knowit Experience (most-recent first).
+- Each collapsed row shows `range · count`, e.g. `QueensLab` → `2020–2024 · 7 engagements`; `Knowit Experience` → `2015–2020 · 7 engagements`; `Visionite` → `2025–Present · 1 engagement`.
+- On load, **Visionite** (current) is expanded showing its 1 activity (title `SENIOR FULLSTACK DEVELOPER | VÄSTTRAFIK`, year range, description); the others are collapsed.
+- The Visionite dot is the orange pulsing dot; the other two are grey static dots.
+- Clicking QueensLab expands it to **7 activities** (each: role/client title, year range, description, separated by thin dividers) and collapses Visionite (single-open).
+- Clicking the open employer collapses it (nothing open). The chevron rotates 90° and turns orange when open; the panel fades in.
+- The open row has **no background tint**.
+- The timeline is now short; resize to mobile width and confirm each employer toggles correctly.
+- The section header and the Education + Community block are unchanged.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add components/ExperienceSection.tsx
+git commit -m "Group Experience timeline by employer with expandable activities"
+```
+
+---
+
+## Self-Review
+
+**Spec coverage:**
+- `groupByEmployer` helper + `EmployerGroup` shape (key/company/entries/current/startYear/endYearDisplay/count) → Step 1 ✓
+- Group order = first-appearance; activity order = incoming → `groupByEmployer` preserves `order[]` and push order ✓
+- `current` = any activity current; `startYear` = min; `endYearDisplay` = "Present" if current else max end → Step 1 reduce logic ✓
+- `key` = `company || entries[0]._id` → Step 1 ✓
+- Single-open accordion keyed by employer; default-open current employer else first; `"closed"` collapse-all → `effectiveOpenId` + `handleToggle` ✓
+- Every employer collapsible (no static branch); `hasDescription` removed → Step 1 (EmployerRow always a button) ✓
+- Collapsed header: dot + company + Current badge + `range · count` (pluralized) + chevron → `EmployerRow` ✓
+- Expanded panel: `ActivityItem` list with title + year range + description, dividers, fade-in, maxWidth ✓
+- No background tint → `EmployerRow` container has no `background` ✓
+- Accessibility: `aria-expanded`/`aria-controls`/`aria-label`/`focus-ring`; panel `id`; chevron + dot `aria-hidden` → ✓
+- Components `groupByEmployer`, `EmployerRow`, `ActivityItem`; `getDescriptionText` reused → ✓
+- Unchanged: timeline line, dot styling/pulse, section header, Education + Community → preserved verbatim in Step 1 ✓
+- Only `components/ExperienceSection.tsx` changes → ✓
+
+**Placeholder scan:** No TBD/TODO/"handle edge cases" — Step 1 contains the complete file. ✓
+
+**Type consistency:** `EmployerGroup` fields used consistently (`group.key`, `group.company`, `group.entries`, `group.current`, `group.startYear`, `group.endYearDisplay`, `group.count`); `EmployerRow` props (`group`, `open`, `onToggle`, `isLast`) match the map call; `ActivityItem` props (`entry`, `isFirst`) match its usage; `panelId` referenced by both `aria-controls` and the panel `id`; `effectiveOpenId === group.key` compares the same key set by `handleToggle`. ✓
