@@ -1,17 +1,8 @@
 "use client";
 import { useContext, useMemo, useState } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
+import RichText from "@/components/RichText";
 import type { WorkExperience } from "@/app/models/sanityTypes";
-
-// Plain text from a work entry's blockContent description (D-06) — no block renderer.
-function getDescriptionText(entry: WorkExperience): string {
-  return (
-    entry.description
-      ?.map((block) => block.children?.map((c) => c.text).join(""))
-      .filter(Boolean)
-      .join(" ") ?? ""
-  );
-}
 
 // An employer with all of its activities (client engagements) grouped together.
 type EmployerGroup = {
@@ -489,8 +480,6 @@ function EmployerRow({
 }
 
 function ActivityItem({ entry, isFirst }: { entry: WorkExperience; isFirst: boolean }) {
-  const text = getDescriptionText(entry);
-
   return (
     <div
       style={{
@@ -525,20 +514,17 @@ function ActivityItem({ entry, isFirst }: { entry: WorkExperience; isFirst: bool
       </div>
 
       {/* Description */}
-      {text && (
-        <p
-          style={{
-            margin: "10px 0 0",
-            fontFamily: "var(--font-sans)",
-            fontSize: "var(--text-body)",
-            fontWeight: 400,
-            lineHeight: 1.65,
-            color: "var(--ms-fg-soft)",
-          }}
-        >
-          {text}
-        </p>
-      )}
+      <RichText
+        value={entry.description}
+        style={{
+          margin: "10px 0 0",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--text-body)",
+          fontWeight: 400,
+          lineHeight: 1.65,
+          color: "var(--ms-fg-soft)",
+        }}
+      />
     </div>
   );
 }

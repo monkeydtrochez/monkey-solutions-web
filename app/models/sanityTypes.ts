@@ -98,7 +98,7 @@ interface Duration {
 }
 
 // Type for the `description` array in `workExperience`
-interface WorkDescriptionBlock {
+export interface WorkDescriptionBlock {
   _type: "block";
   style: string;
   _key: string;

@@ -3,6 +3,7 @@ import { useState, useContext, useMemo } from "react";
 import Image from "next/image";
 import GlobalContext from "@/app/context/GlobalContext";
 import { Badge } from "@/components/ui/badge";
+import RichText from "@/components/RichText";
 import type { Project } from "@/app/models/sanityTypes";
 
 
@@ -300,20 +301,17 @@ function ProjectRow({
               marginBottom: 10,
             }}>OVERVIEW</div>
 
-            {p.body && p.body.length > 0 && p.body
-              .map((block) => block.children.map((span) => span.text).join(""))
-              .filter(Boolean)
-              .map((text, i) => (
-                <p key={i} style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "var(--text-body)",
-                  fontWeight: 400,
-                  lineHeight: 1.6,
-                  color: "var(--ms-fg)",
-                  maxWidth: 500,
-                  margin: i === 0 ? 0 : "12px 0 0",
-                }}>{text}</p>
-              ))}
+            <RichText
+              value={p.body}
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "var(--text-body)",
+                fontWeight: 400,
+                lineHeight: 1.6,
+                color: "var(--ms-fg)",
+                maxWidth: 500,
+              }}
+            />
 
             {/* Stack pills — uses p.tags (per PATTERNS.md "tags = stack" decision) */}
             {p.tags && p.tags.length > 0 && (

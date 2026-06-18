@@ -2,19 +2,19 @@
 import { useContext } from "react";
 import Image from "next/image";
 import GlobalContext from "@/app/context/GlobalContext";
+import RichText from "@/components/RichText";
 
 export default function AboutSection() {
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile ?? null;
 
-  const descriptionParagraphs =
+  const description =
     profile?.description && profile.description.length > 0
       ? profile.description
-          .map((block) => block.children.map((span) => span.text).join(""))
-          .filter(Boolean)
       : null;
 
-  const paragraphs = descriptionParagraphs ?? [
+  // Plain-text fallback shown only when no CMS description is available.
+  const fallbackParagraphs = [
     "Ten years in, I've worked on fintech dashboards used by traders, iOS apps used by students across Sweden, and e-commerce platforms processing real money. My best work hides the complexity — it just feels calm and obvious.",
     "I take product from ambiguous brief to shipped binary. Comfortable being the only developer in the room, or the new senior in a team of twenty.",
   ];
@@ -105,22 +105,35 @@ export default function AboutSection() {
                 maxWidth: 520,
               }}
             >
-              {paragraphs.map((para, i) => (
-                <p
-                  key={i}
+              {description ? (
+                <RichText
+                  value={description}
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontSize: "var(--text-body)",
                     fontWeight: 400,
                     lineHeight: 1.7,
                     color: "var(--ms-fg-soft)",
-                    marginTop: i === 0 ? 0 : 16,
-                    marginBottom: 0,
                   }}
-                >
-                  {para}
-                </p>
-              ))}
+                />
+              ) : (
+                fallbackParagraphs.map((para, i) => (
+                  <p
+                    key={i}
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "var(--text-body)",
+                      fontWeight: 400,
+                      lineHeight: 1.7,
+                      color: "var(--ms-fg-soft)",
+                      marginTop: i === 0 ? 0 : 16,
+                      marginBottom: 0,
+                    }}
+                  >
+                    {para}
+                  </p>
+                ))
+              )}
             </div>
 
             {/* Facts row */}
