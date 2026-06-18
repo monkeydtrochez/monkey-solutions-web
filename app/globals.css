@@ -273,3 +273,28 @@ body {
   }
 }
 
+/* Sanity Portable Text (components/RichText.tsx) — restore the block and list
+   formatting that Tailwind's preflight resets. Color, font and line-height are
+   inherited from the wrapper's inline style at each call site; these rules only
+   handle structure so the same component fits every section. */
+.ms-richtext > :first-child { margin-top: 0; }
+.ms-richtext > :last-child  { margin-bottom: 0; }
+.ms-richtext p { margin: 0.85em 0; }
+.ms-richtext ul,
+.ms-richtext ol {
+  margin: 0.85em 0;
+  padding-left: 1.4em;
+}
+.ms-richtext ul { list-style: disc; }
+.ms-richtext ol { list-style: decimal; }
+.ms-richtext li { margin: 0.3em 0; padding-left: 0.2em; }
+.ms-richtext li::marker { color: var(--ms-orange-text); }
+.ms-richtext strong { font-weight: 600; }
+.ms-richtext em { font-style: italic; }
+.ms-richtext a {
+  color: var(--ms-orange-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ms-richtext a:hover { opacity: 0.85; }
+
