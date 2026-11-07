@@ -108,4 +108,23 @@ contains / 'Integrationer'
 lacks / 'Dev advisory'
 contains /en 'Dev advisory'
 
+# --- Contact, footer, theme (Task 7) ---
+contains / 'instagram\.com/_monkeysolutions'
+contains / 'Göteborg, Sverige'
+lacks / 'xxxxxx-xxxx'
+contains /en 'Gothenburg, Sweden'
+contains /en 'instagram\.com/_monkeysolutions'
+# A valid body sends a real email when RESEND_API_KEY is set, so it only runs on request.
+if [ "${VERIFY_SEND_EMAIL:-}" = "1" ]; then
+  code=$(curl -s -o "$TMP/contact.json" -w '%{http_code}' -X POST -H 'Content-Type: application/json' \
+    -d '{"name":"Verify","email":"verify@example.com","budget":"","project":"verify-i18n","lang":"sv"}' "$BASE/api/contact")
+  if [ "$code" = "400" ]; then fail "POST /api/contact with valid body → 400"; fi
+  if [ "$code" = "500" ] && ! grep -q 'Email service not configured' "$TMP/contact.json"; then
+    fail "POST /api/contact → 500 $(cat "$TMP/contact.json")"
+  fi
+  ok "POST /api/contact valid body → $code"
+else
+  echo "skip POST /api/contact valid body (set VERIFY_SEND_EMAIL=1; sends a real email if RESEND_API_KEY is set)"
+fi
+
 echo "All $PASSED checks passed."

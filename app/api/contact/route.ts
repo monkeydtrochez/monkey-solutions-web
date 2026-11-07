@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
+import { contactEmailText, parseContactBody } from '@/lib/contact/contactEmail';
 
 // NOTE: 'onboarding@resend.dev' is a Resend sandbox sender.
 // It only delivers to the email address registered with the Resend account.
@@ -24,18 +25,15 @@ export async function POST(request: NextRequest) {
 
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  let name: string, email: string, budget: string, project: string;
+  let body: unknown;
   try {
-    const body = await request.json();
-    name = String(body.name ?? '').trim();
-    email = String(body.email ?? '').trim();
-    budget = String(body.budget ?? '').trim();
-    project = String(body.project ?? '').trim();
+    body = await request.json();
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  if (!name || !email || !project) {
+  const payload = parseContactBody(body);
+  if (!payload) {
     return NextResponse.json(
       { error: 'Missing required fields: name, email, project' },
       { status: 400 }
@@ -45,9 +43,9 @@ export async function POST(request: NextRequest) {
   const { data, error } = await resend.emails.send({
     from: 'Contact request for Monkey Solutions <contact@notifications.monkeysolutions.se>',
     to: 'daniel@monkeysolutions.se',
-    subject: `New contact from ${name}`,
-    text: `Name: ${name}\nEmail: ${email}\nBudget: ${budget}\n\n${project}`,
-    replyTo: email,
+    subject: `New contact from ${payload.name}`,
+    text: contactEmailText(payload),
+    replyTo: payload.email,
   });
 
   if (error) {
