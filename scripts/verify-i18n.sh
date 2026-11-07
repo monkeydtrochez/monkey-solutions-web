@@ -127,4 +127,15 @@ else
   echo "skip POST /api/contact valid body (set VERIFY_SEND_EMAIL=1; sends a real email if RESEND_API_KEY is set)"
 fi
 
+# --- Swedish Sanity content (Task 9, after the migration has run) ---
+if [ "${VERIFY_SV_CONTENT:-}" = "1" ]; then
+  contains / 'Jag heter Daniel'
+  lacks / 'Gothenburg, Sweden'
+  contains / 'FULLSTACKUTVECKLARE'
+  contains /en 'Gothenburg-based'
+  lacks /en 'Jag heter Daniel'
+else
+  echo "skip Swedish Sanity content checks (set VERIFY_SV_CONTENT=1 after the translate-to-swedish migration)"
+fi
+
 echo "All $PASSED checks passed."
