@@ -127,6 +127,25 @@ else
   echo "skip POST /api/contact valid body (set VERIFY_SEND_EMAIL=1; sends a real email if RESEND_API_KEY is set)"
 fi
 
+# --- SEO (Task 10) ---
+contains / 'rel="canonical" href="https://monkeysolutions\.se/?"'
+contains /en 'rel="canonical" href="https://monkeysolutions\.se/en"'
+for p in / /en; do
+  contains "$p" 'hrefLang="sv-SE" href="https://monkeysolutions\.se/?"'
+  contains "$p" 'hrefLang="en" href="https://monkeysolutions\.se/en"'
+  contains "$p" 'hrefLang="x-default" href="https://monkeysolutions\.se/?"'
+done
+contains / 'property="og:locale" content="sv_SE"'
+contains /en 'property="og:locale" content="en_GB"'
+contains / '<title>Webbutvecklare i Göteborg – hemsidor &amp; webshoppar \| Monkey Solutions</title>'
+contains / '"@type":"ProfessionalService"'
+contains /sitemap.xml 'xhtml:link'
+lacks /sitemap.xml 'monkeysolutions\.se/sv'
+contains /robots.txt 'Sitemap: https://monkeysolutions\.se/sitemap\.xml'
+og_type=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$BASE/api/og/sv")
+[ "$og_type" = "200 image/png" ] || fail "/api/og/sv → $og_type, want 200 image/png"
+ok "/api/og/sv → 200 image/png"
+
 # --- Swedish Sanity content (Task 9, after the migration has run) ---
 if [ "${VERIFY_SV_CONTENT:-}" = "1" ]; then
   contains / 'Jag heter Daniel'

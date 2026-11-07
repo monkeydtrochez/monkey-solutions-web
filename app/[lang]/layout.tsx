@@ -6,16 +6,25 @@ import { THEME_SCRIPT } from "../themeScript";
 import { GlobalContextProvider } from "../context/GlobalContext";
 import BackToTop from "@/components/BackToTop";
 import SmoothScroll from "@/components/SmoothScroll";
-import { isLocale, locales } from "@/lib/i18n/config";
+import { isLocale, locales, SITE_URL } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { loadSanityData } from "@/lib/api/sanityDataLoader";
 import { normalizeSanityData } from "@/lib/content/normalize";
+import { buildProfessionalServiceJsonLd } from "@/lib/seo/jsonLd";
 
-export const metadata: Metadata = {
-  title: "Monkey Solutions",
-  description: "Developed by Monkey Solutions AB",
-};
+export async function generateMetadata({
+  params,
+}: LayoutProps<"/[lang]">): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+  const { meta } = getDictionary(lang);
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: meta.title, template: "%s | Monkey Solutions" },
+    description: meta.description,
+  };
+}
 
 export const dynamicParams = false;
 
@@ -30,6 +39,7 @@ export default async function RootLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const content = normalizeSanityData(await loadSanityData(lang));
+  const jsonLd = buildProfessionalServiceJsonLd(lang, content.profile);
 
   return (
     <html
@@ -45,6 +55,12 @@ export default async function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         <I18nProvider lang={lang} dict={getDictionary(lang)}>
           <GlobalContextProvider initialData={content}>
             {children}
