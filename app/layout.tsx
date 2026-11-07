@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { GlobalContextProvider } from "./context/GlobalContext";
 import { inter, jetbrainsMono, fraunces } from "./fonts";
 import BackToTop from "@/components/BackToTop";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -31,9 +30,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
-        <GlobalContextProvider>
-          {children}
-        </GlobalContextProvider>
+        {children}
         <SmoothScroll />
         <BackToTop />
       </body>

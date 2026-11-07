@@ -1,6 +1,6 @@
 import { loadSanityData } from "@/lib/api/sanityDataLoader";
-import DataHydrator from "@/components/wrappers/DataHydrator";
-import QueryClientWrapper from "@/components/wrappers/QueryClientWrapper";
+import { normalizeSanityData } from "@/lib/content/normalize";
+import { GlobalContextProvider } from "@/app/context/GlobalContext";
 import SiteHeader from "@/components/SiteHeader";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
@@ -11,13 +11,10 @@ import ServicesSection from "@/components/ServicesSection";
 import ContactSection from "@/components/ContactSection";
 import FooterSection from "@/components/FooterSection";
 
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
-  const data = await loadSanityData();
+  const content = normalizeSanityData(await loadSanityData());
   return (
-    <QueryClientWrapper>
-      <DataHydrator data={data} />
+    <GlobalContextProvider initialData={content}>
       <SiteHeader />
       <main>
         <HeroSection />
@@ -29,6 +26,6 @@ export default async function Home() {
         <ContactSection />
       </main>
       <FooterSection />
-    </QueryClientWrapper>
+    </GlobalContextProvider>
   );
 }
