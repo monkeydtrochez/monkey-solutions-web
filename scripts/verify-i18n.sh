@@ -70,6 +70,18 @@ h1_is() {
   ok "$path h1 is '$want'"
 }
 
+# A 404 from the branded global page, not an on-demand [lang] render that
+# Next caches for a year.
+branded_404() {
+  local path=$1 headers code
+  headers=$(curl -s -o "$TMP/b404.body" -D - "$BASE$path")
+  code=$(printf '%s' "$headers" | head -1 | awk '{print $2}')
+  [ "$code" = "404" ] || fail "$path → $code, want 404"
+  grep -q '<html lang="sv"' "$TMP/b404.body" || fail "$path 404 is not the branded page"
+  if printf '%s' "$headers" | grep -qi 's-maxage=31536000'; then fail "$path 404 is cached for a year"; fi
+  ok "$path → branded uncached 404"
+}
+
 post_status() {
   local path=$1 body=$2 want=$3 code
   code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d "$body" "$BASE$path")
@@ -90,6 +102,13 @@ for p in /finns-inte /a/b /en/finns-inte /en/a/b /hemsida /svenska /english /EN;
   status "$p" 404
 done
 status /favicon.ico 200
+# Paths the proxy matcher skips (dotted, api*/_next* prefixes) must not reach
+# app/[lang] as a fake language.
+for p in /wp-login.php /.env /config.json /apple-touch-icon.png /sv.x /en.json /favicon.icox \
+         /wp-admin/setup-config.php /.git/config /api /apiary /api-integrationer /_nextfoo; do
+  branded_404 "$p"
+done
+status /logo.png 200
 post_status /api/contact '{}' 400
 
 # --- Header, hero, about, work (Task 5) ---
@@ -156,12 +175,15 @@ if [ -n "${CRON_SECRET:-}" ]; then
   code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: Bearer $CRON_SECRET" "$BASE/api/revalidate")
   [ "$code" = "200" ] || fail "POST /api/revalidate with auth → $code, want 200"
   ok "POST /api/revalidate with auth → 200"
-  # Regenerated pages must still render (dynamicParams = false on [lang] turned them into cached 404s).
-  for p in / /en / /en; do
+  # Regenerated pages must still render: dynamicParams = false on a route turns
+  # its pages into cached 404s after revalidation. Every sitemap page, twice.
+  live=$(curl -s "$BASE/sitemap.xml" | grep -o '<loc>[^<]*' | sed 's|<loc>https://monkeysolutions\.se||; s|^$|/|')
+  [ -n "$live" ] || fail "sitemap lists no pages"
+  for p in $live $live; do
     code=$(curl -s -o /dev/null -w '%{http_code}' "$BASE$p")
     [ "$code" = "200" ] || fail "$p after revalidate → $code, want 200"
   done
-  ok "/ and /en still 200 after revalidate"
+  ok "all sitemap pages ($(echo $live | tr '\n' ' ')) still 200 after revalidate"
 else
   echo "skip POST /api/revalidate with auth (CRON_SECRET not set in this shell)"
 fi

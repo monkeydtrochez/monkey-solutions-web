@@ -48,7 +48,13 @@ describe("buildProfessionalServiceJsonLd", () => {
     expect(ld.logo).toBe("https://monkeysolutions.se/logo.png");
     expect(ld.email).toBe("daniel@monkeysolutions.se");
     expect("telephone" in ld).toBe(false);
-    expect("address" in ld).toBe(false);
+    // Google's LocalBusiness rich result requires an address; the spec rules out only the street.
+    expect(ld.address).toEqual({
+      "@type": "PostalAddress",
+      addressLocality: "Göteborg",
+      addressRegion: "Västra Götaland",
+      addressCountry: "SE",
+    });
     expect(ld.sameAs).toEqual([
       "https://www.instagram.com/_monkeysolutions/",
       "https://www.linkedin.com/in/daniel",

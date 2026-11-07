@@ -244,10 +244,15 @@ export default function SiteHeader({ pageKey }: { pageKey: PageKey }) {
             </a>
           ))}
 
+          {/* Language switch gets its own row: next to ThemeToggle it wrapped Hire me on phones */}
+          <div style={{ display: "flex", padding: "12px 32px" }}>
+            <LanguageSwitch pageKey={pageKey} tabIndex={open ? 0 : -1} />
+          </div>
+
           {/* Divider */}
           <div style={{ height: 1, background: "var(--ms-border)", margin: "4px 32px" }} />
 
-          {/* Bottom row: ThemeToggle + language switch + Hire me */}
+          {/* Bottom row: ThemeToggle + Hire me */}
           <div
             style={{
               display: "flex",
@@ -256,10 +261,7 @@ export default function SiteHeader({ pageKey }: { pageKey: PageKey }) {
               padding: "12px 32px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <ThemeToggle />
-              <LanguageSwitch pageKey={pageKey} tabIndex={open ? 0 : -1} />
-            </div>
+            <ThemeToggle />
             <a
               href="#contact"
               tabIndex={open ? 0 : -1}

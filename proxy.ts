@@ -14,6 +14,9 @@ export function proxy(request: NextRequest) {
     : NextResponse.rewrite(url);
 }
 
+// Skips API routes, Next internals and anything with a dot (public files).
+// The trailing slashes keep /api and /apiary-like slugs inside the proxy.
+// Dotted paths that are not files are sent to /sv by next.config.mjs.
 export const config = {
-  matcher: ["/((?!api|_next|favicon.ico|.*\\..*).*)"],
+  matcher: ["/((?!api/|_next/|.*\\..*).*)"],
 };
