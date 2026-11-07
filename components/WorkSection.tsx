@@ -5,9 +5,17 @@ import GlobalContext from "@/app/context/GlobalContext";
 import { Badge } from "@/components/ui/badge";
 import RichText from "@/components/RichText";
 import type { Project } from "@/app/models/sanityTypes";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import type { Dictionary } from "@/lib/i18n/getDictionary";
+import { format } from "@/lib/i18n/format";
+
+// Filter sentinel, kept apart from the translated "all" label.
+const ALL = "__all__";
 
 
 export default function WorkSection() {
+  const { dict } = useI18n();
+  const t = dict.work;
   const ctx = useContext(GlobalContext);
   const projects = useMemo(() => ctx?.projects ?? [], [ctx?.projects]);
 
@@ -16,10 +24,10 @@ export default function WorkSection() {
     const kinds = Array.from(
       new Set(projects.map((p) => p.kind).filter((k): k is string => Boolean(k)))
     );
-    return ["all", ...kinds];
+    return [ALL, ...kinds];
   }, [projects]);
 
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState(ALL);
   // openId tracks user-explicit selection:
   //   null     = no explicit pick yet (auto-open first shown row)
   //   "closed" = user explicitly collapsed (no row open)
@@ -28,7 +36,7 @@ export default function WorkSection() {
 
   const shown = useMemo(
     () =>
-      filter === "all"
+      filter === ALL
         ? projects
         : projects.filter((p) => p.kind === filter),
     [projects, filter]
@@ -79,7 +87,7 @@ export default function WorkSection() {
             }}>
               <span style={{ color: "var(--ms-orange-text)", fontWeight: 600 }}>02</span>
               <span aria-hidden="true" style={{ width: 28, height: 1, background: "var(--ms-border-strong)" }} />
-              <span style={{ textTransform: "uppercase" }}>SELECTED WORK</span>
+              <span style={{ textTransform: "uppercase" }}>{t.kicker}</span>
             </div>
 
             <h2 style={{
@@ -93,15 +101,15 @@ export default function WorkSection() {
               color: "var(--ms-fg)",
               maxWidth: 900,
             }}>
-              Projects,{" "}
+              {t.h2.pre}{" "}
               <em style={{
                 fontFamily: "var(--font-display)",
                 fontStyle: "italic",
                 fontWeight: 400,
                 color: "var(--ms-orange-text)",
-              }}>actually</em>
+              }}>{t.h2.em}</em>
               {" "}
-              <span style={{ fontWeight: 600 }}>shipped.</span>
+              <span style={{ fontWeight: 600 }}>{t.h2.post}</span>
             </h2>
           </div>
 
@@ -134,7 +142,7 @@ export default function WorkSection() {
                     fontWeight: 600,
                   }}
                 >
-                  {f}
+                  {f === ALL ? t.filterAll : f}
                 </button>
               );
             })}
@@ -154,7 +162,7 @@ export default function WorkSection() {
               fontSize: "var(--text-mono)",
               color: "var(--ms-fg-faint)",
             }}>
-              No projects in this category.
+              {t.empty}
             </div>
           ) : (
             shown.map((p) => (
@@ -163,6 +171,7 @@ export default function WorkSection() {
                 project={p}
                 open={effectiveOpenId === p._id}
                 onToggle={() => handleToggle(p._id)}
+                t={t}
               />
             ))
           )}
@@ -176,10 +185,12 @@ function ProjectRow({
   project: p,
   open,
   onToggle,
+  t,
 }: {
   project: Project;
   open: boolean;
   onToggle: () => void;
+  t: Dictionary["work"];
 }) {
   const displayNumber = String(p.sortIndex).padStart(3, "0");
   const year = p.duration?.startYear ?? "";
@@ -196,7 +207,7 @@ function ProjectRow({
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? `Collapse ${p.title}` : `Expand ${p.title}`}
+        aria-label={format(open ? t.collapse : t.expand, { title: p.title })}
         className="focus-ring"
         style={{
           all: "unset",
@@ -299,7 +310,7 @@ function ProjectRow({
               letterSpacing: 1,
               color: "var(--ms-fg-faint)",
               marginBottom: 10,
-            }}>OVERVIEW</div>
+            }}>{t.overview}</div>
 
             <RichText
               value={p.body}
@@ -343,7 +354,7 @@ function ProjectRow({
                     textTransform: "uppercase",
                     letterSpacing: 1,
                     color: "var(--ms-fg-faint)",
-                  }}>Client</div>
+                  }}>{t.client}</div>
                   <div style={{
                     marginTop: 4,
                     fontFamily: "var(--font-mono)",
@@ -359,7 +370,7 @@ function ProjectRow({
                   textTransform: "uppercase",
                   letterSpacing: 1,
                   color: "var(--ms-fg-faint)",
-                }}>Year</div>
+                }}>{t.year}</div>
                 <div style={{
                   marginTop: 4,
                   fontFamily: "var(--font-mono)",
@@ -372,7 +383,7 @@ function ProjectRow({
                   href={p.site}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Visit ${p.title} site (opens in new tab)`}
+                  aria-label={format(t.visitSite, { title: p.title })}
                   style={{
                     marginLeft: "auto",
                     color: "var(--ms-orange-text)",
@@ -454,7 +465,7 @@ function ProjectRow({
               {p.coverImageUrl ? (
                 <Image
                   src={p.coverImageUrl}
-                  alt={`${p.title ?? "Project"} cover`}
+                  alt={format(t.coverAlt, { title: p.title ?? t.projectFallback })}
                   fill
                   style={{ objectFit: "contain" }}
                   sizes="(max-width: 768px) 100vw, 40vw"
@@ -468,7 +479,7 @@ function ProjectRow({
                     color: "var(--ms-fg-faint)",
                     letterSpacing: 1,
                   }}
-                >[{(p.title ?? "UNTITLED").toUpperCase()} · SCREENSHOT]</span>
+                >[{(p.title ?? t.untitled).toUpperCase()} · {t.screenshot}]</span>
               )}
             </div>
           </div>

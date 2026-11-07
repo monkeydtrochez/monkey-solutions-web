@@ -3,8 +3,11 @@ import { useContext } from "react";
 import Image from "next/image";
 import GlobalContext from "@/app/context/GlobalContext";
 import RichText from "@/components/RichText";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export default function AboutSection() {
+  const { dict } = useI18n();
+  const t = dict.about;
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile ?? null;
 
@@ -14,14 +17,11 @@ export default function AboutSection() {
       : null;
 
   // Plain-text fallback shown only when no CMS description is available.
-  const fallbackParagraphs = [
-    "Ten years in, I've worked on fintech dashboards used by traders, iOS apps used by students across Sweden, and e-commerce platforms processing real money. My best work hides the complexity — it just feels calm and obvious.",
-    "I take product from ambiguous brief to shipped binary. Comfortable being the only developer in the room, or the new senior in a team of twenty.",
-  ];
+  const fallbackParagraphs = t.fallbackParagraphs;
 
   const profilePictureUrl = profile?.profilePictureUrl ?? null;
 
-  const location = profile?.location ?? "Göteborg, SE";
+  const location = profile?.location ?? t.locationFallback;
   const languagesValue = (profile?.languages ?? ["SV", "EN", "ES"]).join(" · ");
 
   return (
@@ -58,7 +58,7 @@ export default function AboutSection() {
               background: "var(--ms-border-strong)",
             }}
           />
-          <span style={{ textTransform: "uppercase" }}>ABOUT</span>
+          <span style={{ textTransform: "uppercase" }}>{t.kicker}</span>
         </div>
 
         {/* Two-column grid */}
@@ -84,7 +84,7 @@ export default function AboutSection() {
                 margin: 0,
               }}
             >
-              I build what teams{" "}
+              {t.h2.pre}{" "}
               <em
                 style={{
                   fontFamily: "var(--font-display)",
@@ -93,9 +93,9 @@ export default function AboutSection() {
                   color: "var(--ms-orange-text)",
                 }}
               >
-                wish
+                {t.h2.em}
               </em>{" "}
-              they had time to build.
+              {t.h2.post}
             </h2>
 
             {/* Body paragraphs */}
@@ -146,9 +146,9 @@ export default function AboutSection() {
               }}
             >
               {[
-                { label: "LOCATION", value: location },
-                { label: "LANGUAGES", value: languagesValue },
-                { label: "WORKING SINCE", value: "2015" },
+                { label: t.facts.location, value: location },
+                { label: t.facts.languages, value: languagesValue },
+                { label: t.facts.workingSince, value: "2015" },
               ].map(({ label, value }) => (
                 <div key={label}>
                   <div
@@ -215,7 +215,7 @@ export default function AboutSection() {
               {profilePictureUrl ? (
                 <Image
                   src={profilePictureUrl}
-                  alt="Profile photo"
+                  alt={t.photoAlt}
                   fill
                   style={{ objectFit: "cover" }}
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -256,7 +256,7 @@ export default function AboutSection() {
                 zIndex: 2,
               }}
             >
-              ↓ hi, nice to meet you
+              {t.sticker}
             </div>
           </div>
         </div>

@@ -62,6 +62,14 @@ redirects() {
   ok "$path → 308 $want"
 }
 
+h1_is() {
+  local path=$1 want=$2 f got
+  f=$(fetch "$path")
+  got=$(perl -0ne 'if (/<h1[^>]*>(.*?)<\/h1>/s) { $t = $1; $t =~ s/<[^>]+>//g; $t =~ s/<!-- -->//g; $t =~ s/\s+/ /g; $t =~ s/^ | $//g; print $t }' "$f.body")
+  [ "$got" = "$want" ] || fail "$path h1 is '$got', want '$want'"
+  ok "$path h1 is '$want'"
+}
+
 post_status() {
   local path=$1 body=$2 want=$3 code
   code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d "$body" "$BASE$path")
@@ -83,5 +91,15 @@ for p in /finns-inte /a/b /en/finns-inte /en/a/b /hemsida /svenska /english /EN;
 done
 status /favicon.ico 200
 post_status /api/contact '{}' 400
+
+# --- Header, hero, about, work (Task 5) ---
+h1_is / 'Hemsidor, webshoppar och systemen bakom. Från Göteborg.'
+contains / 'om mig'
+contains / 'Anlita mig'
+for s in 'Hire me' 'Start a project' 'SELECTED WORK' 'No projects in this category'; do
+  lacks / "$s"
+done
+contains /en 'Software that'
+contains /en 'Hire me'
 
 echo "All $PASSED checks passed."
