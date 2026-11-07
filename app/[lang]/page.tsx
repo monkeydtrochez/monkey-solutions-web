@@ -1,6 +1,3 @@
-import { loadSanityData } from "@/lib/api/sanityDataLoader";
-import { normalizeSanityData } from "@/lib/content/normalize";
-import { GlobalContextProvider } from "@/app/context/GlobalContext";
 import SiteHeader from "@/components/SiteHeader";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
@@ -11,10 +8,9 @@ import ServicesSection from "@/components/ServicesSection";
 import ContactSection from "@/components/ContactSection";
 import FooterSection from "@/components/FooterSection";
 
-export default async function Home() {
-  const content = normalizeSanityData(await loadSanityData());
+export default function Home() {
   return (
-    <GlobalContextProvider initialData={content}>
+    <>
       <SiteHeader />
       <main>
         <HeroSection />
@@ -26,6 +22,6 @@ export default async function Home() {
         <ContactSection />
       </main>
       <FooterSection />
-    </GlobalContextProvider>
+    </>
   );
 }
