@@ -1,30 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 
-const SERVICES = [
-  {
-    number: "01",
-    title: "Full-Stack Web",
-    description:
-      "From landing page to full product. Modern fullstack frameworks, headless CMS, and whatever the project actually needs.",
-    stack: ["Devops", "Development", "Headless CMS", "Design", "Integrations"],
-  },
-  {
-    number: "02",
-    title: "Dev advisory",
-    description:
-      "Code reviews, architecture calls, hiring loops. Sometimes the most useful thing is a second pair of eyes.",
-    stack: ["Code audits", "Architecture reviews", "Hiring loops", "Consulting"],
-  },
-  {
-    number: "03",
-    title: "Backend & APIs",
-    description:
-      "Services built with best suited frameworks, typed from DB to client. Boring-by-choice, readable, tested.",
-    stack: ["Performance", "Security", "Devops", "Architecture design", "Observability", "Monitoring", "Testing"],
-  },
-];
+import type { Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/getDictionary";
+import { format } from "@/lib/i18n/format";
 
-export default function ServicesSection() {
+export default function ServicesSection({ lang }: { lang: Locale }) {
+  const t = getDictionary(lang).services;
+  const SERVICES = t.items.map((item, i) => ({
+    ...item,
+    number: String(i + 1).padStart(2, "0"),
+  }));
   return (
     <section
       id="services"
@@ -53,7 +38,7 @@ export default function ServicesSection() {
             aria-hidden="true"
             style={{ width: 28, height: 1, background: "var(--ms-border-strong)" }}
           />
-          <span style={{ textTransform: "uppercase" }}>SERVICES</span>
+          <span style={{ textTransform: "uppercase" }}>{t.kicker}</span>
         </div>
 
         {/* Header: title left, subtitle right */}
@@ -76,7 +61,7 @@ export default function ServicesSection() {
               color: "var(--ms-fg)",
             }}
           >
-            A few of many ways we could be{" "}
+            {t.h2.pre}{" "}
             <em
               style={{
                 fontFamily: "var(--font-display)",
@@ -85,10 +70,10 @@ export default function ServicesSection() {
                 color: "var(--ms-fg)",
               }}
             >
-              working
+              {t.h2.em}
             </em>{" "}
             <strong style={{ fontWeight: 700, color: "var(--ms-orange-text)" }}>
-              together.
+              {t.h2.strong}
             </strong>
           </h2>
 
@@ -102,8 +87,7 @@ export default function ServicesSection() {
               color: "var(--ms-fg-soft)",
             }}
           >
-            Most engagements are 4–12 weeks, fixed scope or monthly retainer.
-            I&apos;ll tell you honestly if your project isn&apos;t a fit for me.
+            {t.intro}
           </p>
         </div>
 
@@ -161,7 +145,7 @@ export default function ServicesSection() {
                       letterSpacing: "0.5px",
                     }}
                   >
-                    — service / {service.number}
+                    {format(t.cardKicker, { n: service.number })}
                   </div>
 
                   {/* Title */}

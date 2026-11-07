@@ -3,6 +3,10 @@ import { useContext, useMemo, useState } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
 import RichText from "@/components/RichText";
 import type { WorkExperience } from "@/app/models/sanityTypes";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import type { Dictionary } from "@/lib/i18n/getDictionary";
+import { intlLocale } from "@/lib/i18n/config";
+import { format } from "@/lib/i18n/format";
 
 // An employer with all of its activities (client engagements) grouped together.
 type EmployerGroup = {
@@ -16,7 +20,10 @@ type EmployerGroup = {
 };
 
 // Group work entries by employer, preserving first-seen (chronological) order.
-function groupByEmployer(entries: WorkExperience[]): EmployerGroup[] {
+function groupByEmployer(
+  entries: WorkExperience[],
+  presentLabel: string
+): EmployerGroup[] {
   const order: string[] = [];
   const map = new Map<string, WorkExperience[]>();
 
@@ -54,20 +61,26 @@ function groupByEmployer(entries: WorkExperience[]): EmployerGroup[] {
       entries: groupEntries,
       current,
       startYear,
-      endYearDisplay: current ? "Present" : latestEnd,
+      endYearDisplay: current ? presentLabel : latestEnd,
       count: groupEntries.length,
     };
   });
 }
 
 export default function ExperienceSection() {
+  const { lang, dict } = useI18n();
+  const t = dict.experience;
   const ctx = useContext(GlobalContext);
   const workExperience = useMemo(() => ctx?.workExperience ?? [], [ctx?.workExperience]);
   const education = ctx?.education ?? [];
   const communityWork = ctx?.profile?.communityWork ?? [];
 
   // One row per employer; each employer holds its client engagements.
-  const groups = useMemo(() => groupByEmployer(workExperience), [workExperience]);
+  const groups = useMemo(
+    () => groupByEmployer(workExperience, t.present),
+    [workExperience, t.present]
+  );
+  const pluralRules = useMemo(() => new Intl.PluralRules(intlLocale[lang]), [lang]);
 
   // openId tracks the user's explicit selection, keyed by employer:
   //   null     = no explicit pick yet (auto-open the current employer)
@@ -125,7 +138,7 @@ export default function ExperienceSection() {
               background: "var(--ms-border-strong)",
             }}
           />
-          <span style={{ textTransform: "uppercase" }}>EXPERIENCE + EDUCATION</span>
+          <span style={{ textTransform: "uppercase" }}>{t.kicker}</span>
         </div>
 
         {/* Section H2 with Fraunces italic accent on "Education" */}
@@ -140,7 +153,7 @@ export default function ExperienceSection() {
             color: "var(--ms-fg)",
           }}
         >
-          Experience +{" "}
+          {t.h2.pre}{" "}
           <em
             style={{
               fontFamily: "var(--font-display)",
@@ -149,7 +162,7 @@ export default function ExperienceSection() {
               color: "var(--ms-orange-text)",
             }}
           >
-            Education
+            {t.h2.em}
           </em>
         </h2>
 
@@ -180,6 +193,8 @@ export default function ExperienceSection() {
               open={effectiveOpenId === group.key}
               onToggle={() => handleToggle(group.key)}
               isLast={index === groups.length - 1}
+              t={t}
+              pluralRules={pluralRules}
             />
           ))}
         </div>
@@ -273,7 +288,7 @@ export default function ExperienceSection() {
                   marginBottom: 16,
                 }}
               >
-                ALSO / COMMUNITY
+                {t.community}
               </div>
 
               {communityWork.map((row) => (
@@ -327,17 +342,24 @@ function EmployerRow({
   open,
   onToggle,
   isLast,
+  t,
+  pluralRules,
 }: {
   group: EmployerGroup;
   open: boolean;
   onToggle: () => void;
   isLast: boolean;
+  t: Dictionary["experience"];
+  pluralRules: Intl.PluralRules;
 }) {
   // Derive the panel's DOM id from a Sanity _id (always id-safe) rather than
   // group.key, which can be a company name containing spaces (invalid HTML id).
   const panelId = `experience-panel-${group.entries[0]._id}`;
-  const rangeLabel = `${group.startYear || "?"}–${group.endYearDisplay || "Present"}`;
-  const countLabel = `${group.count} ${group.count === 1 ? "engagement" : "engagements"}`;
+  const rangeLabel = `${group.startYear || "?"}–${group.endYearDisplay || t.present}`;
+  const countLabel = format(
+    pluralRules.select(group.count) === "one" ? t.engagements.one : t.engagements.other,
+    { n: group.count }
+  );
 
   return (
     <div
@@ -386,7 +408,9 @@ function EmployerRow({
         onClick={onToggle}
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={`${open ? "Collapse" : "Expand"} ${group.company || "employer"}`}
+        aria-label={format(open ? t.collapse : t.expand, {
+          name: group.company || t.employerFallback,
+        })}
         className="focus-ring"
         style={{
           all: "unset",
@@ -424,7 +448,7 @@ function EmployerRow({
                   color: "var(--ms-orange-text)",
                 }}
               >
-                Current
+                {t.current}
               </span>
             )}
           </div>
@@ -471,7 +495,7 @@ function EmployerRow({
           }}
         >
           {group.entries.map((entry, i) => (
-            <ActivityItem key={entry._id} entry={entry} isFirst={i === 0} />
+            <ActivityItem key={entry._id} entry={entry} isFirst={i === 0} presentLabel={t.present} />
           ))}
         </div>
       )}
@@ -479,7 +503,15 @@ function EmployerRow({
   );
 }
 
-function ActivityItem({ entry, isFirst }: { entry: WorkExperience; isFirst: boolean }) {
+function ActivityItem({
+  entry,
+  isFirst,
+  presentLabel,
+}: {
+  entry: WorkExperience;
+  isFirst: boolean;
+  presentLabel: string;
+}) {
   return (
     <div
       style={{
@@ -510,7 +542,7 @@ function ActivityItem({ entry, isFirst }: { entry: WorkExperience; isFirst: bool
           color: "var(--ms-fg-faint)",
         }}
       >
-        {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || "Present"}
+        {entry.duration?.startYear ?? "?"}&ndash;{entry.duration?.endYear || presentLabel}
       </div>
 
       {/* Description */}

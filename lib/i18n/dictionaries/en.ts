@@ -80,6 +80,56 @@ export const en: Dictionary = {
     untitled: "UNTITLED",
     screenshot: "SCREENSHOT",
   },
+  experience: {
+    kicker: "EXPERIENCE + EDUCATION",
+    h2: { pre: "Experience +", em: "Education" },
+    community: "ALSO / COMMUNITY",
+    present: "Present",
+    current: "Current",
+    engagements: { one: "{n} engagement", other: "{n} engagements" },
+    expand: "Expand {name}",
+    collapse: "Collapse {name}",
+    employerFallback: "employer",
+  },
+  skills: {
+    kicker: "SKILLS",
+    h2: { pre: "Tools I reach for", em: "without", strong: "thinking." },
+    traits: "How I show up",
+    categories: {
+      Languages: "Languages",
+      Frontend: "Frontend",
+      "Backend & Infra": "Backend & Infra",
+      Craft: "Craft",
+      Other: "Other",
+    },
+  },
+  services: {
+    kicker: "SERVICES",
+    h2: { pre: "A few of many ways we could be", em: "working", strong: "together." },
+    intro:
+      "Most engagements are 4–12 weeks, fixed scope or monthly retainer. I'll tell you honestly if your project isn't a fit for me.",
+    cardKicker: "— service / {n}",
+    items: [
+      {
+        title: "Full-Stack Web",
+        description:
+          "From landing page to full product. Modern fullstack frameworks, headless CMS, and whatever the project actually needs.",
+        stack: ["Devops", "Development", "Headless CMS", "Design", "Integrations"],
+      },
+      {
+        title: "Dev advisory",
+        description:
+          "Code reviews, architecture calls, hiring loops. Sometimes the most useful thing is a second pair of eyes.",
+        stack: ["Code audits", "Architecture reviews", "Hiring loops", "Consulting"],
+      },
+      {
+        title: "Backend & APIs",
+        description:
+          "Services built with best suited frameworks, typed from DB to client. Boring-by-choice, readable, tested.",
+        stack: ["Performance", "Security", "Devops", "Architecture design", "Observability", "Monitoring", "Testing"],
+      },
+    ],
+  },
   notFound: {
     title: "Page not found",
     body: "The page you are looking for does not exist or has moved.",

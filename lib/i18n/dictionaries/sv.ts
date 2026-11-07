@@ -78,6 +78,68 @@ export const sv = {
     untitled: "NAMNLÖST",
     screenshot: "SKÄRMBILD",
   },
+  experience: {
+    kicker: "ERFARENHET + UTBILDNING",
+    h2: { pre: "Erfarenhet +", em: "utbildning" },
+    community: "ÄVEN / ENGAGEMANG",
+    present: "Nu",
+    current: "Nuvarande",
+    engagements: { one: "{n} uppdrag", other: "{n} uppdrag" },
+    expand: "Visa {name}",
+    collapse: "Dölj {name}",
+    employerFallback: "arbetsgivare",
+  },
+  skills: {
+    kicker: "KOMPETENS",
+    h2: { pre: "Verktyg jag tar till", em: "utan att", strong: "tänka." },
+    traits: "Som kollega",
+    categories: {
+      Languages: "Språk",
+      Frontend: "Frontend",
+      "Backend & Infra": "Backend & infra",
+      Craft: "Hantverk",
+      Other: "Övrigt",
+    },
+  },
+  services: {
+    kicker: "TJÄNSTER",
+    h2: { pre: "Några av många sätt vi kan", em: "jobba", strong: "tillsammans." },
+    intro:
+      "De flesta uppdrag tar 4–12 veckor, med fast omfattning eller löpande månadsavtal. Jag säger ärligt om ditt projekt inte passar mig.",
+    cardKicker: "— tjänst / {n}",
+    items: [
+      {
+        title: "Hemsida",
+        description:
+          "Känns hemsidan gammal eller långsam? Jag bygger en ny som är lätt att uppdatera och hittas på Google. Småföretag i Göteborg.",
+        stack: ["Ny hemsida", "Enkel att uppdatera", "SEO", "Mobilanpassad"],
+      },
+      {
+        title: "Webshop",
+        description:
+          "Vill du sälja på nätet? Jag bygger webbutiker för lokala butiker, kopplade till kassa, lager och frakt.",
+        stack: ["E-handel", "Betalning", "Kassa & lager", "Frakt"],
+      },
+      {
+        title: "Shopify",
+        description:
+          "Ny Shopify-butik, flytt från annan plattform eller något som inte fungerar som det ska. Jag hjälper dig.",
+        stack: ["Ny butik", "Flytt", "Teman", "Appar", "Felsökning"],
+      },
+      {
+        title: "Integrationer",
+        description:
+          "Jag kopplar ihop webshop, affärssystem, bokföring och lager så att order och kunder flyter av sig själva.",
+        stack: ["API:er", "Affärssystem", "Bokföring", "Lager", "Automation"],
+      },
+      {
+        title: "Bröllopshemsida",
+        description:
+          "En personlig bröllopshemsida med OSA, schema och vägbeskrivning. Byggd för er, inte för alla.",
+        stack: ["OSA", "Schema", "Vägbeskrivning", "Egen domän"],
+      },
+    ],
+  },
   notFound: {
     title: "Sidan finns inte",
     body: "Sidan du letar efter finns inte eller har flyttats.",

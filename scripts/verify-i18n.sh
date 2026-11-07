@@ -102,4 +102,10 @@ done
 contains /en 'Software that'
 contains /en 'Hire me'
 
+# --- Experience, skills, services (Task 6) ---
+contains / 'Bröllopshemsida'
+contains / 'Integrationer'
+lacks / 'Dev advisory'
+contains /en 'Dev advisory'
+
 echo "All $PASSED checks passed."
