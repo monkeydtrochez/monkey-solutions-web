@@ -146,6 +146,26 @@ og_type=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$BASE/api/og/s
 [ "$og_type" = "200 image/png" ] || fail "/api/og/sv → $og_type, want 200 image/png"
 ok "/api/og/sv → 200 image/png"
 
+# --- Language switch and revalidation (Task 11) ---
+contains / '<a [^>]*href="/en"[^>]*hrefLang="en"[^>]*>English</a>'
+contains /en '<a [^>]*href="/"[^>]*hrefLang="sv-SE"[^>]*>Svenska</a>'
+code=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE/api/revalidate")
+[ "$code" = "401" ] || fail "POST /api/revalidate without auth → $code, want 401"
+ok "POST /api/revalidate without auth → 401"
+if [ -n "${CRON_SECRET:-}" ]; then
+  code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: Bearer $CRON_SECRET" "$BASE/api/revalidate")
+  [ "$code" = "200" ] || fail "POST /api/revalidate with auth → $code, want 200"
+  ok "POST /api/revalidate with auth → 200"
+  # Regenerated pages must still render (dynamicParams = false on [lang] turned them into cached 404s).
+  for p in / /en / /en; do
+    code=$(curl -s -o /dev/null -w '%{http_code}' "$BASE$p")
+    [ "$code" = "200" ] || fail "$p after revalidate → $code, want 200"
+  done
+  ok "/ and /en still 200 after revalidate"
+else
+  echo "skip POST /api/revalidate with auth (CRON_SECRET not set in this shell)"
+fi
+
 # --- Swedish Sanity content (Task 9, after the migration has run) ---
 if [ "${VERIFY_SV_CONTENT:-}" = "1" ]; then
   contains / 'Jag heter Daniel'

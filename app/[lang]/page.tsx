@@ -32,7 +32,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   if (!isLocale(lang)) notFound();
   return (
     <>
-      <SiteHeader />
+      <SiteHeader pageKey="home" />
       <main>
         <HeroSection />
         <AboutSection />

@@ -2,6 +2,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import StatusDot from "@/components/ui/StatusDot";
+import LanguageSwitch from "@/components/LanguageSwitch";
+import type { PageKey } from "@/lib/i18n/routes";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -15,7 +17,7 @@ const NAV_SECTIONS = [
   { num: "06", id: "contact" },
 ] as const;
 
-export default function SiteHeader() {
+export default function SiteHeader({ pageKey }: { pageKey: PageKey }) {
   const { dict } = useI18n();
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -127,7 +129,7 @@ export default function SiteHeader() {
         </a>
 
         {/* Desktop nav — hidden below 1200px */}
-        <nav className="hidden desk:flex items-center gap-8">
+        <nav className="hidden desk:flex items-center gap-5">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.num}
@@ -142,6 +144,7 @@ export default function SiteHeader() {
                 color: "var(--ms-fg-soft)",
                 textDecoration: "none",
                 letterSpacing: "0.3px",
+                whiteSpace: "nowrap",
               }}
             >
               <span style={{ color: "var(--ms-orange-text)" }}>{item.num}</span>
@@ -149,6 +152,7 @@ export default function SiteHeader() {
             </a>
           ))}
           <ThemeToggle />
+          <LanguageSwitch pageKey={pageKey} compact />
           <a
             href="#contact"
             style={{
@@ -163,6 +167,7 @@ export default function SiteHeader() {
               fontSize: "var(--text-mono)",
               fontWeight: 700,
               textDecoration: "none",
+              whiteSpace: "nowrap",
               transition: "opacity var(--anim-hover)",
             }}
           >
@@ -242,7 +247,7 @@ export default function SiteHeader() {
           {/* Divider */}
           <div style={{ height: 1, background: "var(--ms-border)", margin: "4px 32px" }} />
 
-          {/* Bottom row: ThemeToggle + Hire me */}
+          {/* Bottom row: ThemeToggle + language switch + Hire me */}
           <div
             style={{
               display: "flex",
@@ -251,7 +256,10 @@ export default function SiteHeader() {
               padding: "12px 32px",
             }}
           >
-            <ThemeToggle />
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <ThemeToggle />
+              <LanguageSwitch pageKey={pageKey} tabIndex={open ? 0 : -1} />
+            </div>
             <a
               href="#contact"
               tabIndex={open ? 0 : -1}

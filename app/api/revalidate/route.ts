@@ -8,7 +8,8 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    revalidatePath("/");
+    // Every page shares the [lang] root layout, so this purges both languages.
+    revalidatePath("/", "layout");
 
     const response = NextResponse.json("Successful reloading of sanity data!", {
       status: 200,

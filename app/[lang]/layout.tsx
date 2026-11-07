@@ -26,8 +26,10 @@ export async function generateMetadata({
   };
 }
 
-export const dynamicParams = false;
-
+// No `dynamicParams = false` here: with it, on-demand revalidation (Sanity
+// webhook → revalidatePath) regenerates /sv and /en as cached 404s
+// (NoFallbackError). Unknown values never reach this layout through the proxy,
+// and the isLocale guard below 404s any that do.
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
