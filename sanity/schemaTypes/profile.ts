@@ -33,6 +33,11 @@ export const profile = defineType({
       type: 'blockContent',
     }),
     defineField({
+      name: 'descriptionSv',
+      title: 'Profile Description (svenska)',
+      type: 'blockContent',
+    }),
+    defineField({
       name: 'mobile',
       title: 'Mobile number',
       type: 'string',
@@ -48,8 +53,23 @@ export const profile = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'locationSv',
+      title: 'Location (svenska)',
+      type: 'string',
+    }),
+    defineField({
       name: 'languages',
       title: 'Languages',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'languagesSv',
+      title: 'Languages (svenska)',
       type: 'array',
       of: [
         defineArrayMember({
@@ -75,6 +95,11 @@ export const profile = defineType({
               validation: (Rule) => Rule.required(),
             }),
             defineField({
+              name: 'assignmentSv',
+              title: 'Assignment (svenska)',
+              type: 'string',
+            }),
+            defineField({
               name: 'organisation',
               title: 'Organisation',
               type: 'string',
@@ -87,6 +112,16 @@ export const profile = defineType({
     defineField({
       name: 'personalitySkills',
       title: 'Personality skills',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'personalitySkillsSv',
+      title: 'Personality skills (svenska)',
       type: 'array',
       of: [
         defineArrayMember({
@@ -145,10 +180,20 @@ export const profile = defineType({
       description: 'Short lede paragraph displayed in the hero section.',
     }),
     defineField({
+      name: 'heroBioSv',
+      title: 'Hero Bio (svenska)',
+      type: 'string',
+    }),
+    defineField({
       name: 'availabilityStatus',
       title: 'Availability Status',
       type: 'string',
       description: 'e.g. "Open for Q3 projects". Shown in footer Status column.',
+    }),
+    defineField({
+      name: 'availabilityStatusSv',
+      title: 'Availability Status (svenska)',
+      type: 'string',
     }),
     defineField({
       name: 'orgNumber',

@@ -29,7 +29,7 @@ export default async function RootLayout({
 }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
-  const content = normalizeSanityData(await loadSanityData());
+  const content = normalizeSanityData(await loadSanityData(lang));
 
   return (
     <html

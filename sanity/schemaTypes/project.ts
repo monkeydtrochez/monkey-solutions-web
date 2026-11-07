@@ -19,6 +19,11 @@ export const project = defineType({
       validation: (Rule) => Rule.required().error('A title is required.'),
     }),
     defineField({
+      name: 'titleSv',
+      title: 'Title (svenska)',
+      type: 'string',
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
@@ -57,10 +62,20 @@ export const project = defineType({
       description: 'Single summary paragraph shown in the expanded accordion row.',
     }),
     defineField({
+      name: 'bodySv',
+      title: 'Overview (svenska)',
+      type: 'blockContent',
+    }),
+    defineField({
       name: 'kind',
       title: 'Kind',
       type: 'string',
       description: 'Display label, e.g. "E-commerce · Headless", "iOS · Education", "SaaS · Product".',
+    }),
+    defineField({
+      name: 'kindSv',
+      title: 'Kind (svenska)',
+      type: 'string',
     }),
     defineField({
       name: 'metrics',
@@ -72,8 +87,10 @@ export const project = defineType({
           type: 'object',
           fields: [
             defineField({ name: 'label', title: 'Label', type: 'string' }),
+            defineField({ name: 'labelSv', title: 'Label (svenska)', type: 'string' }),
             defineField({ name: 'value', title: 'Value', type: 'string' }),
             defineField({ name: 'suffix', title: 'Suffix', type: 'string' }),
+            defineField({ name: 'suffixSv', title: 'Suffix (svenska)', type: 'string' }),
           ],
         }),
       ],
