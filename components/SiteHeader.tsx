@@ -2,17 +2,23 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import StatusDot from "@/components/ui/StatusDot";
+import LanguageSwitch from "@/components/LanguageSwitch";
+import type { PageKey } from "@/lib/i18n/routes";
 
-const NAV_ITEMS = [
-  { num: "01", label: "about", href: "#about" },
-  { num: "02", label: "work", href: "#work" },
-  { num: "03", label: "experience", href: "#experience" },
-  { num: "04", label: "skills", href: "#skills" },
-  { num: "05", label: "services", href: "#services" },
-  { num: "06", label: "contact", href: "#contact" },
-];
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
-export default function SiteHeader() {
+// Section anchors are identical in every language; only labels are translated.
+const NAV_SECTIONS = [
+  { num: "01", id: "about" },
+  { num: "02", id: "work" },
+  { num: "03", id: "experience" },
+  { num: "04", id: "skills" },
+  { num: "05", id: "services" },
+  { num: "06", id: "contact" },
+] as const;
+
+export default function SiteHeader({ pageKey }: { pageKey: PageKey }) {
+  const { dict } = useI18n();
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
@@ -34,6 +40,12 @@ export default function SiteHeader() {
       document.removeEventListener("mousedown", handleOutside);
     };
   }, [handleKey, handleOutside]);
+
+  const NAV_ITEMS = NAV_SECTIONS.map((item) => ({
+    num: item.num,
+    label: dict.nav[item.id],
+    href: `#${item.id}`,
+  }));
 
   return (
     <header
@@ -117,7 +129,7 @@ export default function SiteHeader() {
         </a>
 
         {/* Desktop nav — hidden below 1200px */}
-        <nav className="hidden desk:flex items-center gap-8">
+        <nav className="hidden desk:flex items-center gap-5">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.num}
@@ -132,6 +144,7 @@ export default function SiteHeader() {
                 color: "var(--ms-fg-soft)",
                 textDecoration: "none",
                 letterSpacing: "0.3px",
+                whiteSpace: "nowrap",
               }}
             >
               <span style={{ color: "var(--ms-orange-text)" }}>{item.num}</span>
@@ -139,6 +152,7 @@ export default function SiteHeader() {
             </a>
           ))}
           <ThemeToggle />
+          <LanguageSwitch pageKey={pageKey} compact />
           <a
             href="#contact"
             style={{
@@ -153,18 +167,19 @@ export default function SiteHeader() {
               fontSize: "var(--text-mono)",
               fontWeight: 700,
               textDecoration: "none",
+              whiteSpace: "nowrap",
               transition: "opacity var(--anim-hover)",
             }}
           >
             <StatusDot color="rgba(255,255,255,0.9)" />
-            Hire me
+            {dict.header.hireMe}
           </a>
         </nav>
 
         {/* Hamburger button — visible only below 1200px */}
         <button
           className="desk:hidden focus-ring"
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? dict.header.closeMenu : dict.header.openMenu}
           aria-expanded={open}
           aria-controls="mobile-nav-panel"
           onClick={() => setOpen((v) => !v)}
@@ -229,6 +244,11 @@ export default function SiteHeader() {
             </a>
           ))}
 
+          {/* Language switch gets its own row: next to ThemeToggle it wrapped Hire me on phones */}
+          <div style={{ display: "flex", padding: "12px 32px" }}>
+            <LanguageSwitch pageKey={pageKey} tabIndex={open ? 0 : -1} />
+          </div>
+
           {/* Divider */}
           <div style={{ height: 1, background: "var(--ms-border)", margin: "4px 32px" }} />
 
@@ -261,7 +281,7 @@ export default function SiteHeader() {
               }}
             >
               <StatusDot color="rgba(255,255,255,0.9)" />
-              Hire me
+              {dict.header.hireMe}
             </a>
           </div>
         </div>

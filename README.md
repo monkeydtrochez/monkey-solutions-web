@@ -8,7 +8,6 @@ Portfolio and resume site for Monkey Solutions. Content is authored in Sanity CM
 - **Sanity CMS** — headless content backend, studio lives in `/sanity`
 - **Tailwind CSS v4** with dark mode (`class` strategy) and HSL theme variables in `app/globals.css`
 - **Radix UI primitives** wrapped in shadcn-style components under `components/ui/`
-- **TanStack Query** for client-side state
 - **Resend** for the contact form email delivery
 
 ## Repository Layout
@@ -24,14 +23,17 @@ Each has its own `package.json` and `.env.local`.
 
 ## How Data Flows
 
-1. `app/page.tsx` is a server component. On each request it fetches `/api/sanity-data`.
-2. `app/api/sanity-data/route.ts` runs a GROQ query through `lib/api/sanityDataLoader.ts` against the Sanity client in `app/sanityClient.ts` (CDN disabled for fresh data).
-3. The result is passed into `GlobalContext` (`app/context/GlobalContext.tsx`), a client-side React context.
-4. UI components consume `GlobalContext`. They never fetch Sanity data directly.
+1. `app/[lang]/layout.tsx` (server component, one static build per language) calls `loadSanityData(lang)` in `lib/api/sanityDataLoader.ts`. The GROQ query comes from `lib/api/siteQuery.ts` and runs against the Sanity client in `app/sanityClient.ts` (CDN disabled).
+2. `normalizeSanityData` (`lib/content/normalize.ts`) splits and sorts the result, and the layout passes it to `GlobalContextProvider initialData` (`app/context/GlobalContext.tsx`). Content is in the server-rendered HTML.
+3. UI components consume `GlobalContext`. They never fetch Sanity data directly.
+
+### Languages
+
+Swedish lives at `/` and English at `/en`. `proxy.ts` rewrites Swedish URLs to the internal `/sv` segment and redirects any visible `/sv` away. `lib/i18n/routes.ts` is the only place slugs are defined. UI text comes from `lib/i18n/dictionaries/{sv,en}.ts`. Swedish Sanity content lives in `<field>Sv` sibling fields and falls back to English when empty.
 
 ### Cache invalidation
 
-A Sanity webhook posts to `/api/revalidate` with `Authorization: Bearer <CRON_SECRET>`. The handler calls `revalidatePath('/')` so the next request refetches content.
+A Sanity webhook posts to `/api/revalidate` with `Authorization: Bearer <CRON_SECRET>`. The handler calls `revalidatePath('/', 'layout')`, which refreshes both languages.
 
 ### Content schema
 
@@ -69,12 +71,14 @@ npm run dev      # Next.js dev server on :3000
 npm run build    # Production build
 npm run start    # Run the production build
 npm run lint     # ESLint (zero warnings allowed)
+npm test         # Vitest unit tests
+bash scripts/verify-i18n.sh   # Routing/SEO checks against `npm run start`
 
 cd sanity && npm run dev      # Sanity Studio locally
 cd sanity && npm run deploy   # Deploy Studio to hosted environment
 ```
 
-There are no automated tests configured.
+Unit tests live next to the code as `*.test.ts` (Vitest). `scripts/verify-i18n.sh` checks routing, language, SEO and API status codes against a running production build.
 
 ## Environment
 
@@ -103,4 +107,4 @@ Define theme colors as HSL CSS variables in `app/globals.css` and reference them
 
 ## Deployment
 
-The app deploys to Vercel. Sanity Studio deploys separately via `npm run deploy` from `/sanity`. After publishing content in Studio, the configured webhook will hit `/api/revalidate` and refresh the homepage.
+The app deploys to Vercel. Sanity Studio deploys separately via `npm run deploy` from `/sanity`. After publishing content in Studio, the configured webhook will hit `/api/revalidate` and refresh both language versions.

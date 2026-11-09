@@ -1,13 +1,22 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type FormState = { name: string; email: string; budget: string; project: string };
 const EMPTY: FormState = { name: "", email: "", budget: "", project: "" };
 
 export default function ContactSection() {
+  const { lang, dict } = useI18n();
+  const t = dict.contact;
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile;
+
+  // Both resumes stay available; the one matching the page language comes first.
+  const resumes = [
+    { code: "en" as const, badge: "EN", label: t.resume.english, file: "resume_en.pdf", url: profile?.resumeEnUrl },
+    { code: "sv" as const, badge: "SV", label: t.resume.swedish, file: "resume_sv.pdf", url: profile?.resumeSvUrl },
+  ].sort((a, b) => Number(b.code === lang) - Number(a.code === lang));
 
   const [form, setForm] = useState<FormState>(EMPTY);
   const [sending, setSending] = useState(false);
@@ -32,12 +41,12 @@ export default function ContactSection() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, lang }),
       });
       if (!res.ok) throw new Error("non-2xx");
       setSent(true);
     } catch {
-      setError("Something went wrong — try again.");
+      setError(t.error);
     } finally {
       setSending(false);
     }
@@ -131,7 +140,7 @@ export default function ContactSection() {
                 }}
               />
               <span style={{ color: "var(--ms-fg-soft)", textTransform: "uppercase" }}>
-                CONTACT
+                {t.kicker}
               </span>
             </div>
 
@@ -147,7 +156,7 @@ export default function ContactSection() {
                 letterSpacing: "-0.04em",
               }}
             >
-              Let&apos;s
+              {t.h2.pre}
               <br />
               <em
                 style={{
@@ -157,9 +166,9 @@ export default function ContactSection() {
                   color: "var(--ms-orange-text)",
                 }}
               >
-                build
+                {t.h2.em}
               </em>{" "}
-              something.
+              {t.h2.post}
             </h2>
 
             {/* Lede paragraph */}
@@ -172,8 +181,7 @@ export default function ContactSection() {
                 maxWidth: 460,
               }}
             >
-              Prefer brief? Then just say hello. Have a project in mind? Tell me what
-              you&apos;re building, your timeline, and what matters most.
+              {t.lede}
             </p>
 
             {/* Direct links */}
@@ -312,7 +320,7 @@ export default function ContactSection() {
                     color: "var(--ms-orange-text)",
                   }}
                 >
-                  ◉ RESUME
+                  {t.resume.kicker}
                 </span>
                 <span
                   aria-hidden="true"
@@ -342,8 +350,7 @@ export default function ContactSection() {
                   marginBottom: 16,
                 }}
               >
-                Prefer to read the traditional way? Grab a PDF copy — available in
-                English and Swedish.
+                {t.resume.description}
               </p>
 
               {/* Download buttons grid */}
@@ -354,149 +361,75 @@ export default function ContactSection() {
                   gap: 8,
                 }}
               >
-                {/* EN download button */}
-                <a
-                  href={
-                    profile?.resumeEnUrl
-                      ? `${profile.resumeEnUrl}?dl=resume_en.pdf`
-                      : "/resume_en.pdf"
-                  }
-                  download="resume_en.pdf"
-                  onMouseEnter={() => setHoveredCard("en")}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  className="resume-download-card"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 16,
-                    padding: 16,
-                    border: `1px solid ${hoveredCard === "en" ? "var(--ms-orange)" : "var(--ms-border-strong)"}`,
-                    borderRadius: "var(--radius-lg)",
-                    background: hoveredCard === "en" ? "var(--ms-mist)" : "var(--ms-bg)",
-                    textDecoration: "none",
-                    transition: "border-color var(--anim-hover), background var(--anim-hover)",
-                  }}
-                >
-                  {/* Language badge */}
-                  <div
+                {resumes.map((r) => (
+                  <a
+                    key={r.code}
+                    href={r.url ? `${r.url}?dl=${r.file}` : `/${r.file}`}
+                    download={r.file}
+                    onMouseEnter={() => setHoveredCard(r.code)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    className="resume-download-card"
                     style={{
-                      width: 36,
-                      height: 36,
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      border: "1px solid var(--ms-orange)",
-                      color: "var(--ms-orange-text)",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      borderRadius: "var(--radius-sm)",
-                      flexShrink: 0,
+                      justifyContent: "space-between",
+                      gap: 16,
+                      padding: 16,
+                      border: `1px solid ${hoveredCard === r.code ? "var(--ms-orange)" : "var(--ms-border-strong)"}`,
+                      borderRadius: "var(--radius-lg)",
+                      background: hoveredCard === r.code ? "var(--ms-mist)" : "var(--ms-bg)",
+                      textDecoration: "none",
+                      transition: "border-color var(--anim-hover), background var(--anim-hover)",
                     }}
                   >
-                    EN
-                  </div>
-                  {/* Middle block */}
-                  <div className="resume-download-text" style={{ flex: 1, minWidth: 0 }}>
+                    {/* Language badge */}
                     <div
                       style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: "var(--ms-fg)",
-                      }}
-                    >
-                      English
-                    </div>
-                    <div
-                      style={{
+                        width: 36,
+                        height: 36,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "1px solid var(--ms-orange)",
+                        color: "var(--ms-orange-text)",
                         fontFamily: "var(--font-mono)",
-                        fontSize: 10,
-                        color: "var(--ms-fg-faint)",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
+                        fontSize: 12,
+                        fontWeight: 700,
+                        borderRadius: "var(--radius-sm)",
+                        flexShrink: 0,
                       }}
                     >
-                      resume_en.pdf
+                      {r.badge}
                     </div>
-                  </div>
-                  {/* Arrow */}
-                  <span style={{ color: "var(--ms-orange-text)" }}>↓</span>
-                </a>
-
-                {/* SV download button */}
-                <a
-                  href={
-                    profile?.resumeSvUrl
-                      ? `${profile.resumeSvUrl}?dl=resume_sv.pdf`
-                      : "/resume_sv.pdf"
-                  }
-                  download="resume_sv.pdf"
-                  onMouseEnter={() => setHoveredCard("sv")}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  className="resume-download-card"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 16,
-                    padding: 16,
-                    border: `1px solid ${hoveredCard === "sv" ? "var(--ms-orange)" : "var(--ms-border-strong)"}`,
-                    borderRadius: "var(--radius-lg)",
-                    background: hoveredCard === "sv" ? "var(--ms-mist)" : "var(--ms-bg)",
-                    textDecoration: "none",
-                    transition: "border-color var(--anim-hover), background var(--anim-hover)",
-                  }}
-                >
-                  {/* Language badge */}
-                  <div
-                    style={{
-                      width: 36,
-                      height: 36,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      border: "1px solid var(--ms-orange)",
-                      color: "var(--ms-orange-text)",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      borderRadius: "var(--radius-sm)",
-                      flexShrink: 0,
-                    }}
-                  >
-                    SV
-                  </div>
-                  {/* Middle block */}
-                  <div className="resume-download-text" style={{ flex: 1, minWidth: 0 }}>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: "var(--ms-fg)",
-                      }}
-                    >
-                      Svenska
+                    {/* Middle block */}
+                    <div className="resume-download-text" style={{ flex: 1, minWidth: 0 }}>
+                      <div
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          color: "var(--ms-fg)",
+                        }}
+                      >
+                        {r.label}
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 10,
+                          color: "var(--ms-fg-faint)",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {r.file}
+                      </div>
                     </div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 10,
-                        color: "var(--ms-fg-faint)",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      resume_sv.pdf
-                    </div>
-                  </div>
-                  {/* Arrow */}
-                  <span style={{ color: "var(--ms-orange-text)" }}>↓</span>
-                </a>
+                    {/* Arrow */}
+                    <span style={{ color: "var(--ms-orange-text)" }}>↓</span>
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -566,12 +499,12 @@ export default function ContactSection() {
             {/* Name field */}
             <div style={fieldWrapperStyle}>
               <label htmlFor="field-name" style={labelStyle}>
-                &gt; name
+                {t.fields.name.label}
               </label>
               <input
                 id="field-name"
                 type="text"
-                placeholder="Your name"
+                placeholder={t.fields.name.placeholder}
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                 onFocus={(e) => (e.currentTarget.style.borderBottomColor = "var(--ms-orange)")}
@@ -586,12 +519,12 @@ export default function ContactSection() {
             {/* Email field */}
             <div style={fieldWrapperStyle}>
               <label htmlFor="field-email" style={labelStyle}>
-                &gt; email
+                {t.fields.email.label}
               </label>
               <input
                 id="field-email"
                 type="email"
-                placeholder="you@company.com"
+                placeholder={t.fields.email.placeholder}
                 value={form.email}
                 onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                 onFocus={(e) => (e.currentTarget.style.borderBottomColor = "var(--ms-orange)")}
@@ -606,12 +539,12 @@ export default function ContactSection() {
             {/* Budget field — plain text input (D-05) */}
             <div style={fieldWrapperStyle}>
               <label htmlFor="field-budget" style={labelStyle}>
-                &gt; budget
+                {t.fields.budget.label}
               </label>
               <input
                 id="field-budget"
                 type="text"
-                placeholder="10k · 50k · let's talk"
+                placeholder={t.fields.budget.placeholder}
                 value={form.budget}
                 onChange={(e) => setForm((f) => ({ ...f, budget: e.target.value }))}
                 onFocus={(e) => (e.currentTarget.style.borderBottomColor = "var(--ms-orange)")}
@@ -626,12 +559,12 @@ export default function ContactSection() {
             {/* Project field — textarea */}
             <div style={fieldWrapperStyle}>
               <label htmlFor="field-project" style={labelStyle}>
-                &gt; project
+                {t.fields.project.label}
               </label>
               <textarea
                 id="field-project"
                 rows={4}
-                placeholder="What are we building? Timeline, constraints, the interesting bits..."
+                placeholder={t.fields.project.placeholder}
                 value={form.project}
                 onChange={(e) => setForm((f) => ({ ...f, project: e.target.value }))}
                 onFocus={(e) => (e.currentTarget.style.borderBottomColor = "var(--ms-orange)")}
@@ -668,7 +601,7 @@ export default function ContactSection() {
                 transition: "background 0.2s",
               }}
             >
-              {sent ? "✓ Message sent — talk soon!" : "$ send_message →"}
+              {sent ? t.sent : "$ send_message →"}
             </button>
 
             {/* Sub-label below button */}
@@ -681,7 +614,7 @@ export default function ContactSection() {
                 color: "var(--ms-fg-faint)",
               }}
             >
-              Or email directly — whatever you prefer.
+              {t.orEmail}
             </p>
 
             {/* Error display */}
@@ -706,7 +639,7 @@ export default function ContactSection() {
               aria-atomic="true"
               className="sr-only"
             >
-              {sent ? "Message sent — I will be in touch soon." : ""}
+              {sent ? t.sentLive : ""}
             </div>
           </form>
         </div>

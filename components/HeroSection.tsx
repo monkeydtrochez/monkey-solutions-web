@@ -4,7 +4,10 @@ import GlobalContext from "@/app/context/GlobalContext";
 import StatusDot from "@/components/ui/StatusDot";
 import TerminalCard from "@/components/TerminalCard";
 
+import { useI18n } from "@/lib/i18n/I18nProvider";
+
 type TrustStat = {
+  id: string;
   number?: string;
   accent?: "prefix" | "suffix";
   accentChar?: string;
@@ -12,13 +15,14 @@ type TrustStat = {
   sub?: string;
 };
 
-const TRUST_STATS: TrustStat[] = [
-  { number: "10", accent: "suffix", accentChar: "+", label: "years shipping" },
-  { number: "20", accent: "suffix", accentChar: "+", label: "Tools and languages in stack" },
-  { label: "AI-first", sub: "Native with AI tools" },
-];
-
 export default function HeroSection() {
+  const { dict } = useI18n();
+  const t = dict.hero;
+  const TRUST_STATS: TrustStat[] = [
+    { id: "years", number: "10", accent: "suffix", accentChar: "+", label: t.stats.years.label },
+    { id: "tools", number: "20", accent: "suffix", accentChar: "+", label: t.stats.tools.label },
+    { id: "ai", label: t.stats.ai.label, sub: t.stats.ai.sub },
+  ];
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile ?? null;
   const heroBio = profile?.heroBio?.trim();
@@ -84,11 +88,13 @@ export default function HeroSection() {
         >
           {/* Left column */}
           <div>
-            {/* Status row */}
+            {/* Status row. On narrow phones the note drops whole onto a second
+                line under the status instead of breaking mid-phrase; the dot
+                stays on the first line. */}
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                alignItems: "flex-start",
                 gap: 24,
                 marginBottom: 32,
                 fontFamily: "var(--font-mono)",
@@ -97,11 +103,23 @@ export default function HeroSection() {
                 color: "var(--ms-fg-soft)",
               }}
             >
-              <StatusDot />
-              <span style={{ color: "var(--ms-orange-text)", fontWeight: 700 }}>
-                AVAILABLE
+              <span style={{ display: "flex", alignItems: "center", height: "1lh" }}>
+                <StatusDot />
               </span>
-              <span>· freelance projects →</span>
+              <span
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  columnGap: 24,
+                  rowGap: 4,
+                }}
+              >
+                <span style={{ color: "var(--ms-orange-text)", fontWeight: 700 }}>
+                  {t.status}
+                </span>
+                <span style={{ whiteSpace: "nowrap" }}>{t.statusNote}</span>
+              </span>
             </div>
 
             {/* H1 */}
@@ -116,7 +134,7 @@ export default function HeroSection() {
                 margin: 0,
               }}
             >
-              Software that <span style={{ fontWeight: 700 }}>ships</span>{" "}
+              {t.h1.lead} <span style={{ fontWeight: 700 }}>{t.h1.ships}</span>{" "}
               <em
                 style={{
                   fontFamily: "var(--font-display)",
@@ -125,9 +143,9 @@ export default function HeroSection() {
                   color: "var(--ms-orange-text)",
                 }}
               >
-                &amp;
+                {t.h1.amp}
               </em>{" "}
-              <span style={{ fontWeight: 700 }}>lasts.</span>
+              <span style={{ fontWeight: 700 }}>{t.h1.lasts}</span>
             </h1>
 
             {/* Lede paragraph (D-02: render only if heroBio truthy) */}
@@ -173,7 +191,7 @@ export default function HeroSection() {
                   transition: "opacity var(--anim-hover)",
                 }}
               >
-                Start a project →
+                {t.ctaProject}
               </a>
               <a
                 href="#work"
@@ -192,7 +210,7 @@ export default function HeroSection() {
                   transition: "border-color var(--anim-hover)",
                 }}
               >
-                View work{" "}
+                {t.ctaWork}{" "}
                 <span style={{ color: "var(--ms-orange-text)" }}>↓</span>
               </a>
             </div>
@@ -215,7 +233,7 @@ export default function HeroSection() {
           }}
         >
           {TRUST_STATS.map((stat) => (
-            <div key={stat.label}>
+            <div key={stat.id}>
               <div
                 style={{
                   fontFamily: "var(--font-sans)",

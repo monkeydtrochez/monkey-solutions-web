@@ -17,6 +17,11 @@ export const workExperience = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'titleSv',
+      title: 'Title (svenska)',
+      type: 'string',
+    }),
+    defineField({
       name: 'duration',
       title: 'Duration',
       type: 'duration',
@@ -24,6 +29,11 @@ export const workExperience = defineType({
     defineField({
       name: 'description',
       title: 'Work Description',
+      type: 'blockContent',
+    }),
+    defineField({
+      name: 'descriptionSv',
+      title: 'Work Description (svenska)',
       type: 'blockContent',
     }),
     defineField({

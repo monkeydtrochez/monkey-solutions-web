@@ -1,6 +1,9 @@
 "use client";
 import { useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { format } from "@/lib/i18n/format";
+import { INSTAGRAM_URL } from "@/lib/seo/business";
 
 const labelStyle: React.CSSProperties = {
   fontSize: 10,
@@ -12,6 +15,8 @@ const labelStyle: React.CSSProperties = {
 };
 
 export default function FooterSection() {
+  const { dict } = useI18n();
+  const t = dict.footer;
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile;
 
@@ -69,11 +74,13 @@ export default function FooterSection() {
         >
           {/* Column 1 — Studio */}
           <div>
-            <div style={labelStyle}>STUDIO</div>
+            <div style={labelStyle}>{t.studio}</div>
             <div style={{ lineHeight: 1.8, color: "var(--ms-fg)" }}>
               <div>Monkey Solutions</div>
-              <div>Gothenburg, Sweden</div>
-              <div>Org. {profile?.orgNumber ?? "xxxxxx-xxxx"}</div>
+              <div>{t.location}</div>
+              {profile?.orgNumber && (
+                <div>{format(t.orgNumber, { n: profile.orgNumber })}</div>
+              )}
             </div>
           </div>
 
@@ -107,11 +114,12 @@ export default function FooterSection() {
 
           {/* Column 3 — Elsewhere */}
           <div className="order-4 ms:order-none">
-            <div style={labelStyle}>ELSEWHERE</div>
+            <div style={labelStyle}>{t.elsewhere}</div>
             <div>
               {[
                 { label: "LinkedIn", href: profile?.linkedInUrl ?? "#" },
                 { label: "GitHub", href: profile?.githubUrl ?? "#" },
+                { label: "Instagram", href: INSTAGRAM_URL },
                 ...(profile?.readCvUrl
                   ? [{ label: "Read.cv", href: profile.readCvUrl }]
                   : []),
@@ -139,7 +147,7 @@ export default function FooterSection() {
 
           {/* Column 4 — Status */}
           <div className="order-3 ms:order-none">
-            <div style={labelStyle}>STATUS</div>
+            <div style={labelStyle}>{t.status}</div>
             <div
               style={{
                 display: "flex",
@@ -172,7 +180,7 @@ export default function FooterSection() {
                 />
               </div>
               <span style={{ color: "var(--ms-fg)" }}>
-                {profile?.availabilityStatus ?? "Available"}
+                {profile?.availabilityStatus ?? t.availableFallback}
               </span>
             </div>
             <div
@@ -182,7 +190,7 @@ export default function FooterSection() {
                 lineHeight: 1.6,
               }}
             >
-              Usually reply within 24h. / Based in CET (UTC+1).
+              {t.reply}
             </div>
           </div>
         </div>
@@ -201,8 +209,8 @@ export default function FooterSection() {
             color: "var(--ms-fg-faint)",
           }}
         >
-          <span>© 2026 Monkey Solutions · All rights reserved</span>
-          <span>v2026.04 · Made in Göteborg</span>
+          <span>© 2026 Monkey Solutions · {t.rights}</span>
+          <span>v2026.04 · {t.madeIn}</span>
         </div>
       </div>
     </footer>

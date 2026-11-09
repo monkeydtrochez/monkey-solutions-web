@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type Theme = "dark" | "light";
 
@@ -13,6 +14,7 @@ function getInitialTheme(): Theme {
 }
 
 export function ThemeToggle() {
+  const t = useI18n().dict.theme;
   // Always start with "light" so SSR and initial client render match.
   // The real saved preference is applied after mount to avoid hydration mismatch.
   const [theme, setTheme] = useState<Theme>("light");
@@ -72,7 +74,7 @@ export function ThemeToggle() {
   return (
     <div
       role="group"
-      aria-label="Theme"
+      aria-label={t.group}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -84,20 +86,20 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={() => applyTheme("dark")}
-        aria-label="Switch to dark theme"
+        aria-label={t.toDark}
         aria-pressed={theme === "dark"}
         style={styleFor("dark")}
       >
-        <span aria-hidden="true">☾</span> dark
+        <span aria-hidden="true">☾</span> {t.dark}
       </button>
       <button
         type="button"
         onClick={() => applyTheme("light")}
-        aria-label="Switch to light theme"
+        aria-label={t.toLight}
         aria-pressed={theme === "light"}
         style={styleFor("light")}
       >
-        <span aria-hidden="true">☀</span> light
+        <span aria-hidden="true">☀</span> {t.light}
       </button>
     </div>
   );

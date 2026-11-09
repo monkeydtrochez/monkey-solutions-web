@@ -1,7 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export default function BackToTop() {
+  const { dict } = useI18n();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function BackToTop() {
   return (
     <button
       onClick={handleClick}
-      aria-label="Back to top"
+      aria-label={dict.backToTop}
       className="focus-ring back-to-top-btn"
       style={{
         position: "fixed",

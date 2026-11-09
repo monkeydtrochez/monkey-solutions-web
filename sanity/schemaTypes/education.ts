@@ -21,6 +21,11 @@ export const education = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'titleSv',
+      title: 'Title (svenska)',
+      type: 'string',
+    }),
+    defineField({
       name: 'school',
       title: 'School',
       type: 'string',
@@ -46,6 +51,11 @@ export const education = defineType({
       title: 'Field of Study',
       type: 'string',
       description: 'Degree or major detail line, e.g. "Computer Science". Renders below the school name if present.',
+    }),
+    defineField({
+      name: 'fieldOfStudySv',
+      title: 'Field of Study (svenska)',
+      type: 'string',
     }),
   ],
 })

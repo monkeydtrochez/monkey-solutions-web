@@ -2,8 +2,12 @@
 import { useContext } from "react";
 import GlobalContext from "@/app/context/GlobalContext";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export default function SkillsSection() {
+  const { dict } = useI18n();
+  const t = dict.skills;
+  const categoryLabels: Record<string, string> = t.categories;
   const ctx = useContext(GlobalContext);
   const profile = ctx?.profile;
 
@@ -41,7 +45,7 @@ export default function SkillsSection() {
             aria-hidden="true"
             style={{ width: 28, height: 1, background: "var(--ms-border-strong)" }}
           />
-          <span style={{ textTransform: "uppercase" }}>SKILLS</span>
+          <span style={{ textTransform: "uppercase" }}>{t.kicker}</span>
         </div>
 
         <h2
@@ -55,7 +59,7 @@ export default function SkillsSection() {
             color: "var(--ms-fg)",
           }}
         >
-          Tools I reach for{" "}
+          {t.h2.pre}{" "}
           <em
             style={{
               fontFamily: "var(--font-display)",
@@ -64,9 +68,9 @@ export default function SkillsSection() {
               color: "var(--ms-orange-text)",
             }}
           >
-            without
+            {t.h2.em}
           </em>{" "}
-          <strong style={{ fontWeight: 700 }}>thinking.</strong>
+          <strong style={{ fontWeight: 700 }}>{t.h2.strong}</strong>
         </h2>
 
         {/* ── Technical skill categories ── */}
@@ -95,7 +99,7 @@ export default function SkillsSection() {
                     borderBottom: "1px solid var(--ms-border)",
                   }}
                 >
-                  {group}
+                  {categoryLabels[group] ?? group}
                 </div>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -137,7 +141,7 @@ export default function SkillsSection() {
                   color: "var(--ms-fg-faint)",
                 }}
               >
-                How I show up
+                {t.traits}
               </span>
               <span
                 aria-hidden="true"
