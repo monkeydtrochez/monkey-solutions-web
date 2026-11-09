@@ -21,7 +21,7 @@ export const translations: Record<string, SvTranslation> = {
   "01f48608-dbe9-4f5a-8977-fd244432319b": {
     _type: "profile",
     fields: {
-      heroBioSv: "Jag heter Daniel och bygger hemsidor, webshoppar och systemen bakom för småföretag och butiker i Göteborg med omnejd. Jag har jobbat som utvecklare sedan 2015.",
+      heroBioSv: "Jag heter Daniel och bygger hemsidor, webshoppar och systemen bakom för småföretag och butiker som saknar tiden eller kunskapen att göra det själva.",
       availabilityStatusSv: "Öppen för nya uppdrag",
       locationSv: "Göteborg, Sverige",
       languagesSv: ["Svenska", "Engelska", "Spanska"],
