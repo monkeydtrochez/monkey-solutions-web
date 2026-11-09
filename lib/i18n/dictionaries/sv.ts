@@ -23,12 +23,13 @@ export const sv = {
   },
   hero: {
     status: "TILLGÄNGLIG",
-    statusNote: "· frilansuppdrag →",
+    statusNote: "· frilansuppdrag i Göteborg →",
     h1: {
       lead: "Hemsidor,",
       ships: "webshoppar",
       amp: "och",
-      lasts: "systemen bakom. Från Göteborg.",
+      // Soft hyphen: breaks as "system-/utveckling." where the word does not fit.
+      lasts: "system\u00ADutveckling.",
     },
     ctaProject: "Starta ett projekt →",
     ctaWork: "Se arbeten",

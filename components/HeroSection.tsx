@@ -88,11 +88,13 @@ export default function HeroSection() {
         >
           {/* Left column */}
           <div>
-            {/* Status row */}
+            {/* Status row. On narrow phones the note drops whole onto a second
+                line under the status instead of breaking mid-phrase; the dot
+                stays on the first line. */}
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                alignItems: "flex-start",
                 gap: 24,
                 marginBottom: 32,
                 fontFamily: "var(--font-mono)",
@@ -101,11 +103,23 @@ export default function HeroSection() {
                 color: "var(--ms-fg-soft)",
               }}
             >
-              <StatusDot />
-              <span style={{ color: "var(--ms-orange-text)", fontWeight: 700 }}>
-                {t.status}
+              <span style={{ display: "flex", alignItems: "center", height: "1lh" }}>
+                <StatusDot />
               </span>
-              <span>{t.statusNote}</span>
+              <span
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  columnGap: 24,
+                  rowGap: 4,
+                }}
+              >
+                <span style={{ color: "var(--ms-orange-text)", fontWeight: 700 }}>
+                  {t.status}
+                </span>
+                <span style={{ whiteSpace: "nowrap" }}>{t.statusNote}</span>
+              </span>
             </div>
 
             {/* H1 */}

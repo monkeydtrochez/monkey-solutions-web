@@ -65,7 +65,7 @@ redirects() {
 h1_is() {
   local path=$1 want=$2 f got
   f=$(fetch "$path")
-  got=$(perl -0ne 'if (/<h1[^>]*>(.*?)<\/h1>/s) { $t = $1; $t =~ s/<[^>]+>//g; $t =~ s/<!-- -->//g; $t =~ s/\s+/ /g; $t =~ s/^ | $//g; print $t }' "$f.body")
+  got=$(perl -0ne 'if (/<h1[^>]*>(.*?)<\/h1>/s) { $t = $1; $t =~ s/<[^>]+>//g; $t =~ s/<!-- -->//g; $t =~ s/\xC2\xAD//g; $t =~ s/\s+/ /g; $t =~ s/^ | $//g; print $t }' "$f.body")
   [ "$got" = "$want" ] || fail "$path h1 is '$got', want '$want'"
   ok "$path h1 is '$want'"
 }
@@ -112,7 +112,8 @@ status /logo.png 200
 post_status /api/contact '{}' 400
 
 # --- Header, hero, about, work (Task 5) ---
-h1_is / 'Hemsidor, webshoppar och systemen bakom. Från Göteborg.'
+h1_is / 'Hemsidor, webshoppar och systemutveckling.'
+contains / 'frilansuppdrag i Göteborg'
 contains / 'om mig'
 contains / 'Anlita mig'
 for s in 'Hire me' 'Start a project' 'SELECTED WORK' 'No projects in this category'; do
